@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "418666315600",
+    "project_id": "getifyjobscandidate",
+    "storage_bucket": "getifyjobscandidate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418666315600:android:b06fb4c4823d8055477655",
+        "android_client_info": {
+          "package_name": "com.getifyjobs.candidate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZZc7NRvk6_RGtKGFiyfJgw-fFc5gVeSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

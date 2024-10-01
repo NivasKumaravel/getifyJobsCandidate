@@ -1,0 +1,18 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="24" height="24" fill="#E4E4E4"/>
+<g id="Recruiter">
+<path d="M-1145 -1485C-1145 -1486.1 -1144.1 -1487 -1143 -1487H6757C6758.1 -1487 6759 -1486.1 6759 -1485V5531C6759 5532.1 6758.1 5533 6757 5533H-1143C-1144.1 5533 -1145 5532.1 -1145 5531V-1485Z" fill="#C8C8C8"/>
+<g id="Home" clip-path="url(#clip0_225_2)">
+<rect width="390" height="844" transform="translate(-346 -57)" fill="#F5F5F5"/>
+<g id="bell">
+<path id="Vector" d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M13.7295 21C13.5537 21.3031 13.3014 21.5547 12.9978 21.7295C12.6941 21.9044 12.3499 21.9965 11.9995 21.9965C11.6492 21.9965 11.3049 21.9044 11.0013 21.7295C10.6977 21.5547 10.4453 21.3031 10.2695 21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_225_2">
+<rect width="390" height="844" fill="white" transform="translate(-346 -57)"/>
+</clipPath>
+</defs>
+</svg>
