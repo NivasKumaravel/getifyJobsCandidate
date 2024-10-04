@@ -126,13 +126,26 @@ class _Candidate_Create_AccountState
     }
   }
 
+  void _AddressFormat() {
+    final text = _Address.text;
+    final formattedText = _toTitleCase(text);
+    if (text != formattedText) {
+      _Address.value = TextEditingValue(
+        text: formattedText,
+        selection: TextSelection.collapsed(offset: formattedText.length),
+      );
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _FullName.addListener(_FullNameFormat);
+    _Address.addListener(_AddressFormat);
     widget.isEdit == true? EditValue(): null;
   }
+
 
   EditValue(){
     _FullName.text = widget.candidateProfileResponseData?.name ?? "";
@@ -256,6 +269,7 @@ class _Candidate_Create_AccountState
                           Title_Style(Title: 'Enter Your Address', isStatus: true),
                           textfieldDescription(
                             Controller: _Address,
+                            inputFormatters: null,
                             focusNode:_focusNode3,
                             validating: (value) {
                               if (value == null || value.isEmpty) {

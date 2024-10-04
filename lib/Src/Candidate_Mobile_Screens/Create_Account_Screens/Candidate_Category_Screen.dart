@@ -676,10 +676,10 @@ class _Candidate_Categoery_ScreenState
                           Controller: _StartYear,
                           validating: (value) {
                             if (value == null || value.isEmpty) {
-                              return " Enter Valid Year";
+                              return " Enter Valid Start Year";
                             }
                             if (value == null) {
-                              return " Enter Valid Year";
+                              return " Enter Valid Start Year";
                             }
                             return null;
                           },
@@ -708,10 +708,10 @@ class _Candidate_Categoery_ScreenState
                           Controller: _EndYear,
                           validating: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Enter Valid Year";
+                              return "Enter Valid End Year";
                             }
                             if (value == null) {
-                              return "Enter Valid Year";
+                              return "Enter Valid End Year";
                             }
                             return null;
                           },

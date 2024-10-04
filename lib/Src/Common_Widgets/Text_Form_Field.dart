@@ -235,6 +235,7 @@ Widget textfieldDescription(
     {TextEditingController? Controller,
     String? Function(String?)? validating,
       required String? hintText,
+      List<TextInputFormatter>? inputFormatters,
     FocusNode? focusNode}) {
   return Container(
     // height: 50,
@@ -246,6 +247,7 @@ Widget textfieldDescription(
       keyboardType: TextInputType.multiline,
       validator: validating,
       focusNode: focusNode,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         hintText: hintText,
@@ -411,6 +413,7 @@ Widget tagSearchField(
     backgroundColor: white2,
     borderRadius: 10,
     length: values.length,
+
     // controller: textEditingController,
     focusNode: focus,
     delimiters: [',', ' '],

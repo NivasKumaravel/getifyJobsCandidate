@@ -195,6 +195,11 @@ TextStyle TitleT1 = TextStyle(
     fontSize: 24,
     color: blue1,
     fontWeight: FontWeight.w700);
+TextStyle TitleT2 = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 24,
+    color: Color.fromRGBO(0, 0, 0, 1),
+    fontWeight: FontWeight.w700);
 TextStyle subtextT = TextStyle(
     fontFamily: 'Inter',
     fontSize: 14,

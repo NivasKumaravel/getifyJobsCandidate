@@ -329,7 +329,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             //JOB DESCRIPTION CONTENT
             Text(
               "Job Description",
-              style: TitleT,
+              style: TitleT2,
             ),
             Text(
               jobDetailsData?.jobDescription ?? "",
@@ -338,10 +338,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             SizedBox(
               height: 20,
             ),
+
             jobDetailsData?.skills == null
                 ? Container()
                 : textWithheader(
-                    headertxt: "Skill Set",
+                    headertxt: "Skill Sets",
                     subtxt: jobDetailsData?.skills ?? ""),
             textWithheader(
                 headertxt: "Qualification",

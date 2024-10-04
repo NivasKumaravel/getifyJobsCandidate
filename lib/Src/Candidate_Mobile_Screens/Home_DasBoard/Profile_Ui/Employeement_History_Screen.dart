@@ -117,10 +117,44 @@ class _Employeement_History_PageState
 
   final _formKey = GlobalKey<FormState>();
 
+  String _toTitleCase(String text) {
+    if (text.isEmpty) return '';
+
+    return text.toLowerCase().split(' ').map((word) {
+      if (word.isNotEmpty) {
+        return word[0].toUpperCase() + word.substring(1);
+      }
+      return '';
+    }).join(' ');
+  }
+
+  void _JobroleFormat() {
+    final text = _JobRole.text;
+    final formattedText = _toTitleCase(text);
+    if (text != formattedText) {
+      _JobRole.value = TextEditingValue(
+        text: formattedText,
+        selection: TextSelection.collapsed(offset: formattedText.length),
+      );
+    }
+  }
+
+  void _CompanyFormat() {
+    final text = _CompanyName.text;
+    final formattedText = _toTitleCase(text);
+    if (text != formattedText) {
+      _CompanyName.value = TextEditingValue(
+        text: formattedText,
+        selection: TextSelection.collapsed(offset: formattedText.length),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
+    _JobRole.addListener(_JobroleFormat);
+    _CompanyName.addListener(_CompanyFormat);
     widget.isEdit == true?EditResponse():null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       apiCall();
@@ -301,7 +335,7 @@ class _Employeement_History_PageState
                                 onChanged: null),
 
                             //TYPE
-                            Title_Style(Title: 'Type', isStatus: true),
+                            Title_Style(Title: 'Work Type', isStatus: true),
                             MultiRadioButton(context,
                                 groupValue1: typeVal,
                                 groupValue2: typeVal,
@@ -328,6 +362,8 @@ class _Employeement_History_PageState
                             _RadioButton(),
                             //START DATE AND END DATE
                             _value == null?Container():    Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
                                   child: Container(
@@ -452,10 +488,10 @@ class _Employeement_History_PageState
                                                   validating: (value) {
                                                     if (value == null ||
                                                         value.isEmpty) {
-                                                      return "Please Enter Valid ${'Notice Period'}";
+                                                      return "Please Enter Valid days";
                                                     }
                                                     if (value == null) {
-                                                      return "Please Enter Valid ${'Notice Period'}";
+                                                      return "Please Enter Valid days";
                                                     }
                                                     return null;
                                                   },

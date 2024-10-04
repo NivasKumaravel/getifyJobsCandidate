@@ -46,11 +46,34 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
 
   RegExp onlyText = RegExp(r'^[a-zA-Z ]+$');
 
+  String _toTitleCase(String text) {
+    if (text.isEmpty) return '';
+
+    return text.toLowerCase().split(' ').map((word) {
+      if (word.isNotEmpty) {
+        return word[0].toUpperCase() + word.substring(1);
+      }
+      return '';
+    }).join(' ');
+  }
+
+  void _nationalityFormat() {
+    final text = _Nationality.text;
+    final formattedText = _toTitleCase(text);
+    if (text != formattedText) {
+      _Nationality.value = TextEditingValue(
+        text: formattedText,
+        selection: TextSelection.collapsed(offset: formattedText.length),
+      );
+    }
+  }
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _Nationality.addListener(_nationalityFormat);
     print('CAREER STATUS ${widget.careerStatus}');
     CandidateProfileResponseData = widget.CandidateProfileResponseData;
 
@@ -797,7 +820,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
       child: Stack(
         children: [
           textFormField(
-            hintText: "Language",
+            hintText: "Languages",
             keyboardtype: TextInputType.text,
             inputFormatters: null,
             Controller: Controller,
