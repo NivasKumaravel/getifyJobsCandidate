@@ -255,11 +255,6 @@ class _Employeement_History_PageState
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                _profileTitle(title: 'Employment History'),
-                              ],
-                            ),
 
                             //JOB ROLE
                             Title_Style(Title: 'Job Role', isStatus: true),
@@ -517,11 +512,6 @@ class _Employeement_History_PageState
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                _profileTitle(title: 'Education'),
-                              ],
-                            ),
 
                             //Institute
                             Title_Style(

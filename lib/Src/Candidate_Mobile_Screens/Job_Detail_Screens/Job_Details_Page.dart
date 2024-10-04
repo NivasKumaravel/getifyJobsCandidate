@@ -352,14 +352,14 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
 
             jobDetailsData?.currentArrears == null
                 ? Container()
-                : jobDetailsData?.currentArrears == ''
+                : jobDetailsData?.currentArrears == null
                     ? Container()
                     : textWithheader(
                         headertxt: "Current Arrears",
                         subtxt: jobDetailsData?.currentArrears ?? ""),
             jobDetailsData?.historyOfArrears == null
                 ? Container()
-                : jobDetailsData?.historyOfArrears == ''
+                : jobDetailsData?.historyOfArrears == null
                     ? Container()
                     : textWithheader(
                         headertxt: "History of Arrears",

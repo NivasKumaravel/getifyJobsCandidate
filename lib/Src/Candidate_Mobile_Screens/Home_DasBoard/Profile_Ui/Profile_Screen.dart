@@ -41,7 +41,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
 
 
   void _onShare(BuildContext context) async {
-    Share.share(CandidateProfileResponseData?.refferalUrl ?? "");
+    Share.share('https://play.google.com/store/apps/details?id=com.getifyjobs.candidate');
     // if (result.status == ShareResultStatus.success) {
     //   print('Thank you for sharing my website!');
     // }
@@ -169,7 +169,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
         ],
         isLogoUsed: false,
         isTitleUsed: true,
-        title: "Profile",
+        title: "",
       ),
 
       body:
@@ -210,6 +210,10 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                 contactDetails(
                     ContactLogo: 'mapblue.svg',
                     Details: data?.data?.preferredLocation ?? ""),
+                contactDetails(
+                    ContactLogo: 'briefcaseactive.svg',
+                    Details: data?.data?.careerStatus ?? ""),
+
                 if (finalpercentage != null)
                   ProfileScreen(PercentageVal:   finalpercentage !,),
                 _detailInfo(data?.data),
@@ -309,11 +313,16 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
               : _profileInformation(
                   title: 'Experience',
                   data: data?.experience ?? ""),
+          data?.startYear == null
+              ? Container()
+              : _profileInformation(
+                  title: 'Course Duration',
+                  data: "${data?.startYear ?? ""} - ${data?.endYear ?? ""}"),
           data?.collegeName == null
               ? Container()
               : _profileInformation(
-                  title: 'College Name',
-                  data: data?.collegeName ?? ""),
+              title: 'College Name',
+              data: data?.collegeName ?? ""),
           _profileInformation(
               title: 'Qualification',
               data: data?.qualification ?? ""),
@@ -342,8 +351,13 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                   title: 'Current Percentage',
                   data: data?.currentPercentage ?? ""),
           _profileInformation(
+              title: 'Address',
+              data: data?.address ?? ""),
+
+          _profileInformation(
               title: 'Preferred Location',
               data: data?.preferredLocation ?? ""),
+
           data?.currentSalary == null
               ? Container()
               : _profileInformation(
@@ -402,6 +416,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
               alignment: Alignment.topLeft,
@@ -410,11 +425,15 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                 style: infoT,
               )),
           Container(
+            width: MediaQuery.sizeOf(context).width/1.2,
+
               margin: EdgeInsets.only(bottom: 15),
               alignment: Alignment.topLeft,
               child: Text(
                 data.toString(),
                 style: stxt,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ))
         ],
       ),
