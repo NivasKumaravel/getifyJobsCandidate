@@ -125,7 +125,7 @@ class _Student_MyApplies_ScreenState
             statusBarIconBrightness: Brightness.dark // Status bar
             ),
         title: Text(
-          "My Applies",
+          '',
           style: LoginT,
         ),
         centerTitle: true,
