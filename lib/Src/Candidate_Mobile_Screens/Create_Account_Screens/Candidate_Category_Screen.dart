@@ -49,7 +49,9 @@ class _Candidate_Categoery_ScreenState
     "6-7",
     "7-8",
     "8-9",
-    "9-10"
+    "9-10",
+    "10-15",
+    "15 & Above"
   ];
   List<String> Categoery = ['Experienced', 'Fresher', 'Student'];
   bool _isChecked = false;
@@ -388,7 +390,11 @@ class _Candidate_Categoery_ScreenState
                               else if (specializationOption == []) {
                                 ShowToastMessage(
                                     "Please Select Specialization");
-                              } else if (skillsetOption == []) {
+                              } else if (preferredlocationOption == []){
+                                ShowToastMessage(
+                                    "Please Select Preferred Location");
+                              }
+                              else if (skillsetOption == []) {
                                 ShowToastMessage("Please Select Skill Set");
                               } else if (preferredlocationOption == []) {
                                 ShowToastMessage(
@@ -822,9 +828,10 @@ class _Candidate_Categoery_ScreenState
             hintText: "Preferred Job Location",
             listValue: [],
             focusTagEnabled: false,
+
             values: preferredlocationOption,
             onPressed: (p0) {
-              print(p0);
+              print(" PREFFERED LOCATION DATA ${p0}");
 
               setState(() {
                 preferredlocationOption = p0;
