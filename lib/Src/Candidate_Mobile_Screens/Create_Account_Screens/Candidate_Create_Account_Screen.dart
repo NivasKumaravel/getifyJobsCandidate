@@ -409,9 +409,9 @@ class _Candidate_Create_AccountState
                                     return 'Password should be with the combination of Aa@#1';
                                   }
 
-                                  // Check if the length is between 8 and 15 characters
+                                  // Check if the length is between 8 - 15 characters
                                   if (!lengthRegex.hasMatch(value)) {
-                                    return 'Password should be minimum 8 and maximum 15 characters';
+                                    return 'Password should between 8 - 15 characters';
                                   }
 
                                   return null;
@@ -472,7 +472,6 @@ class _Candidate_Create_AccountState
                                   EditApiResponse();
                               }
                               }
-
                             }),
                           ):   Padding(
                             padding: const EdgeInsets.only(
@@ -556,8 +555,6 @@ class _Candidate_Create_AccountState
                                      }
                                    }
                                  }
-
-
                             }),
                           ),
                         ],

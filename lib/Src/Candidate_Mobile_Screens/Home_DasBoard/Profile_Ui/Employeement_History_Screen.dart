@@ -631,12 +631,10 @@ class _Employeement_History_PageState
                               values: specializationOption ?? [],
                               onPressed: (p0) {
                                 print(p0);
-
                                 setState(() {
                                   specializationOption = p0;
                                 });
                               },
-
                             ),
 
                             // textFormField(
@@ -698,6 +696,8 @@ class _Employeement_History_PageState
                             Title_Style(
                                 Title: 'Course duration', isStatus: true),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
                                   child: Container(
@@ -815,8 +815,9 @@ class _Employeement_History_PageState
                             "Please Select Work Type");
                       }else if(_value == null){
                         ShowToastMessage(
-                            "Please Select Current Company Or Not");
-                      }else{
+                            "Please Select the Current Company");
+                      }
+                      else{
                         final editedDetail = EmpDetail(
                           _JobRole.text,
                           _CompanyName.text,
@@ -855,13 +856,14 @@ class _Employeement_History_PageState
                           print('Username: $username, User ID: $userId');
                         });
                       }
-
-
-
                       if(selectedOption == null){
                         ShowToastMessage(
                             "Please Select Education Type");
-                      }else if(specializationOption == []){
+                      }else if (specializationOption == []){
+                        ShowToastMessage("Please");
+                      }
+
+                      else if(specializationOption == []){
                         ShowToastMessage(
                             "Please Select Specialization");
                       }
