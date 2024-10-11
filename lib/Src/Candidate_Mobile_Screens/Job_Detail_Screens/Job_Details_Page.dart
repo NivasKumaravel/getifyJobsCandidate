@@ -632,8 +632,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                             child: isRescheduled == true?Container():isStatus == true
                                 ?
                             Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                           height: 50,

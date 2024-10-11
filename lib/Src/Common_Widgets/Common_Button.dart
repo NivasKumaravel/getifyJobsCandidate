@@ -143,7 +143,7 @@ Widget CommonElevatedButton2(
     onPressed: onPress,
     child: Text(
       titleName,
-      style: ButtonT1,
+      style: ButtonT1,textAlign: TextAlign.center,
     ),
   );
 }
