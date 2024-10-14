@@ -80,9 +80,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                                       {
                                         ref.refresh(profileApiProvider);
                                       }
-
-                                  })
-                      ;
+                                  });
                     },
                     child: Text(
                       'Edit Info',

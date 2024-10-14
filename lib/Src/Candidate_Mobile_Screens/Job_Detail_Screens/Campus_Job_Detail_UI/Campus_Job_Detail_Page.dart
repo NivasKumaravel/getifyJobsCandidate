@@ -439,7 +439,7 @@ class _Campus_JobDetail_ScreenState
             CampusJobDetailsResponseData?.statutoryBenefits == ''
                 ? Container()
                 : textWithheader(
-                    headertxt: "Statutory Benefit",
+                    headertxt: "Statutory Benefits",
                     subtxt:
                         CampusJobDetailsResponseData?.statutoryBenefits ?? ""),
             CampusJobDetailsResponseData?.socialBenefits == ''

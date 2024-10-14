@@ -242,8 +242,8 @@ class _Candidate_Create_AccountState
                             },
                             onChanged: null,
                           ),
-                          SubText(
-                              "Recruiter Will Contact You to this Mobile Number"),
+                          // SubText(
+                          //     "Recruiter Will Contact You to this Mobile Number"),
                           //Email Address*
                           Title_Style(Title: 'Email Address', isStatus: true),
                           textFormField(

@@ -378,7 +378,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 : jobDetailsData?.statutoryBenefits == ""
                     ? Container()
                     : textWithheader(
-                        headertxt: "Statutory Benefit",
+                        headertxt: "Statutory Benefits",
                         subtxt: jobDetailsData?.statutoryBenefits ?? ""),
             jobDetailsData?.socialBenefits == null
                 ? Container()
