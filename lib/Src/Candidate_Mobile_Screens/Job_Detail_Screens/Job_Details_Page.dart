@@ -41,6 +41,7 @@ class Job_Details extends ConsumerStatefulWidget {
 }
 
 class _Job_DetailsState extends ConsumerState<Job_Details> {
+
   Data? jobDetailsData; // Define the variable to hold the value
   ApplyDirectJobModel? ApplyJobs;
   bool isStatus = true;
@@ -68,6 +69,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
   }
 
   DateTime selectedDate = DateTime.now();
+  String? _selectedTime;
   TextEditingController dateController = TextEditingController();
   TextEditingController _FeedBack = TextEditingController();
   TextEditingController _EnterCode = TextEditingController();
@@ -597,10 +599,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                             ),
                             Text(
                               TagActive == "Schedule Accepted"
-                                  ? "${jobDetailsData?.scheduleAccepted?.interviewTime==[]?jobDetailsData?.scheduleRequested?.interviewTime ?? "":jobDetailsData?.scheduleAccepted?.interviewTime ?? ""}, "
+                                  ? "${jobDetailsData?.scheduleAccepted?.interviewTime==[]? jobDetailsData?.scheduleRequested?.interviewTime ?? "":
+                              jobDetailsData?.scheduleAccepted?.interviewTime ?? ""}, "
                                   "${jobDetailsData?.scheduleAccepted?.interviewDate==[]?jobDetailsData?.scheduleRequested?.interviewDate ?? "":jobDetailsData?.scheduleAccepted?.interviewDate ?? ""}"
                                   : TagActive == "Schedule Requested"
-                                      ? "${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}"
+                                      ? "${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}"
                                       : TagActive == "You Rejected"
                                           ? "9.00 AM, 02 Oct 2023"
                                           : TagActive == "Candidate Reschedule"
@@ -645,7 +648,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                                   RescheduleConfirmationPop(context,
                                                       typeT: 'accept', onPress: () {
                                                         ScheduleAcceptedResponse();
-                                                      }),
+                                                      }, scheduleT: TagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
                                             );
 
                                               })),
@@ -670,7 +673,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                                   RescheduleConfirmationPop(context,
                                                       typeT: 'reject', onPress: () {
                                                         ScheduleRejectedResponse();
-                                                      }),
+                                                      }, scheduleT: TagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
                                             );
                                               })),
                                     ],
@@ -764,7 +767,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                           RescheduleConfirmationPop(context,
                               typeT: 'accept', onPress: () {
                                 ScheduleAcceptedResponse();
-                              }),
+                              }, scheduleT: tagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
                     );
                   })),
               SizedBox(
@@ -780,7 +783,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                           RescheduleConfirmationPop(context,
                               typeT: 'reject', onPress: () {
                                 ScheduleRejectedResponse();
-                              }),
+                              }, scheduleT: tagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
                     );
                   })),
             ],
@@ -826,8 +829,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                         style: attachT1,
                       ),
                       Text(
-                        "${jobDetailsData?.recruiterReschedule?.interviewTime==[]?jobDetailsData?.scheduleRequested?.interviewTime ?? "":jobDetailsData?.recruiterReschedule?.interviewTime ?? ""}, "
-                            "${jobDetailsData?.recruiterReschedule?.interviewDate ==[]?jobDetailsData?.scheduleRequested?.interviewDate ?? "":jobDetailsData?.recruiterReschedule?.interviewDate ?? ""}",
+                        "${jobDetailsData?.recruiterReschedule?.interviewTime== null ?jobDetailsData?.scheduleRequested?.interviewTime ?? "":jobDetailsData?.recruiterReschedule?.interviewTime ?? ""}, "
+                            "${jobDetailsData?.recruiterReschedule?.interviewDate == null ?jobDetailsData?.scheduleRequested?.interviewDate ?? "":jobDetailsData?.recruiterReschedule?.interviewDate ?? ""}",
                         style: TBlack,
                       ),
                     ],
@@ -1085,13 +1088,21 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 color: Colors.black,
               ),
               controller: dateController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Date Entered";
+                }
+                return null;
+              },
               onTap: () => _selectDate(context),
             ),
             //TIME PICKER
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child:
-              TimePickerFormField(onValidate: () {},),
+              TimePickerFormField(onValidate: (value){
+                _selectedTime = value;
+              }),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15),
@@ -1106,8 +1117,16 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                   Container(
                       width:MediaQuery.of(context).size.width/3.5,
                       child: PopButton(context, "Okay", () {
-                        _validateTime();
-                        RescheduleRequestedResponse();
+                        print("TIME ${_selectedTime}");
+                        print("DATE CONTROLLER ${dateController.text}");
+                        if(_selectedTime == null || dateController.text.isEmpty){
+                          ShowToastMessage("Please Enter Interview Date & Time");
+                        }else{
+                          print('Please Enter Interview Datessssss');
+                          _validateTime();
+                          RescheduleRequestedResponse();
+                        }
+
                       })),
                 ],
               ),
@@ -1243,7 +1262,9 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
 }
 
 //RESCHEDULE CONFIRMATION POP UP
-Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,required void Function()? onPress}) {
+Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,
+  required String scheduleT,
+  required void Function()? onPress}) {
   return AlertDialog(
     surfaceTintColor: white1,
     content:Container(
@@ -1253,7 +1274,7 @@ Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,req
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Are you sure want to ${typeT} the schedule date and time',style: Wbalck1,textAlign: TextAlign.center,maxLines: 3,),
+          Text('Are you sure want to ${typeT} the ${scheduleT} date and time',style: Wbalck1,textAlign: TextAlign.center,maxLines: 3,),
           SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
