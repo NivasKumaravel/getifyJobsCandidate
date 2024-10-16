@@ -895,12 +895,12 @@ Widget dropDownSearchField(
     suggestionState: Suggestion.expand,
     suggestionsDecoration: SuggestionDecoration(padding: EdgeInsets.all(10)),
     textInputAction: TextInputAction.next,
-    searchStyle: TextStyle(
+    suggestionStyle: TextStyle(
       fontSize: 18,
       color: Colors.black.withOpacity(0.8),
     ),
     validator: validator,
-    searchInputDecoration: InputDecoration(
+    searchInputDecoration: SearchInputDecoration(
       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       hintText: hintT,
       hintStyle: phoneHT,
@@ -942,12 +942,12 @@ Widget dropDownSearchFieldSpecialization(context,
     suggestionState: Suggestion.expand,
     suggestionsDecoration: SuggestionDecoration(padding: EdgeInsets.all(10)),
     textInputAction: TextInputAction.next,
-    searchStyle: TextStyle(
+    suggestionStyle: TextStyle(
       fontSize: 18,
       color: Colors.black.withOpacity(0.8),
     ),
     validator: validator,
-    searchInputDecoration: InputDecoration(
+    searchInputDecoration: SearchInputDecoration(
       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       hintText: hintT,
       hintStyle: phoneHT,
@@ -989,12 +989,12 @@ Widget dropDownSearchFieldCollege(context,
     suggestionState: Suggestion.expand,
     suggestionsDecoration: SuggestionDecoration(padding: EdgeInsets.all(10)),
     textInputAction: TextInputAction.next,
-    searchStyle: TextStyle(
+    suggestionStyle: TextStyle(
       fontSize: 18,
       color: Colors.black.withOpacity(0.8),
     ),
     validator: validator,
-    searchInputDecoration: InputDecoration(
+    searchInputDecoration: SearchInputDecoration(
       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       hintText: hintT,
       hintStyle: phoneHT,
@@ -1158,7 +1158,7 @@ Widget textfieldDescription2(
 }
 
 class TimePickerFormField extends StatefulWidget {
-  final Function() onValidate;
+  final Function(String) onValidate;
   TimePickerFormField({required this.onValidate});
   @override
   _TimePickerFormFieldState createState() => _TimePickerFormFieldState();
@@ -1184,7 +1184,7 @@ class _TimePickerFormFieldState extends State<TimePickerFormField> {
         SingleTon().setTime = _selectedTime ?? formattedTime;
         _selectedTime = formattedTime;
       });
-      widget.onValidate(); // Call the validation callback
+      widget.onValidate!(_selectedTime!); // Call the validation callback
     }
   }
 
