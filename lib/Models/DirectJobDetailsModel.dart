@@ -60,6 +60,7 @@ class Data {
   ScheduleRequested? interviewReschedule;
   String? jobStatus;
   String? statusMessage;
+  String? yearsofexperience;
 
   Data(
       {this.jobId,
@@ -98,7 +99,9 @@ class Data {
         this.scheduleRejected,
         this.interviewReschedule,
         this.jobStatus,
-        this.statusMessage});
+        this.statusMessage,
+        this.yearsofexperience
+      });
 
   Data.fromJson(Map<String, dynamic> json) {
     jobId = json['job_id'];
@@ -130,6 +133,7 @@ class Data {
     offerLetter = json['offer_letter'];
     showFeeedback = json['show_feeedback'];
     resume = json['resume'];
+    yearsofexperience = json['years_of_experience'];
 
 
     dynamic schedule_requested = json['schedule_requested'];
@@ -218,6 +222,7 @@ class Data {
     data['offer_letter'] = this.offerLetter;
     data['show_feeedback'] = this.showFeeedback;
     data['resume'] = this.resume;
+    data['years_of_experience'] = this.yearsofexperience;
     if (this.scheduleRequested != null) {
       data['schedule_requested'] = this.scheduleRequested!.toJson();
     }

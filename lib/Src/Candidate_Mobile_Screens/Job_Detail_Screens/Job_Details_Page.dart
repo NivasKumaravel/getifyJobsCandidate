@@ -353,6 +353,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 headertxt: "Specialization",
                 subtxt: jobDetailsData?.specialization ?? ""),
 
+            jobDetailsData?.yearsofexperience == null ? Container() :
+            textWithheader(
+                headertxt: "Years of Experience",
+                subtxt: jobDetailsData?.yearsofexperience ?? ""),
+
             jobDetailsData?.currentArrears == null
                 ? Container()
                 : jobDetailsData?.currentArrears == null
