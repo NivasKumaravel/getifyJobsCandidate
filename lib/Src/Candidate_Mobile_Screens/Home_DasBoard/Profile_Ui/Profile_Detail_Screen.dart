@@ -144,23 +144,23 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
       appBar: AppBar(
           automaticallyImplyLeading: false,
         backgroundColor: white2,
-        // leading: IconButton(
-        //   icon:  ImgPathSvg("arrowback.svg"),
-        //   onPressed: () {
-        //     showDialog(
-        //       context: context,
-        //       builder: (BuildContext context) => Profile_Back_Pop_Up(context,
-        //           BackonPress: () {
-        //         widget.careerStatus == "Student"?
-        //           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Bottom_Navigation(select: 3)), (route) => false):
-        //         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Candidate_Bottom_Navigation(select: 3)), (route) => false);
-        //           },
-        //           SaveonPress: () {
-        //             Add_Profile_Detail_Api();
-        //           }),
-        //     );
-        //     },
-        // ),
+        leading: IconButton(
+          icon:  ImgPathSvg("arrowback.svg"),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => Profile_Back_Pop_Up(context,
+                  BackonPress: () {
+                widget.careerStatus == "Student"?
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Bottom_Navigation(select: 3)), (route) => false):
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Candidate_Bottom_Navigation(select: 3)), (route) => false);
+                  },
+                  SaveonPress: () {
+                    Add_Profile_Detail_Api();
+                  }),
+            );
+            },
+        ),
         title: Text("Profile Detail",style: LoginT,),
         centerTitle: true,
         actions: [

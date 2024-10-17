@@ -94,7 +94,7 @@ Widget BottomBar(context,
               child: ImgPathSvgWithColor(bookmark)): Container(),
           Spacer(),
           Container(
-              width: 200,
+              width: MediaQuery.sizeOf(context).width/2.5,
               child: AppliedButton(context, ButtonTitle,
                   backgroundColor: backgroundColor, onPress: onPress)),
         ],
