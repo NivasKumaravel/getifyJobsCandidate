@@ -122,7 +122,7 @@ class _Campus_JobDetail_ScreenState
             //DATE AND TIME
             dateTime(
                 time:
-                    'Date: 09:00AM, ${CampusJobDetailsResponseData?.college?.recruitmentDate ?? ""}'),
+                    'Date: 09:00 AM, ${CampusJobDetailsResponseData?.college?.recruitmentDate ?? ""}'),
 
             //JOB DETAILS
             _Common_job_Deatil_Section(),
@@ -250,7 +250,7 @@ class _Campus_JobDetail_ScreenState
                                 ? "Enrolled"
                                 : TagType == "Call For Interview"
                                     ? "Call For Interview"
-                                    : "Shortlisted for Round ${TagType}",
+                                    : "Shortlisted for ${TagType}",
             style: TextStyle(
                 fontFamily: "Inter",
                 fontSize: 20,

@@ -227,7 +227,7 @@ Widget DirectList(
                               "Selected":
                               campusTag == "Call For Interview"?
                               "Call For Interview":
-                              "Round ${campusTag}",
+                              "${campusTag}",
                               style:
                               TextStyle(
                                   fontFamily: "Inter",

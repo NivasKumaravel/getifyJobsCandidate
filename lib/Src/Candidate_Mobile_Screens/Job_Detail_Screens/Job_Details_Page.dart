@@ -358,23 +358,28 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 headertxt: "Years of Experience",
                 subtxt: jobDetailsData?.yearsofexperience ?? ""),
 
-            jobDetailsData?.currentArrears == null
+            jobDetailsData?.currentArrears == ''
                 ? Container()
-                : jobDetailsData?.currentArrears == null
+                : jobDetailsData?.currentArrears == ''
                     ? Container()
                     : textWithheader(
                         headertxt: "Current Arrears",
                         subtxt: jobDetailsData?.currentArrears ?? ""),
-            jobDetailsData?.historyOfArrears == null
+
+            jobDetailsData?.historyOfArrears == ''
                 ? Container()
-                : jobDetailsData?.historyOfArrears == null
+                : jobDetailsData?.historyOfArrears == ''
                     ? Container()
                     : textWithheader(
                         headertxt: "History of Arrears",
                         subtxt: jobDetailsData?.historyOfArrears ?? ""),
+
+            jobDetailsData?.requiredPercentage == "" ? Container() :
             textWithheader(
                 headertxt: "Required Percentage/CGPA",
                 subtxt: jobDetailsData?.requiredPercentage ?? ""),
+
+
             textWithheader(
                 headertxt: "Work Type", subtxt: jobDetailsData?.workType ?? ""),
             textWithheader(

@@ -198,7 +198,6 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                       data?.data?.resume ?? ""),
                 ),
 
-
                 contactDetails(
                     ContactLogo: 'phone.svg',
                     Details: '+91 ${data?.data?.phone ?? ""}'),
@@ -385,6 +384,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
           SizedBox(
             height: 15,
           ),
+
           _profileInformation(
               title: 'Nationality',
               data: data?.nationality ?? ""),
@@ -424,7 +424,6 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
               )),
           Container(
             width: MediaQuery.sizeOf(context).width/1.2,
-
               margin: EdgeInsets.only(bottom: 15),
               alignment: Alignment.topLeft,
               child: Text(

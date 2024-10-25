@@ -248,9 +248,7 @@ class _Student_MyApplies_ScreenState
                                     _scrollController1, totalCount1, (value) {
                                       bookMarkApiResponse(
                                           CampusMyAppliesResponseData?[value].jobId ?? '',
-                                          CampusMyAppliesResponseData?[value]
-                                              .recruiterId ??
-                                              '');
+                                          CampusMyAppliesResponseData?[value].recruiterId ?? '');
                                     },
                                   ref
                                 );
@@ -403,38 +401,29 @@ class _Student_MyApplies_ScreenState
                     context,
                     MaterialPageRoute(
                         builder: (context) => Campus_JobDetail_Screen(
-                          JobId:
-                          campusMyAppliesResponseList?[index]?.jobId ?? "",
-                          CampusId: campusMyAppliesResponseList?[index]
-                              ?.college
-                              ?.campusId ??
-                              "",
-                          ReruiterId: campusMyAppliesResponseList?[index]
-                              ?.recruiterId ??
-                              "", isApplied: false, TagType: campusMyAppliesResponseList?[index]?.jobStatus ?? "",
+                          JobId: campusMyAppliesResponseList?[index]?.jobId ?? "",
+                          CampusId: campusMyAppliesResponseList?[index]?.college?.campusId ?? "",
+                          ReruiterId: campusMyAppliesResponseList?[index]?.recruiterId ?? "",
+                          isApplied: false,
+                          TagType: campusMyAppliesResponseList?[index]?.jobStatus ?? "",
                           interviewDate: campusMyAppliesResponseList?[index]?.interviewdate ?? "",
-                          interviewTime: campusMyAppliesResponseList?[index]?.interviewtime ?? "", CampusTagType: '',)));
+                          interviewTime: campusMyAppliesResponseList?[index]?.interviewtime ?? "",
+                          CampusTagType: '',)));
               },
               child: DirectList(
                 context,
                 isApplied: true,
                 jobName: campusMyAppliesResponseList?[index].jobTitle ?? "",
-                companyName:
-                campusMyAppliesResponseList?[index].companyName ?? "",
+                companyName: campusMyAppliesResponseList?[index].companyName ?? "",
                 location: campusMyAppliesResponseList?[index].location ?? "",
                 companyLogo: campusMyAppliesResponseList?[index].logo ?? "",
                 YOP: campusMyAppliesResponseList?[index]?.jobTitle ?? "",
-                ExpSalary:
-                "₹ ${campusMyAppliesResponseList?[index]?.salaryFrom ?? " "} - ${campusMyAppliesResponseList?[index]?.salaryTo ?? " "} LPA",
+                ExpSalary: "₹ ${campusMyAppliesResponseList?[index]?.salaryFrom ?? " "} - ${campusMyAppliesResponseList?[index]?.salaryTo ?? " "} LPA",
                 postedDate: '',
-                collegeName:
-                campusMyAppliesResponseList?[index]?.college?.name ?? "",
-                appliedDate:
-                campusMyAppliesResponseList?[index]?.appliedDate ?? "",
-                collegeLoctaion:
-                campusMyAppliesResponseList?[index]?.college?.location ?? "",
-                collegeLogo:
-                campusMyAppliesResponseList?[index]?.college?.logo ?? "",
+                collegeName: campusMyAppliesResponseList?[index]?.college?.name ?? "",
+                appliedDate: campusMyAppliesResponseList?[index]?.appliedDate ?? "",
+                collegeLoctaion: campusMyAppliesResponseList?[index]?.college?.location ?? "",
+                collegeLogo: campusMyAppliesResponseList?[index]?.college?.logo ?? "",
                 isCampus: true,
                 currentIndex: index,
                 bookmarkClick: (value) {},
