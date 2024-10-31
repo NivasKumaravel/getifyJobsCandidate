@@ -385,18 +385,23 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
             height: 15,
           ),
 
+          data?.nationality == '' ? Container() :
           _profileInformation(
               title: 'Nationality',
               data: data?.nationality ?? ""),
+          data?.languageKnown == '' ? Container() :
           _profileInformation(
               title: 'Language Known',
               data: data?.languageKnown?? ""),
+          data?.differentlyAbled == '' ? Container() :
           _profileInformation(
               title: 'Differently Abled',
               data: data?.differentlyAbled ?? ""),
+          data?.passport == '' ? Container() :
           _profileInformation(
               title: 'Passport',
               data: data?.passport ?? ""),
+          data?.careerBreak == '' ? Container() :
           _profileInformation(
               title: 'Career Break',
               data: data?.careerBreak ?? ""),

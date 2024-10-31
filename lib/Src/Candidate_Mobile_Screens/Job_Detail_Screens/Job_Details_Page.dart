@@ -358,6 +358,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 headertxt: "Years of Experience",
                 subtxt: jobDetailsData?.yearsofexperience ?? ""),
 
+
             jobDetailsData?.currentArrears == ''
                 ? Container()
                 : jobDetailsData?.currentArrears == ''
@@ -382,6 +383,12 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
 
             textWithheader(
                 headertxt: "Work Type", subtxt: jobDetailsData?.workType ?? ""),
+
+            jobDetailsData?.workMode == "Please Select" ? Container() :
+            textWithheader(
+                headertxt: "Work Mode",
+                subtxt: jobDetailsData?.workMode ?? ""),
+
             textWithheader(
                 headertxt: "Shift Details",
                 subtxt: jobDetailsData?.shiftDetails ?? ""),

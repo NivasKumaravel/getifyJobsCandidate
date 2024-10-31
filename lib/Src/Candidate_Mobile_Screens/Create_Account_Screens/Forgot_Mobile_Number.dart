@@ -72,7 +72,7 @@ class _Login_PageState extends ConsumerState<Forget_Mobile_Screen> {
         child: Container(
           color: white2,
           height: MediaQuery.sizeOf(context).height,
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
