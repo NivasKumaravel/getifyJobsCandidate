@@ -434,7 +434,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
         _IconWithText(
             iconimg: "wallet.svg",
             icontext:
-                "₹${jobDetailsData?.salaryFrom ?? ""} - ${jobDetailsData?.salaryTo ?? ""} LPA")
+                "₹${jobDetailsData?.salaryFrom ?? ""} - ${jobDetailsData?.salaryTo ?? ""} Per Annum")
       ],
     );
   }
@@ -1297,12 +1297,12 @@ Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                  width:MediaQuery.of(context).size.width/3.2,
+                  width:MediaQuery.of(context).size.width/3.5,
                   child: PopButton(context, "Cancel", () {
                     Navigator.pop(context);
                   })),
               Container(
-                  width:MediaQuery.of(context).size.width/3.2,
+                  width:MediaQuery.of(context).size.width/3.5,
                   child: PopButton(context, "Confirm", onPress)),
 
             ],

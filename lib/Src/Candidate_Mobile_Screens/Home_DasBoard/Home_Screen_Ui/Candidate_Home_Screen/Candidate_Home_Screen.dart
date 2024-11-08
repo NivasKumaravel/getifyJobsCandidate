@@ -272,7 +272,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                           companyLogo: jobLists?[index].logo ?? '',
                           YOP: jobLists?[index].experience ?? '',
                           ExpSalary:
-                              '₹ ${jobLists?[index].salaryFrom ?? ""} - ${jobLists?[index].salaryTo ?? ""} LPA',
+                              '₹ ${jobLists?[index].salaryFrom ?? ""} - ${jobLists?[index].salaryTo ?? ""} Per Annum',
                           postedDate:
                               'Posted: ${jobLists?[index].createdDate ?? ""}',
                           collegeName: '',

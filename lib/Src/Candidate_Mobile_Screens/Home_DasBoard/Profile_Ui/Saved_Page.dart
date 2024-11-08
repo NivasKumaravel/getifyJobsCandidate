@@ -117,7 +117,7 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
             location: bookMarkListData?.items?[index].location ?? "",
             companyLogo: bookMarkListData?.items?[index].logo ?? "",
             YOP: bookMarkListData?.items?[index].experience ?? "",
-            ExpSalary: '₹ ${bookMarkListData?.items?[index].salaryFrom ?? ""} - ${bookMarkListData?.items?[index].salaryTo ?? ""} LPA',
+            ExpSalary: '₹ ${bookMarkListData?.items?[index].salaryFrom ?? ""} - ${bookMarkListData?.items?[index].salaryTo ?? ""} Per Annum',
             postedDate: "Posted: ${bookMarkListData?.items?[index].createdDate ?? ""}",
             collegeName: '',
             appliedDate: '',

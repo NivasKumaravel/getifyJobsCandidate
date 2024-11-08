@@ -483,7 +483,7 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                   companyLogo: directResponseData?[index].logo ?? "",
                   YOP: directResponseData?[index].experience ?? "",
                   ExpSalary:
-                      "₹ ${directResponseData?[index].salaryFrom ?? ""} - ${directResponseData?[index].salaryTo ?? ""} PA",
+                      "₹ ${directResponseData?[index].salaryFrom ?? ""} - ${directResponseData?[index].salaryTo ?? ""} Per Annum",
                   postedDate:
                       "Posted : ${directResponseData?[index].createdDate ?? ""}",
                   collegeName: '',

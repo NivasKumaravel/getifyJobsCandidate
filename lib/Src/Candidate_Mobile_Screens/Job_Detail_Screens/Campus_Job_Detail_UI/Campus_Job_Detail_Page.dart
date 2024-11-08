@@ -283,7 +283,7 @@ class _Campus_JobDetail_ScreenState
                       style: attachT1,
                     ),
                     Text(
-                      "${widget.interviewTime}, ${widget.interviewDate}",
+                      "${widget.interviewDate} , ${widget.interviewTime}",
                       style: TBlack,
                     ),
                   ],
@@ -474,7 +474,7 @@ class _Campus_JobDetail_ScreenState
             : _IconWithText(
                 iconimg: "wallet.svg",
                 icontext:
-                    "₹ ${CampusJobDetailsResponseData?.salaryFrom ?? ""} - ${CampusJobDetailsResponseData?.salaryTo ?? ""} LPA")
+                    "₹ ${CampusJobDetailsResponseData?.salaryFrom ?? ""} - ${CampusJobDetailsResponseData?.salaryTo ?? ""} Per Annum")
       ],
     );
   }

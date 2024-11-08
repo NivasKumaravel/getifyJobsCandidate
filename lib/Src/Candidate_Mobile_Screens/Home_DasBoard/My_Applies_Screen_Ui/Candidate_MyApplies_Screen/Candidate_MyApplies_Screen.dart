@@ -455,7 +455,7 @@ class _Candidate_MyApplies_ScreenState
               companyLogo: directMyAppliesResponseData?[index]?.logo ?? "",
               YOP: directMyAppliesResponseData?[index]?.experience ?? "",
               ExpSalary:
-              '₹ ${directMyAppliesResponseData?[index]?.salaryFrom ?? ""} - ${directMyAppliesResponseData?[index]?.salaryTo ?? ""} LPA',
+              '₹ ${directMyAppliesResponseData?[index]?.salaryFrom ?? ""} - ${directMyAppliesResponseData?[index]?.salaryTo ?? ""} Per Annum',
               postedDate: 'Posted: 23 Sep 2023',
               collegeName: '',
               appliedDate: directMyAppliesResponseData?[index]?.appliedDate ?? "",

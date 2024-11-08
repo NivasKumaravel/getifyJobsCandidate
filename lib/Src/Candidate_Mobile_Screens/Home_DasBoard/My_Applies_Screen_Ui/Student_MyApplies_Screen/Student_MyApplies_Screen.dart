@@ -418,7 +418,7 @@ class _Student_MyApplies_ScreenState
                 location: campusMyAppliesResponseList?[index].location ?? "",
                 companyLogo: campusMyAppliesResponseList?[index].logo ?? "",
                 YOP: campusMyAppliesResponseList?[index]?.jobTitle ?? "",
-                ExpSalary: "₹ ${campusMyAppliesResponseList?[index]?.salaryFrom ?? " "} - ${campusMyAppliesResponseList?[index]?.salaryTo ?? " "} LPA",
+                ExpSalary: "₹ ${campusMyAppliesResponseList?[index]?.salaryFrom ?? " "} - ${campusMyAppliesResponseList?[index]?.salaryTo ?? " "} Per Annum",
                 postedDate: '',
                 collegeName: campusMyAppliesResponseList?[index]?.college?.name ?? "",
                 appliedDate: campusMyAppliesResponseList?[index]?.appliedDate ?? "",
@@ -491,7 +491,7 @@ class _Student_MyApplies_ScreenState
                   companyLogo: directMyAppliesResponseData?[index]?.logo ?? "",
                   YOP: directMyAppliesResponseData?[index]?.experience ?? "",
                   ExpSalary:
-                  '₹${directMyAppliesResponseData?[index]?.salaryFrom ?? ""} - ${directMyAppliesResponseData?[index]?.salaryTo ?? ""} LPA',
+                  '₹${directMyAppliesResponseData?[index]?.salaryFrom ?? ""} - ${directMyAppliesResponseData?[index]?.salaryTo ?? ""} Per Annum',
                   postedDate: 'Posted: 23 Sep 2023',
                   collegeName: "",
                   appliedDate:
