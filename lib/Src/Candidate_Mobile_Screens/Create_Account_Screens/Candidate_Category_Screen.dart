@@ -404,7 +404,7 @@ class _Candidate_Categoery_ScreenState
                                   AddProfileResponse();
                                 } else if (_isChecked == false) {
                                   ShowToastMessage(
-                                      "Please Select Terms & Conditions");
+                                      " Please Read and Agree to Our T&C");
                                 } else {
                                   AddProfileResponse();
                                 }

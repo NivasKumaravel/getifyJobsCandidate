@@ -283,7 +283,7 @@ class _Campus_JobDetail_ScreenState
                       style: attachT1,
                     ),
                     Text(
-                      "${widget.interviewDate} , ${widget.interviewTime}",
+                      '${widget.interviewTime} , ${widget.interviewDate} ',
                       style: TBlack,
                     ),
                   ],
@@ -403,6 +403,7 @@ class _Campus_JobDetail_ScreenState
             Text(
               CampusJobDetailsResponseData?.jobDescription ?? "",
               style: desctxt,
+              textAlign: TextAlign.justify,
             ),
             SizedBox(
               height: 20,

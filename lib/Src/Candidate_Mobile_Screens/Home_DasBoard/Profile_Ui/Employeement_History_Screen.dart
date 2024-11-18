@@ -150,11 +150,23 @@ class _Employeement_History_PageState
     }
   }
 
+  void _jobprofileformat() {
+    final text = _Description.text;
+    final formattedText = _toTitleCase(text);
+    if (text != formattedText) {
+      _Description.value = TextEditingValue(
+        text: formattedText,
+        selection: TextSelection.collapsed(offset: formattedText.length),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _JobRole.addListener(_JobroleFormat);
     _CompanyName.addListener(_CompanyFormat);
+    _Description.addListener(_jobprofileformat);
     widget.isEdit == true?EditResponse():null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       apiCall();
@@ -428,9 +440,9 @@ class _Employeement_History_PageState
                                                         DateTime startDate = DateFormat("dd/MM/yyyy").parse(_StartDate.text);
                                                         DateTime endDate = DateFormat("dd/MM/yyyy").parse(value);
                                                         if (endDate.isBefore(startDate)) {
-                                                          return 'End date cannot be before start date';
+                                                          return 'End date cannot be before\nstart date';
                                                         } else if (endDate.isAtSameMomentAs(startDate)) {
-                                                          return 'End date cannot be the same as start date';
+                                                          return 'End date cannot be the same as\nstart date';
                                                         }
                                                       }
                                                       return null;

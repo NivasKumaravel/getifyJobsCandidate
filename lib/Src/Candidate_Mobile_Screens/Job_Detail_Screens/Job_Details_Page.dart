@@ -336,6 +336,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             Text(
               jobDetailsData?.jobDescription ?? "",
               style: desctxt,
+              textAlign: TextAlign.justify,
             ),
             SizedBox(
               height: 20,
@@ -384,7 +385,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             textWithheader(
                 headertxt: "Work Type", subtxt: jobDetailsData?.workType ?? ""),
 
-            jobDetailsData?.workMode == "Please Select" ? Container() :
+            jobDetailsData?.workMode == "Please Select" || jobDetailsData?.workMode == ""
+                ? Container() :
             textWithheader(
                 headertxt: "Work Mode",
                 subtxt: jobDetailsData?.workMode ?? ""),
