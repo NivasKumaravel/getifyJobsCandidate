@@ -442,7 +442,7 @@ class _Employeement_History_PageState
                                                         if (endDate.isBefore(startDate)) {
                                                           return 'End date cannot be before\nstart date';
                                                         } else if (endDate.isAtSameMomentAs(startDate)) {
-                                                          return 'End date cannot be the same as\nstart date';
+                                                         return 'End date cannot be the same as\nstart date';
                                                         }
                                                       }
                                                       return null;
