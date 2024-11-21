@@ -83,24 +83,33 @@ class _Campus_Company_Job_ListState extends  ConsumerState<Campus_Company_Job_Li
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    buildCompanyInfoRow(CampusJobListResponseData?.items?.jobs?[0].logo ?? "",
+                        CampusJobListResponseData?.items?.jobs?[0].companyName  ?? "", TBlack, 50, 50, isMapLogo: false),
+
                     Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, right: 20, top: 10),
-                      child: buildCompanyInfoRow(CampusJobListResponseData?.items?.jobs?[0].logo ?? "",
-                          CampusJobListResponseData?.items?.jobs?[0].companyName  ?? "", TBlack, 50, 50, isMapLogo: false),
+                      padding: const EdgeInsets.only(left: 30,bottom: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              height: 20,width: 20,
+                              child: ImgPathPng("map-pin (1).png")),
+                          const SizedBox(width: 40),
+                          Expanded(child: Container(child: Text(CampusJobListResponseData?.items?.jobs?[0].location ?? "",style: Wgrey,maxLines: 2,))),
+                        ],
+                      ),
                     ),
-                    Container(
-                        margin: EdgeInsets.only(
-                            left: 20, top: 10, right: 20, bottom: 15),
-                        child: buildCompanyInfoRow("map-pin (1).png",
-                            CampusJobListResponseData?.items?.jobs?[0].location ?? "", Homegrey2, 20, 20, isMapLogo: true)),
                   ],
                 )
               ],
             ),
           ),
-          dateTime(time: 'Date: 09:00AM, ${CampusJobListResponseData?.items?.recruitmentDate ?? ""}'),
+          dateTime(time: 'Date: 09:00 AM, ${CampusJobListResponseData?.items?.recruitmentDate ?? ""}'),
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: buildCompanyInfoRow(
@@ -195,12 +204,21 @@ class _Campus_Company_Job_ListState extends  ConsumerState<Campus_Company_Job_Li
                       ],
                     ),
                     //POSTED DATE
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10,bottom: 15),
-                      child: buildCompanyInfoRow("map-pin (1).png",
-                          campusJobListResponseData?.items?.jobs?[index].location ?? "", Homegrey2, 20, 20, isMapLogo: true),
-                    )
 
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10,bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 20,width: 20,
+                              child: ImgPathPng("map-pin (1).png")),
+                          const SizedBox(width: 6),
+                          Expanded(child: Container(child: Text(campusJobListResponseData?.items?.jobs?[index].location ?? "",style: Homegrey2,maxLines: 2,))),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -1141,7 +1141,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                         if(_selectedTime == null || dateController.text.isEmpty){
                           ShowToastMessage("Please Enter Interview Date & Time");
                         }else{
-                          print('Please Enter Interview Datessssss');
+                          print('Please Enter Interview Date');
                           _validateTime();
                           RescheduleRequestedResponse();
                         }
@@ -1287,7 +1287,7 @@ Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,
   return AlertDialog(
     surfaceTintColor: white1,
     content:Container(
-      color: white1,
+      //color: white1,
       width: 350,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -1299,12 +1299,12 @@ Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                  width:MediaQuery.of(context).size.width/3.5,
+                  width:MediaQuery.of(context).size.width/3.7,
                   child: PopButton(context, "Cancel", () {
                     Navigator.pop(context);
                   })),
               Container(
-                  width:MediaQuery.of(context).size.width/3.5,
+                  width:MediaQuery.of(context).size.width/3.7,
                   child: PopButton(context, "Confirm", onPress)),
 
             ],

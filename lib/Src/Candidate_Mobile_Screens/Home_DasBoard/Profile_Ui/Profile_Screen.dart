@@ -40,8 +40,11 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
   double? finalpercentage ;
 
 
-  void _onShare(BuildContext context) async {
-    Share.share('https://play.google.com/store/apps/details?id=com.getifyjobs.candidate');
+  void _onShare(BuildContext context, referral) async {
+    Share.share('Hey!. If you’re looking for a new job, You should give it a shot :'
+        ' https://play.google.com/store/apps/details?id=com.getifyjobs.candidate'
+        'I’ve had great success with it. Here’s my referral id : $referral'
+    );
     // if (result.status == ShareResultStatus.success) {
     //   print('Thank you for sharing my website!');
     // }
@@ -223,7 +226,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                     isRefferal: false,
                     RefferEarn: 'Refer & Earn 12 Coins',
                     refferalCode: data?.data?.refferalCode ?? "", refferalOnTap: () {
-                      _onShare(context);
+                      _onShare(context,data?.data?.refferalCode ?? "");
                     }),
                 referralCount(context, totalReferal: "${data?.data?.totalReferral ?? ""}", pending: '2'),
                 Padding(

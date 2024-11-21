@@ -440,9 +440,9 @@ class _Employeement_History_PageState
                                                         DateTime startDate = DateFormat("dd/MM/yyyy").parse(_StartDate.text);
                                                         DateTime endDate = DateFormat("dd/MM/yyyy").parse(value);
                                                         if (endDate.isBefore(startDate)) {
-                                                          return 'End date cannot be before\nstart date';
+                                                          return 'End date cannot be before start date';
                                                         } else if (endDate.isAtSameMomentAs(startDate)) {
-                                                         return 'End date cannot be the same as\nstart date';
+                                                         return 'End date cannot be the same as start date';
                                                         }
                                                       }
                                                       return null;
