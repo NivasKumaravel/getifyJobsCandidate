@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:getifyjobs/Models/ApplyCampusJobModel.dart';
 import 'package:getifyjobs/Models/DirectJobListModel.dart';
+import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Job_Detail_Screens/Job_Details_Page.dart';
 import 'package:getifyjobs/Src/utilits/ApiService.dart';
 import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
 import 'package:getifyjobs/Src/utilits/Generic.dart';
@@ -110,38 +111,54 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
       physics: const NeverScrollableScrollPhysics(),
       itemCount: bookMarkListData?.items?.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
-        return DirectList(context,
-            isApplied: false,
-            jobName: bookMarkListData?.items?[index].jobTitle ?? "",
-            companyName: bookMarkListData?.items?[index].companyName ?? "",
-            location: bookMarkListData?.items?[index].location ?? "",
-            companyLogo: bookMarkListData?.items?[index].logo ?? "",
-            YOP: bookMarkListData?.items?[index].experience ?? "",
-            ExpSalary: '₹ ${bookMarkListData?.items?[index].salaryFrom ?? ""} - ${bookMarkListData?.items?[index].salaryTo ?? ""} Per Annum',
-            postedDate: "Posted: ${bookMarkListData?.items?[index].createdDate ?? ""}",
-            collegeName: '',
-            appliedDate: '',
-            collegeLoctaion: '',
-            collegeLogo: '',
-            isCampus: false,
-            currentIndex: index,
-            bookmarkClick: (value) {
-              var dict = jobLists[value];
+        return InkWell(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Job_Details(
+                    jobId: bookMarkListData?.items?[index].jobId ?? "",
+                    TagActive: '',
+                    recruiterId: bookMarkListData?.items?[index].recruiterId ?? "",
+                    isApplied: bookMarkListData?.items?[index].already_applied ?? false,
+                    isInbox: bookMarkListData?.items?[index].bookmark ?? false,
+                    isSavedNeeded: true),
+              ),
+            );
+          },
+          child: DirectList(context,
+              isApplied: false,
+              jobName: bookMarkListData?.items?[index].jobTitle ?? "",
+              companyName: bookMarkListData?.items?[index].companyName ?? "",
+              location: bookMarkListData?.items?[index].location ?? "",
+              companyLogo: bookMarkListData?.items?[index].logo ?? "",
+              YOP: bookMarkListData?.items?[index].experience ?? "",
+              ExpSalary: '₹ ${bookMarkListData?.items?[index].salaryFrom ?? ""} - ${bookMarkListData?.items?[index].salaryTo ?? ""} Per Annum',
+              postedDate: "Posted: ${bookMarkListData?.items?[index].createdDate ?? ""}",
+              collegeName: '',
+              appliedDate: '',
+              collegeLoctaion: '',
+              collegeLogo: '',
+              isCampus: false,
+              currentIndex: index,
+              bookmarkClick: (value) {
+                var dict = jobLists[value];
 
-              dict.bookmark =
-              dict.bookmark == true ? false : true;
+                dict.bookmark =
+                dict.bookmark == true ? false : true;
 
-              setState(() {
-                jobLists.removeAt(value);
-                jobLists.insert(value, dict);
-              });
+                setState(() {
+                  jobLists.removeAt(value);
+                  jobLists.insert(value, dict);
+                });
 
-              bookMarkApiResponse(jobLists[value].jobId ?? '',
-                  jobLists[index].recruiterId ?? '');
-            },
-            isStudent: true,
-            bookmark: bookMarkListData?.items?[index].bookmark ?? false,
-            campusTag: '');
+                bookMarkApiResponse(jobLists[value].jobId ?? '',
+                    jobLists[index].recruiterId ?? '');
+              },
+              isStudent: true,
+              bookmark: bookMarkListData?.items?[index].bookmark ?? false,
+              campusTag: ''),
+        );
       },
     );
   }
