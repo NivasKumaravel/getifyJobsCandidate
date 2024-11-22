@@ -8,6 +8,7 @@ import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Create_Account_Screens/C
 import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Create_Account_Screens/Forgot_Mobile_Number.dart';
 import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Create_Account_Screens/Otp_Screen.dart';
 import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Create_Account_Screens/Otp_Verification_Page.dart';
+import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Create_Account_Screens/UpdateMobile_Otp_Verification_Page.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Bottom_Navigation_Bar.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_Button.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Custom_App_Bar.dart';
@@ -21,7 +22,8 @@ import 'package:getifyjobs/Src/utilits/Text_Style.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Forget_Mobile_Screen extends ConsumerStatefulWidget {
-  const Forget_Mobile_Screen({super.key});
+  final bool isChangeMobileNo;
+  const Forget_Mobile_Screen({super.key,required this.isChangeMobileNo});
 
   @override
   ConsumerState<Forget_Mobile_Screen> createState() => _Login_PageState();
@@ -182,18 +184,25 @@ class _Login_PageState extends ConsumerState<Forget_Mobile_Screen> {
  Mobile_Response() async{
     final mobileApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
+      "candidate_id":await getcandidateId(),
       "phone":_mobileController.text,
     });
     final mobileApiRepsonse = await mobileApiService.post<ForgotMobileNumber>(context,
-        ConstantApi.forgotMobileUrl, formData);
+       widget.isChangeMobileNo == true?ConstantApi.changeMobileNoUrl:ConstantApi.forgotMobileUrl, formData);
     if(mobileApiRepsonse?.status == true){
       CandidateId(mobileApiRepsonse.data?.candidateId ?? "");
       ShowToastMessage(mobileApiRepsonse.message ?? "");
-      Navigator.push(
+      widget.isChangeMobileNo != true?  Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => Otp_Verification_Page(
-                  isForget: true, mobileNumber: _mobileNumber)));
+                  isForget: true, mobileNumber: _mobileNumber,))):
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => UpdateMobile_Otp_Verification_Page(
+                   mobileNumber: _mobileNumber,)));
+
     }else{
       ShowToastMessage(mobileApiRepsonse.message ?? "");
     }

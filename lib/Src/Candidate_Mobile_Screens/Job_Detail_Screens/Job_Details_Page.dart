@@ -505,9 +505,9 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                               ? white1
                           : TagActive == "Rejected"
                                ? white1
-                              : TagActive == "Candidate Reschedule"
+                              : TagActive == "Candidate Rescheduled"
                                   ? yellow2
-                                  : TagActive == 'Recruiter Reschedule'
+                                  : TagActive == 'Recruiter Rescheduled'
                                       ? yellow2
                       : TagActive == 'Interview Rescheduled'
                       ? yellow2
@@ -524,12 +524,12 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                               ? "Schedule Accepted"
                               : TagActive == "Schedule Rejected"
                                   ? "Schedule Rejected"
-                                  : TagActive == "Candidate Reschedule"
+                                  : TagActive == "Candidate Rescheduled"
                                       ? "Reschedule Requested"
-                                      : TagActive == 'Recruiter Reschedule'
-                                          ? "Recruiter Reschedule"
+                                      : TagActive == 'Recruiter Rescheduled'
+                                          ? "Recruiter Rescheduled"
                           : TagActive == 'Interview Rescheduled'
-                          ? "Recruiter Reschedule"
+                          ? "Recruiter Rescheduled"
                                           : TagActive == 'Not Shortlisted'
                                               ? "Not Shortlisted"
                                               : TagActive ==
@@ -558,9 +558,9 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                               ? grey4
                                   : TagActive == "Schedule Requested"
                                       ? yellow1
-                                      : TagActive == "Candidate Reschedule"
+                                      : TagActive == "Candidate Rescheduled"
                                           ? yellow1
-                                          : TagActive == 'Recruiter Reschedule'
+                                          : TagActive == 'Recruiter Rescheduled'
                                               ? yellow1
                               : TagActive == 'Interview Rescheduled'
                               ? yellow1
@@ -598,10 +598,10 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                       ? "Are you okay with the date & time?"
                                       : TagActive == "Schedule Rejected"
                                           ? "Schedule Rejected the Interview"
-                                          : TagActive == "Candidate Reschedule"
+                                          : TagActive == "Candidate Rescheduled"
                                               ? "You were Shortlisted for the Interview on"
                                               : TagActive ==
-                                                      "Recruiter Reschedule"
+                                                      "Recruiter Rescheduled"
                                                   ? "You were Shortlisted for the Interview on":
                               TagActive ==
                                   "Interview Rescheduled"
@@ -625,10 +625,10 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                       ? "${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}"
                                       : TagActive == "You Rejected"
                                           ? "9.00 AM, 02 Oct 2023"
-                                          : TagActive == "Candidate Reschedule"
+                                          : TagActive == "Candidate Rescheduled"
                                               ? "${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}"
                                               : TagActive ==
-                                                      "Recruiter Reschedule"
+                                                      "Recruiter Rescheduled"
                                                   ? "${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}"
                                   : TagActive ==
                                   "Interview Rescheduled"
@@ -700,7 +700,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                 : Container(),
                           )
                         : Container(),
-                    TagActive == "Candidate Reschedule"
+                    TagActive == "Candidate Rescheduled"
                         ? Column(
                             children: [
                               SizedBox(
@@ -717,7 +717,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                               ),
                             ],
                           )
-                        : TagActive == "Recruiter Reschedule"
+                        : TagActive == "Recruiter Rescheduled"
                             ? Column(
                                 children: [
                                   SizedBox(
@@ -731,17 +731,17 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                           ? attachT1
                                           : attacht1),
                                   Text(
-                                      TagActive == "Candidate Reschedule"
+                                      TagActive == "Candidate Rescheduled"
                                           ? " 9.00 AM, 12 Oct 2023"
                                           : "${jobDetailsData?.candidateReschedule?.interviewTime ?? ""}, ${jobDetailsData?.candidateReschedule?.interviewDate ?? ""}",
-                                      style: TagActive == "Candidate Reschedule"
+                                      style: TagActive == "Candidate Rescheduled"
                                           ? TBlack
                                           : Homewhite),
                                 ],
                               )
                             : Container(),
                     TagActive == "Recruiter Reschedule"
-                        ? _Recruiter_Reschedule_Buttons("Recruiter Reschedule"):TagActive == "Interview Rescheduled"? _Recruiter_Reschedule_Buttons("Interview Rescheduled")
+                        ? _Recruiter_Reschedule_Buttons("Recruiter Rescheduled"):TagActive == "Interview Rescheduled"? _Recruiter_Reschedule_Buttons("Interview Rescheduled")
                         : Container(),
                     TagActive == "Selected"
                         ? _OfferLetterSection()
@@ -1051,7 +1051,6 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
     return AlertDialog(
       surfaceTintColor: white1,
       content:Container(
-        color: white1,
         width: 350,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1059,7 +1058,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //DATE PICKER
-            Text("Please select the reschedule date & time for the Interview",style: Wbalck1,textAlign: TextAlign.center,),
+            Text("Please select the reschedule date & time for the Interview",style: Wbalck6,textAlign: TextAlign.center,),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               readOnly: true,
@@ -1221,6 +1220,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
     final scheduleAcceptedApiResponse = await scheduleAcceptedApiService.post<CandidateUpdateModel>
       (context, ConstantApi.rescheduleInterview, formData);
     if(scheduleAcceptedApiResponse?.status == true){
+      ShowToastMessage(scheduleAcceptedApiResponse?.message ?? "");
       print("RESCHEDULE SUCCESS");
       setState(() {
         isRescheduled = true;
@@ -1228,6 +1228,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
       Navigator.pop(context);
     }else{
       print("RESCHEDULE ERROR");
+      ShowToastMessage(scheduleAcceptedApiResponse?.message ?? "");
     }
   }
   //OFFERFEEDBACK
@@ -1293,7 +1294,7 @@ Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Are you sure want to ${typeT} the ${scheduleT} date and time',style: Wbalck1,textAlign: TextAlign.center,maxLines: 3,),
+          Text('Are you sure want to ${typeT} the ${scheduleT} date and time',style: Wbalck2,textAlign: TextAlign.center,maxLines: 3,),
           SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

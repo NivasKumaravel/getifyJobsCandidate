@@ -55,6 +55,7 @@ class DirectJobItems {
   String? jobTitle;
   String? location;
   String? experience;
+  String? years_of_experience;
   String? salaryFrom;
   String? salaryTo;
   String? recruiterId;
@@ -70,6 +71,7 @@ class DirectJobItems {
       this.jobTitle,
       this.location,
       this.experience,
+      this.years_of_experience,
       this.salaryFrom,
       this.salaryTo,
       this.recruiterId,
@@ -85,6 +87,7 @@ class DirectJobItems {
     jobTitle = json['job_title'];
     location = json['location'];
     experience = json['experience'];
+    years_of_experience = json['years_of_experience'];
     salaryFrom = json['salary_from'];
     salaryTo = json['salary_to'];
     recruiterId = json['recruiter_id'];
@@ -102,6 +105,7 @@ class DirectJobItems {
     data['job_title'] = this.jobTitle;
     data['location'] = this.location;
     data['experience'] = this.experience;
+    data['years_of_experience'] = this.years_of_experience;
     data['salary_from'] = this.salaryFrom;
     data['salary_to'] = this.salaryTo;
     data['recruiter_id'] = this.recruiterId;

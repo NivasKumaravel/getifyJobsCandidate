@@ -181,7 +181,7 @@ class _Login_PageState extends ConsumerState<Login_Page> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Forget_Mobile_Screen()));
+                              builder: (context) => Forget_Mobile_Screen(isChangeMobileNo: false,)));
                     },
                     child: Text(
                       "Forgot Password",

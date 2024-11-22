@@ -56,6 +56,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     final profileResponseData = ref.watch(profileApiProvider);
@@ -154,7 +155,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Forget_Mobile_Screen())).then((value) {
+                              builder: (context) => Forget_Mobile_Screen(isChangeMobileNo: true,))).then((value) {
                         if (value == "true")
                         {
                           ref.refresh(profileApiProvider);
@@ -176,6 +177,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
       body:
       profileResponseData?.when(data: (data){
         CandidateProfileResponseData = data?.data;
+        PercentageFinalVal(data?.data?.profilePercentage ?? 0);
         return     Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: SingleChildScrollView(
@@ -214,7 +216,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                     ContactLogo: 'briefcaseactive.svg',
                     Details: data?.data?.careerStatus ?? ""),
 
-                if (finalpercentage != null)
+                // if (finalpercentage != null)
                   ProfileScreen(PercentageVal:   finalpercentage !,),
                 _detailInfo(data?.data),
                 data?.data?.nationality == null?Container():_PassportDetails(data?.data),

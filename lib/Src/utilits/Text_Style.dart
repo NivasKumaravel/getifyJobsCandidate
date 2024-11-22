@@ -46,9 +46,9 @@ TextStyle ButtonT = TextStyle(
     fontWeight: FontWeight.w700);
 TextStyle popT = TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: 14,
     color: white1,
-    fontWeight: FontWeight.w700);
+    fontWeight: FontWeight.w600);
 TextStyle Textfield_Style = TextStyle(
     fontFamily: 'Inter',
     fontSize: 14,
@@ -833,9 +833,14 @@ TextStyle Wbalck1 = TextStyle(
     fontWeight: FontWeight.w400);
 TextStyle Wbalck2 = TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: 16,
     color: Color.fromRGBO(0, 0, 0, 1),
     fontWeight: FontWeight.w500);
+TextStyle Wbalck6 = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 18,
+    color: Color.fromRGBO(0, 0, 0, 1),
+    fontWeight: FontWeight.w400);
 TextStyle recbalck = TextStyle(
     fontFamily: 'Inter',
     fontSize: 24,
