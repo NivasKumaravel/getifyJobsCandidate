@@ -31,13 +31,13 @@ TextStyle getStatusTextStyle(String status) {
           fontSize: 14,
           color: Color.fromRGBO(0, 160, 226, 1),
           fontWeight: FontWeight.w500);
-    case "Recruiter Reschedule":
+    case "Recruiter Rescheduled":
       return TextStyle(
           fontFamily: 'Inter',
           fontSize: 14,
           color: Color.fromRGBO(245, 245, 245, 1),
           fontWeight: FontWeight.w500);
-    case "Candidate Reschedule":
+    case "Candidate Rescheduled":
       return TextStyle(
           fontFamily: 'Inter',
           fontSize: 14,
@@ -90,8 +90,8 @@ String getStatusText(String status) {
       return "Selected";
     case "Not Attended":
       return "Not Attended";
-    case "Recruiter Reschedule":
-      return "Recruiter Reschedule";
+    case "Recruiter Rescheduled":
+      return "Recruiter Rescheduled";
     case "Schedule Accepted":
       return "Schedule Accepted";
     case "Wait List":
@@ -320,13 +320,13 @@ Widget Candidate_MyApplies_List(context,
     case "Applied":
       containerColor = blue2;
       break;
-    case "Recruiter Reschedule":
+    case "Recruiter Rescheduled":
       containerColor = grey4;
       break;
-    case "Candidate Reschedule":
+    case "Candidate Rescheduled":
       containerColor = grey4;
       break;
-    case "Interview Reschedule":
+    case "Interview Rescheduled":
       containerColor = grey4;
       break;
     case "Not Attended":
@@ -371,19 +371,19 @@ Widget Candidate_MyApplies_List(context,
             fontSize: 14,
             color: Color.fromRGBO(0, 160, 226, 1),
             fontWeight: FontWeight.w500);
-      case "Recruiter Reschedule":
+      case "Recruiter Rescheduled":
         return TextStyle(
             fontFamily: 'Inter',
             fontSize: 14,
             color: Color.fromRGBO(245, 245, 245, 1),
             fontWeight: FontWeight.w500);
-      case "Candidate Reschedule":
+      case "Candidate Rescheduled":
         return TextStyle(
             fontFamily: 'Inter',
             fontSize: 14,
             color: Color.fromRGBO(245, 245, 245, 1),
             fontWeight: FontWeight.w500);
-      case "Interview Reschedule":
+      case "Interview Rescheduled":
         return TextStyle(
             fontFamily: 'Inter',
             fontSize: 14,
@@ -1330,10 +1330,10 @@ Widget Inbox_List(context,{
     case "Applied":
       containerColor = blue2;
       break;
-    case "Recruiter Reschedule":
+    case "Recruiter Rescheduled":
       containerColor = grey4;
       break;
-    case "Candidate Reschedule":
+    case "Candidate Rescheduled":
       containerColor = grey4;
       break;
     case "Interview Rescheduled":
@@ -1401,9 +1401,14 @@ Widget Inbox_List(context,{
                   SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    Location,
-                    style: Homegrey2,
+                  Container(
+                    width: MediaQuery.sizeOf(context).width/2,
+                    child: Text(
+                      Location,
+                      style: Homegrey2,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),

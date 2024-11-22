@@ -547,7 +547,7 @@ class _Candidate_Create_AccountState
                                                        isForget: false,
                                                        mobileNumber:
                                                        _EnterOfficialMobile
-                                                           .text)));
+                                                           .text,)));
                                      } else {
                                        ShowToastMessage(
                                            recruiterResponse.message ?? "");

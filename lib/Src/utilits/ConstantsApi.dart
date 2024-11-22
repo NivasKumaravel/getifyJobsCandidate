@@ -44,6 +44,8 @@ class ConstantApi {
   static String directEnrolledJobUrl =
       SERVER_ONE + "candidate/direct_enrolled_job";
   static String forgotMobileUrl = SERVER_ONE + "candidate/forgot_password";
+  static String changeMobileNoUrl = SERVER_ONE + "candidate/change_mobile";
+  static String updateMobileUrl = SERVER_ONE + "candidate/update_mobile";
   static String forgotOtpUrl = SERVER_ONE + "candidate/forgot_otp_verification";
   static String resetPassowrdUrl = SERVER_ONE + "candidate/reset_password";
   static String bookMarkListUrl = SERVER_ONE + "candidate/bookmark_job_list";
