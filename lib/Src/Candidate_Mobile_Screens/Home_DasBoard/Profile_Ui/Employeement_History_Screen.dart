@@ -22,8 +22,15 @@ class EmpDetail {
   final String Description;
   final int CurrentCompany;
 
-  EmpDetail(this.JobRole, this.CompanyName, this.StartDate, this.EndDate,
-      this.NoticePeriod, this.EmployementType,this.Description,this.CurrentCompany);
+  EmpDetail(
+      this.JobRole,
+      this.CompanyName,
+      this.StartDate,
+      this.EndDate,
+      this.NoticePeriod,
+      this.EmployementType,
+      this.Description,
+      this.CurrentCompany);
 }
 
 class EducationDetail {
@@ -62,7 +69,8 @@ class Employeement_History_Page extends ConsumerStatefulWidget {
       {super.key,
       required this.initialDetail,
       required this.isType,
-      required this.educationHistory,required this.isEdit});
+      required this.educationHistory,
+      required this.isEdit});
 
   @override
   ConsumerState<Employeement_History_Page> createState() =>
@@ -167,7 +175,7 @@ class _Employeement_History_PageState
     _JobRole.addListener(_JobroleFormat);
     _CompanyName.addListener(_CompanyFormat);
     _Description.addListener(_jobprofileformat);
-    widget.isEdit == true?EditResponse():null;
+    widget.isEdit == true ? EditResponse() : null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       apiCall();
     });
@@ -180,7 +188,7 @@ class _Employeement_History_PageState
     SingleTon().isLoading = true;
   }
 
-  EditResponse() async{
+  EditResponse() async {
     if (widget.isType == true) {
       if (widget.initialDetail != null) {
         _JobRole.text = widget.initialDetail.JobRole;
@@ -189,8 +197,18 @@ class _Employeement_History_PageState
         _EndDate.text = widget.initialDetail.EndDate;
         _NoticePeriod.text = widget.initialDetail.NoticePeriod;
         _Description.text = widget.initialDetail.Description;
-        _value = widget.initialDetail.CurrentCompany == 0?0:widget.initialDetail.CurrentCompany == 1?1:null;
-        typeVal = widget.initialDetail.EmployementType == 'Full Time'?0:widget.initialDetail.EmployementType == 'Part Time'?1:widget.initialDetail.EmployementType == 'Intern'?2:null;
+        _value = widget.initialDetail.CurrentCompany == 0
+            ? 0
+            : widget.initialDetail.CurrentCompany == 1
+                ? 1
+                : null;
+        typeVal = widget.initialDetail.EmployementType == 'Full Time'
+            ? 0
+            : widget.initialDetail.EmployementType == 'Part Time'
+                ? 1
+                : widget.initialDetail.EmployementType == 'Intern'
+                    ? 2
+                    : null;
       }
     } else {
       if (widget.educationHistory != null) {
@@ -224,7 +242,7 @@ class _Employeement_History_PageState
   Future<void> SetSpecializrion() async {
     try {
       final apiService =
-      ApiService(ref.read(dioProvider)); // Access ApiService using Riverpod
+          ApiService(ref.read(dioProvider)); // Access ApiService using Riverpod
 
       // Make an API call using the post method
       // final response = await apiService.post<Collage_Profile>(
@@ -268,8 +286,6 @@ class _Employeement_History_PageState
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -296,12 +312,12 @@ class _Employeement_History_PageState
                       margin: EdgeInsets.only(bottom: 15),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25), color: white1),
+                          borderRadius: BorderRadius.circular(25),
+                          color: white1),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Column(
                           children: [
-
                             //JOB ROLE
                             Title_Style(Title: 'Job Role', isStatus: true),
                             textFormField(
@@ -320,7 +336,6 @@ class _Employeement_History_PageState
                                   return null;
                                 },
                                 onChanged: null),
-
 
                             //Company Name
                             Title_Style(Title: 'Company Name', isStatus: true),
@@ -368,147 +383,188 @@ class _Employeement_History_PageState
                                 isStatus: true),
                             _RadioButton(),
                             //START DATE AND END DATE
-                            _value == null?Container():    Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Title_Style(
-                                            Title: 'Start Date', isStatus: true),
-                                        TextFieldDatePicker(
-                                            Controller: _StartDate,
-                                            onChanged: null,
-                                            validating: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please select Start Date ';
-                                              } else {
-                                                return null;
-                                              }
-                                            },
-                                            onTap: () async {
-                                              FocusScope.of(context).unfocus();
-                                              DateTime? pickdate =
-                                                  await showDatePicker(
-                                                      context: context,
-                                                      initialDate: DateTime.now(),
-                                                      firstDate: DateTime(1950),
-                                                      lastDate: DateTime.now());
-                                              if (pickdate != null) {
-                                                String formatdate =
-                                                    DateFormat("dd/MM/yyyy")
-                                                        .format(pickdate!);
-                                                if (mounted) {
-                                                  setState(() {
-                                                    _StartDate.text = formatdate;
-                                                    print(_StartDate.text);
-                                                  });
-                                                }
-                                              }
-                                            },
-                                            hintText: 'dd/MM/yyyy', isDownArrow: true),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                    child: isCurrentCompany == false
-                                        ? Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Title_Style(
-                                                    Title: 'End Date',
-                                                    isStatus: true),
-                                                TextFieldDatePicker(
-                                                    Controller: _EndDate,
-                                                    onChanged: null,
-                                                    validating: (value) {
-                                                      if (value!.isEmpty) {
-                                                        return 'Please select End Date';
-                                                      } else if (_StartDate.text.isEmpty) {
-                                                        return 'Please select Start Date first';
-                                                      } else {
-                                                        DateTime startDate = DateFormat("dd/MM/yyyy").parse(_StartDate.text);
-                                                        DateTime endDate = DateFormat("dd/MM/yyyy").parse(value);
-                                                        if (endDate.isBefore(startDate)) {
-                                                          return 'End date cannot be before start date';
-                                                        } else if (endDate.isAtSameMomentAs(startDate)) {
-                                                         return 'End date cannot be the same as start date';
-                                                        }
-                                                      }
-                                                      return null;
-                                                    },
-                                                    onTap: () async {
-                                                      FocusScope.of(context)
-                                                          .unfocus();
-                                                      DateTime? pickdate =
-                                                          await showDatePicker(
-                                                              context: context,
-                                                              initialDate:
-                                                                  DateTime.now(),
-                                                              firstDate:
-                                                                  DateTime(1950),
-                                                              lastDate:
-                                                                  DateTime.now());
-                                                      if (pickdate != null) {
-                                                        String formatdate =
-                                                            DateFormat(
-                                                                    "dd/MM/yyyy")
-                                                                .format(
-                                                                    pickdate!);
-                                                        if (mounted) {
-                                                          setState(() {
-                                                            _EndDate.text =
-                                                                formatdate;
-                                                            print(_EndDate.text);
-                                                          });
-                                                        }
-                                                      }
-                                                    },
-                                                    hintText: 'dd/MM/yyyy', isDownArrow: true),
-                                              ],
-                                            ),
-                                          )
-                                        : Container(
-                                            child: Column(
-                                              children: [
-                                                //Notice Period
-                                                Title_Style(
-                                                    Title:
-                                                        'Notice Period in days',
-                                                    isStatus: true),
-                                                textFormField(
-                                                  hintText: 'Notice Period',
-                                                  keyboardtype:
-                                                      TextInputType.number,
-                                                  inputFormatters: null,
-                                                  Controller: _NoticePeriod,
-                                                  validating: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return "Please Enter Valid days";
-                                                    }
-                                                    if (value == null) {
-                                                      return "Please Enter Valid days";
-                                                    }
-                                                    return null;
-                                                  },
+                            _value == null
+                                ? Container()
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Title_Style(
+                                                  Title: 'Start Date',
+                                                  isStatus: true),
+                                              TextFieldDatePicker(
+                                                  Controller: _StartDate,
                                                   onChanged: null,
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                              ],
-                            ),
+                                                  validating: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Please select Start Date ';
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  onTap: () async {
+                                                    FocusScope.of(context)
+                                                        .unfocus();
+                                                    DateTime? pickdate =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime(1950),
+                                                            lastDate:
+                                                                DateTime.now());
+                                                    if (pickdate != null) {
+                                                      String formatdate =
+                                                          DateFormat(
+                                                                  "dd/MM/yyyy")
+                                                              .format(
+                                                                  pickdate!);
+                                                      if (mounted) {
+                                                        setState(() {
+                                                          _StartDate.text =
+                                                              formatdate;
+                                                          print(
+                                                              _StartDate.text);
+                                                        });
+                                                      }
+                                                    }
+                                                  },
+                                                  hintText: 'dd/MM/yyyy',
+                                                  isDownArrow: true),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                          child: isCurrentCompany == false
+                                              ? Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Title_Style(
+                                                          Title: 'End Date',
+                                                          isStatus: true),
+                                                      TextFieldDatePicker(
+                                                          Controller: _EndDate,
+                                                          onChanged: null,
+                                                          validating: (value) {
+                                                            if (value!
+                                                                .isEmpty) {
+                                                              return 'Please select End Date';
+                                                            } else if (_StartDate
+                                                                .text.isEmpty) {
+                                                              return 'Please select Start Date first';
+                                                            } else {
+                                                              DateTime
+                                                                  startDate =
+                                                                  DateFormat(
+                                                                          "dd/MM/yyyy")
+                                                                      .parse(_StartDate
+                                                                          .text);
+                                                              DateTime endDate =
+                                                                  DateFormat(
+                                                                          "dd/MM/yyyy")
+                                                                      .parse(
+                                                                          value);
+                                                              if (endDate.isBefore(
+                                                                  startDate)) {
+                                                                return 'End date cannot be before start date';
+                                                              } else if (endDate
+                                                                  .isAtSameMomentAs(
+                                                                      startDate)) {
+                                                                return 'End date cannot be the same as start date';
+                                                              }
+                                                            }
+                                                            return null;
+                                                          },
+                                                          onTap: () async {
+                                                            FocusScope.of(
+                                                                    context)
+                                                                .unfocus();
+                                                            DateTime? pickdate =
+                                                                await showDatePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialDate:
+                                                                        DateTime
+                                                                            .now(),
+                                                                    firstDate:
+                                                                        DateTime(
+                                                                            1950),
+                                                                    lastDate:
+                                                                        DateTime
+                                                                            .now());
+                                                            if (pickdate !=
+                                                                null) {
+                                                              String
+                                                                  formatdate =
+                                                                  DateFormat(
+                                                                          "dd/MM/yyyy")
+                                                                      .format(
+                                                                          pickdate!);
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  _EndDate.text =
+                                                                      formatdate;
+                                                                  print(_EndDate
+                                                                      .text);
+                                                                });
+                                                              }
+                                                            }
+                                                          },
+                                                          hintText:
+                                                              'dd/MM/yyyy',
+                                                          isDownArrow: true),
+                                                    ],
+                                                  ),
+                                                )
+                                              : Container(
+                                                  child: Column(
+                                                    children: [
+                                                      //Notice Period
+                                                      Title_Style(
+                                                          Title:
+                                                              'Notice Period in days',
+                                                          isStatus: true),
+                                                      textFormField(
+                                                        hintText:
+                                                            'Notice Period',
+                                                        keyboardtype:
+                                                            TextInputType
+                                                                .number,
+                                                        inputFormatters: null,
+                                                        Controller:
+                                                            _NoticePeriod,
+                                                        validating: (value) {
+                                                          if (value == null ||
+                                                              value.isEmpty) {
+                                                            return "Please Enter Valid days";
+                                                          }
+                                                          if (value == null) {
+                                                            return "Please Enter Valid days";
+                                                          }
+                                                          return null;
+                                                        },
+                                                        onChanged: null,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
+                                    ],
+                                  ),
 
                             // //Notice Period
                             // Title_Style(Title: 'Notice Period', isStatus: false),
@@ -530,18 +586,20 @@ class _Employeement_History_PageState
                             // ),
 
                             //DESCRIPTION
-                            Title_Style(Title: 'Enter Your Job Profile', isStatus: true),
+                            Title_Style(
+                                Title: 'Enter Your Job Profile',
+                                isStatus: true),
                             textfieldDescription(
                               Controller: _Description,
                               validating: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Please Write ${'Job Profile'}";
-                                }
-                                else if (value == null) {
+                                } else if (value == null) {
                                   return "Please Write ${'Job Profile'}";
                                 }
                                 return null;
-                              }, hintText: 'About Job Profile',
+                              },
+                              hintText: 'About Job Profile',
                             ),
 
                             SizedBox(
@@ -555,12 +613,12 @@ class _Employeement_History_PageState
                       margin: EdgeInsets.only(bottom: 15),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25), color: white1),
+                          borderRadius: BorderRadius.circular(25),
+                          color: white1),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Column(
                           children: [
-
                             //Institute
                             Title_Style(
                                 Title: 'Name of  University / Institute',
@@ -605,8 +663,9 @@ class _Employeement_History_PageState
                                 focus3.unfocus();
 
                                 setState(() {
-                                  DropDownData result = qualificationVal
-                                      .firstWhere((value) => value.qualification == x.searchKey);
+                                  DropDownData result =
+                                      qualificationVal.firstWhere((value) =>
+                                          value.qualification == x.searchKey);
 
                                   // Print the result
                                   print(result.id);
@@ -632,9 +691,9 @@ class _Employeement_History_PageState
                               },
                             ),
 
-
                             //Specialization
-                            Title_Style(Title: 'Specialization', isStatus: true),
+                            Title_Style(
+                                Title: 'Specialization', isStatus: true),
                             tagSearchField(
                               hintText: "Specialization",
                               focus: null,
@@ -647,6 +706,9 @@ class _Employeement_History_PageState
                                   specializationOption = p0;
                                 });
                               },
+                              error: (specializationOption?.length ?? 0) == 0
+                                  ? "Please select at least one specialization"
+                                  : null,
                             ),
 
                             // textFormField(
@@ -666,7 +728,8 @@ class _Employeement_History_PageState
                             //   onChanged: null,
                             // ),
                             //Education Type
-                            Title_Style(Title: 'Education Type', isStatus: true),
+                            Title_Style(
+                                Title: 'Education Type', isStatus: true),
                             dropDownField(
                               context,
                               value: selectedOption,
@@ -683,6 +746,9 @@ class _Employeement_History_PageState
                               //   }
                               //   return null;
                               // },
+                              error: selectedOption == null
+                                  ? "Please Select Your Education Type'"
+                                  : null,
                             ),
                             //PERCENTAGE/CGPA
                             Title_Style(
@@ -714,9 +780,11 @@ class _Employeement_History_PageState
                                 Expanded(
                                   child: Container(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        _durationText(title: 'Starting Year & Month'),
+                                        _durationText(
+                                            title: 'Starting Year & Month'),
                                         TextFieldDatePicker(
                                           Controller: _StartD,
                                           onChanged: null,
@@ -728,14 +796,17 @@ class _Employeement_History_PageState
                                           },
                                           onTap: () async {
                                             FocusScope.of(context).unfocus();
-                                            DateTime? pickdate = await showDatePicker(
+                                            DateTime? pickdate =
+                                                await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1950),
                                               lastDate: DateTime.now(),
                                             );
                                             if (pickdate != null) {
-                                              String formatdate = DateFormat("dd/MM/yyyy").format(pickdate);
+                                              String formatdate =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .format(pickdate);
                                               if (mounted) {
                                                 setState(() {
                                                   _StartD.text = formatdate;
@@ -744,7 +815,8 @@ class _Employeement_History_PageState
                                               }
                                             }
                                           },
-                                          hintText: 'dd/MM/yyyy', isDownArrow: true,
+                                          hintText: 'dd/MM/yyyy',
+                                          isDownArrow: true,
                                         ),
                                       ],
                                     ),
@@ -756,9 +828,11 @@ class _Employeement_History_PageState
                                 Expanded(
                                   child: Container(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        _durationText(title: 'Ending Year & Month'),
+                                        _durationText(
+                                            title: 'Ending Year & Month'),
                                         TextFieldDatePicker(
                                           Controller: _EndD,
                                           onChanged: null,
@@ -768,11 +842,17 @@ class _Employeement_History_PageState
                                             } else if (_StartD.text.isEmpty) {
                                               return 'Please select Start Date first';
                                             } else {
-                                              DateTime startDate = DateFormat("dd/MM/yyyy").parse(_StartD.text);
-                                              DateTime endDate = DateFormat("dd/MM/yyyy").parse(value);
+                                              DateTime startDate =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .parse(_StartD.text);
+                                              DateTime endDate =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .parse(value);
                                               if (endDate.isBefore(startDate)) {
                                                 return 'End date cannot be before start date';
-                                              } else if (endDate.isAtSameMomentAs(startDate)) {
+                                              } else if (endDate
+                                                  .isAtSameMomentAs(
+                                                      startDate)) {
                                                 return 'End date cannot be the same as start date';
                                               }
                                             }
@@ -780,14 +860,17 @@ class _Employeement_History_PageState
                                           },
                                           onTap: () async {
                                             FocusScope.of(context).unfocus();
-                                            DateTime? pickdate = await showDatePicker(
+                                            DateTime? pickdate =
+                                                await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1950),
                                               lastDate: DateTime(2050),
                                             );
                                             if (pickdate != null) {
-                                              String formatdate = DateFormat("dd/MM/yyyy").format(pickdate);
+                                              String formatdate =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .format(pickdate);
                                               if (mounted) {
                                                 setState(() {
                                                   _EndD.text = formatdate;
@@ -796,13 +879,13 @@ class _Employeement_History_PageState
                                               }
                                             }
                                           },
-                                          hintText: 'dd/MM/yyyy', isDownArrow: true,
+                                          hintText: 'dd/MM/yyyy',
+                                          isDownArrow: true,
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
 
@@ -821,81 +904,78 @@ class _Employeement_History_PageState
                   "Add",
                   widget.isType == true
                       ? () {
-                    if(_formKey.currentState!.validate()){
-                      if(typeVal == null){
-                        ShowToastMessage(
-                            "Please Select Work Type");
-                      }else if(_value == null){
-                        ShowToastMessage(
-                            "Please Select the Current Company");
-                      }
-                      else{
-                        final editedDetail = EmpDetail(
-                          _JobRole.text,
-                          _CompanyName.text,
-                          _StartDate.text,
-                          _EndDate.text,
-                          _NoticePeriod.text,
-                          typeVal == 0?"Full Time":typeVal == 1?"Part Time":"Intern",
-                          _Description.text,
-                          _value ?? 0,
-
-                        );
-                        Navigator.pop(context, editedDetail);
-                      }
-                    }
-                  }
-                      : () {
-                    print("SPECILIZATION ${ specializationOption ?? []}");
-                    if(_formKey.currentState!.validate()){
-                      List<String> getSpecializationID = [];
-
-                      if ((specializationOption?.length ?? 0) > 0) {
-                        specializationOption!.forEach((user) {
-                          String username = user;
-
-                          DropDownData result = specializationonVal.firstWhere(
-                                  (value) => value.qualification == username,
-                              orElse: () => DropDownData());
-
-                          String userId = result.id ?? "";
-
-                          if (userId != "") {
-                            getSpecializationID.add(userId);
-                          } else {
-                            getSpecializationID.add(username);
+                          if (_formKey.currentState!.validate()) {
+                            if (typeVal == null) {
+                              ShowToastMessage("Please Select Work Type");
+                            } else if (_value == null) {
+                              ShowToastMessage(
+                                  "Please Select the Current Company");
+                            } else {
+                              final editedDetail = EmpDetail(
+                                _JobRole.text,
+                                _CompanyName.text,
+                                _StartDate.text,
+                                _EndDate.text,
+                                _NoticePeriod.text,
+                                typeVal == 0
+                                    ? "Full Time"
+                                    : typeVal == 1
+                                        ? "Part Time"
+                                        : "Intern",
+                                _Description.text,
+                                _value ?? 0,
+                              );
+                              Navigator.pop(context, editedDetail);
+                            }
                           }
-                          print('Username: $username, User ID: $userId');
-                        });
-                      }
-                      if(selectedOption == null){
-                        ShowToastMessage(
-                            "Please Select Education Type");
-                      }else if (specializationOption == []){
-                        ShowToastMessage("Please");
-                      }
+                        }
+                      : () {
+                          print("SPECILIZATION ${specializationOption ?? []}");
+                          if (_formKey.currentState!.validate()) {
+                            List<String> getSpecializationID = [];
 
-                      else if(specializationOption == []){
-                        ShowToastMessage(
-                            "Please Select Specialization");
-                      }
-                      else{
-                        final eduHistoryDetail = EducationDetail(
-                            collegeption ?? "",
-                            collegeption_id ?? "",
-                            qualificationOption ?? "",
-                            qualificationOption_id ?? "",
-                            specializationOption ?? [],
-                            getSpecializationID.join(', '),
-                            selectedOption ?? "",
-                            _CGPA.text,
-                            _StartD.text,
-                            _EndD.text);
-                        Navigator.pop(context, eduHistoryDetail);
-                      }
+                            if ((specializationOption?.length ?? 0) > 0) {
+                              specializationOption!.forEach((user) {
+                                String username = user;
 
-                    }
-                    },
+                                DropDownData result =
+                                    specializationonVal.firstWhere(
+                                        (value) =>
+                                            value.qualification == username,
+                                        orElse: () => DropDownData());
+
+                                String userId = result.id ?? "";
+
+                                if (userId != "") {
+                                  getSpecializationID.add(userId);
+                                } else {
+                                  getSpecializationID.add(username);
+                                }
+                                print('Username: $username, User ID: $userId');
+                              });
+                            }
+                            if (selectedOption == null) {
+                              ShowToastMessage("Please Select Education Type");
+                            } else if (specializationOption == []) {
+                              ShowToastMessage("Please");
+                            } else if (specializationOption == []) {
+                              ShowToastMessage("Please Select Specialization");
+                            } else {
+                              final eduHistoryDetail = EducationDetail(
+                                  collegeption ?? "",
+                                  collegeption_id ?? "",
+                                  qualificationOption ?? "",
+                                  qualificationOption_id ?? "",
+                                  specializationOption ?? [],
+                                  getSpecializationID.join(', '),
+                                  selectedOption ?? "",
+                                  _CGPA.text,
+                                  _StartD.text,
+                                  _EndD.text);
+                              Navigator.pop(context, eduHistoryDetail);
+                            }
+                          }
+                        },
                 ),
               )
             ],

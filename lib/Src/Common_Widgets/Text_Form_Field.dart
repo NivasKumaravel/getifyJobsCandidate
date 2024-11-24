@@ -234,8 +234,8 @@ Widget textFieldPassword2(
 Widget textfieldDescription(
     {TextEditingController? Controller,
     String? Function(String?)? validating,
-      required String? hintText,
-      List<TextInputFormatter>? inputFormatters,
+    required String? hintText,
+    List<TextInputFormatter>? inputFormatters,
     FocusNode? focusNode}) {
   return Container(
     // height: 50,
@@ -402,124 +402,149 @@ Widget tagSearchField(
     // required TextEditingController textEditingController,
     required List<DropDownData> listValue,
     required FocusNode? focus,
+    required String? error,
     required Function(List<String>) onPressed}) {
   _onDelete(index) {
     values.removeAt(index);
     onPressed(values);
   }
 
-  return TagEditor<String>(
-    padding: EdgeInsets.only(left: 8, right: 8),
-    backgroundColor: white2,
-    borderRadius: 10,
-    length: values.length,
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color:
+                error != null ? Colors.red : Colors.grey, // Red border if error
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: TagEditor<String>(
+          padding: EdgeInsets.only(left: 8, right: 8),
+          backgroundColor: white2,
+          borderRadius: 10,
+          length: values.length,
 
-    // controller: textEditingController,
-    focusNode: focus,
-    delimiters: [',', ' '],
-    hasAddButton: false,
-    resetTextOnSubmitted: true,
-    // This is set to grey just to illustrate the `textStyle` prop
-    textStyle: const TextStyle(color: Colors.grey),
-    onSubmitted: (outstandingValue) {
-      if (outstandingValue.isNotEmpty) {
-        values.add(outstandingValue);
-        onPressed(values);
-      } else {
-        focus!.unfocus();
-      }
-    },
-    inputDecoration: InputDecoration(
-      border: InputBorder.none,
-      hintText: hintText,
-      hintStyle: phoneHT,
-    ),
-    onTagChanged: (newValue) {
-      values.add(newValue);
-      onPressed(values);
-    },
-    tagBuilder: (context, index) => Container(
-      color: focusTagEnabled && index == values.length - 1
-          ? Colors.redAccent
-          : Colors.transparent,
-      child: _Chip(
-        index: index,
-        label: values[index],
-        onDeleted: _onDelete,
+          // controller: textEditingController,
+          focusNode: focus,
+          delimiters: [
+            ',',
+          ],
+          hasAddButton: false,
+          resetTextOnSubmitted: true,
+          // This is set to grey just to illustrate the `textStyle` prop
+          textStyle: const TextStyle(color: Colors.grey),
+          onSubmitted: (outstandingValue) {
+            if (outstandingValue.isNotEmpty) {
+              values.add(outstandingValue);
+              onPressed(values);
+            } else {
+              focus!.unfocus();
+            }
+          },
+          inputDecoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+            hintStyle: phoneHT,
+          ),
+          onTagChanged: (newValue) {
+            values.add(newValue);
+            onPressed(values);
+          },
+          tagBuilder: (context, index) => Container(
+            color: focusTagEnabled && index == values.length - 1
+                ? Colors.redAccent
+                : Colors.transparent,
+            child: _Chip(
+              index: index,
+              label: values[index],
+              onDeleted: _onDelete,
+            ),
+          ),
+          // InputFormatters example, this disallow \ and /
+          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))],
+          useDefaultHighlight: false,
+          suggestionBuilder: (context, state, data, index, length, highlight,
+              suggestionValid) {
+            var borderRadius = const BorderRadius.all(Radius.circular(10));
+            if (index == 0) {
+              borderRadius = const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              );
+            } else if (index == length - 1) {
+              borderRadius = const BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              );
+            }
+            return InkWell(
+              onTap: () {
+                values.add(data);
+                print("object");
+                onPressed(values);
+
+                state.resetTextField();
+                state.closeSuggestionBox();
+              },
+              child: Container(
+                  decoration: highlight
+                      ? BoxDecoration(
+                          color: Theme.of(context).focusColor,
+                          borderRadius: borderRadius)
+                      : null,
+                  padding: const EdgeInsets.all(16),
+                  child: RichTextWidget(
+                    wordSearched: suggestionValid ?? '',
+                    textOrigin: data,
+                  )),
+            );
+          },
+          onFocusTagAction: (focused) {
+            focusTagEnabled = focused;
+          },
+          onDeleteTagAction: () {
+            if (values.isNotEmpty) {
+              values.removeLast();
+            }
+          },
+          onSelectOptionAction: (item) {
+            values.add(item);
+            onPressed(values);
+          },
+          suggestionsBoxElevation: 10,
+          suggestionsBoxMaxHeight: 150,
+
+          findSuggestions: (String query) {
+            if (query.isNotEmpty) {
+              var lowercaseQuery = query.toLowerCase();
+
+              final mockResults =
+                  listValue.map((e) => e.qualification ?? "").toList();
+
+              return mockResults.where((profile) {
+                return profile.toLowerCase().contains(query.toLowerCase()) ||
+                    profile.toLowerCase().contains(query.toLowerCase());
+              }).toList(growable: false)
+                ..sort((a, b) => a
+                    .toLowerCase()
+                    .indexOf(lowercaseQuery)
+                    .compareTo(b.toLowerCase().indexOf(lowercaseQuery)));
+            }
+            return [];
+          },
+        ),
       ),
-    ),
-    // InputFormatters example, this disallow \ and /
-    inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))],
-    useDefaultHighlight: false,
-    suggestionBuilder:
-        (context, state, data, index, length, highlight, suggestionValid) {
-      var borderRadius = const BorderRadius.all(Radius.circular(10));
-      if (index == 0) {
-        borderRadius = const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        );
-      } else if (index == length - 1) {
-        borderRadius = const BorderRadius.only(
-          bottomRight: Radius.circular(10),
-          bottomLeft: Radius.circular(10),
-        );
-      }
-      return InkWell(
-        onTap: () {
-          values.add(data);
-          print("object");
-          onPressed(values);
-
-          state.resetTextField();
-          state.closeSuggestionBox();
-        },
-        child: Container(
-            decoration: highlight
-                ? BoxDecoration(
-                    color: Theme.of(context).focusColor,
-                    borderRadius: borderRadius)
-                : null,
-            padding: const EdgeInsets.all(16),
-            child: RichTextWidget(
-              wordSearched: suggestionValid ?? '',
-              textOrigin: data,
-            )),
-      );
-    },
-    onFocusTagAction: (focused) {
-      focusTagEnabled = focused;
-    },
-    onDeleteTagAction: () {
-      if (values.isNotEmpty) {
-        values.removeLast();
-      }
-    },
-    onSelectOptionAction: (item) {
-      values.add(item);
-      onPressed(values);
-    },
-    suggestionsBoxElevation: 10,
-    suggestionsBoxMaxHeight: 150,
-
-    findSuggestions: (String query) {
-      if (query.isNotEmpty) {
-        var lowercaseQuery = query.toLowerCase();
-
-        final mockResults =
-            listValue.map((e) => e.qualification ?? "").toList();
-
-        return mockResults.where((profile) {
-          return profile.toLowerCase().contains(query.toLowerCase()) ||
-              profile.toLowerCase().contains(query.toLowerCase());
-        }).toList(growable: false)
-          ..sort((a, b) => a
-              .toLowerCase()
-              .indexOf(lowercaseQuery)
-              .compareTo(b.toLowerCase().indexOf(lowercaseQuery)));
-      }
-      return [];
-    },
+      if (error != null) // Show error message
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            error,
+            style: TextStyle(color: Colors.red, fontSize: 12),
+          ),
+        ),
+    ],
   );
 }
 
@@ -529,123 +554,146 @@ Widget tagSearchFieldPreferredLoc(
     required List<String> values,
     // required TextEditingController textEditingController,
     required List<DropDownData> listValue,
+    required String? error,
     required Function(List<String>) onPressed}) {
   _onDelete(index) {
     values.removeAt(index);
     onPressed(values);
   }
 
-  return TagEditor<String>(
-    enabled: false,
-    enableFocusAfterEnter: false,
-    focusNode: FocusNode(),
-    padding: EdgeInsets.only(left: 8, right: 8),
-    backgroundColor: white2,
-    borderRadius: 10,
-    length: values.length,
-    // controller: textEditingController,
-    delimiters: [',', ' '],
-    hasAddButton: false,
-    resetTextOnSubmitted: true,
-    // This is set to grey just to illustrate the `textStyle` prop
-    textStyle: const TextStyle(color: Colors.grey),
-    onSubmitted: (outstandingValue) {
-      if (outstandingValue.isNotEmpty) {
-        values.add(outstandingValue);
-        onPressed(values);
-      } else {
-        // focus!.unfocus();
-      }
-    },
-    inputDecoration: InputDecoration(
-      border: InputBorder.none,
-      hintText: hintText,
-    ),
-    onTagChanged: (newValue) {
-      values.add(newValue);
-      onPressed(values);
-    },
-    tagBuilder: (context, index) => Container(
-      color: focusTagEnabled && index == values.length - 1
-          ? Colors.redAccent
-          : Colors.transparent,
-      child: _Chip(
-        index: index,
-        label: values[index],
-        onDeleted: _onDelete,
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color:
+                error != null ? Colors.red : Colors.grey, // Red border if error
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: TagEditor<String>(
+          enabled: false,
+          enableFocusAfterEnter: false,
+          focusNode: FocusNode(),
+          padding: EdgeInsets.only(left: 8, right: 8),
+          backgroundColor: white2,
+          borderRadius: 10,
+          length: values.length,
+          // controller: textEditingController,
+          delimiters: [','],
+          hasAddButton: false,
+          resetTextOnSubmitted: true,
+          // This is set to grey just to illustrate the `textStyle` prop
+          textStyle: const TextStyle(color: Colors.grey),
+          onSubmitted: (outstandingValue) {
+            if (outstandingValue.isNotEmpty) {
+              values.add(outstandingValue);
+              onPressed(values);
+            } else {
+              // focus!.unfocus();
+            }
+          },
+          inputDecoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+          ),
+          onTagChanged: (newValue) {
+            values.add(newValue);
+            onPressed(values);
+          },
+          tagBuilder: (context, index) => Container(
+            color: focusTagEnabled && index == values.length - 1
+                ? Colors.redAccent
+                : Colors.transparent,
+            child: _Chip(
+              index: index,
+              label: values[index],
+              onDeleted: _onDelete,
+            ),
+          ),
+          // InputFormatters example, this disallow \ and /
+          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))],
+          useDefaultHighlight: false,
+          suggestionBuilder: (context, state, data, index, length, highlight,
+              suggestionValid) {
+            var borderRadius = const BorderRadius.all(Radius.circular(20));
+            if (index == 0) {
+              borderRadius = const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              );
+            } else if (index == length - 1) {
+              borderRadius = const BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              );
+            }
+            return InkWell(
+              onTap: () {
+                values.add(data);
+                print("object");
+                onPressed(values);
+
+                state.resetTextField();
+                state.closeSuggestionBox();
+              },
+              child: Container(
+                  decoration: highlight
+                      ? BoxDecoration(
+                          color: Theme.of(context).focusColor,
+                          borderRadius: borderRadius)
+                      : null,
+                  padding: const EdgeInsets.all(10),
+                  child: RichTextWidget(
+                    wordSearched: suggestionValid ?? '',
+                    textOrigin: data,
+                  )),
+            );
+          },
+          onFocusTagAction: (focused) {
+            focusTagEnabled = focused;
+          },
+          onDeleteTagAction: () {
+            if (values.isNotEmpty) {
+              values.removeLast();
+            }
+          },
+          onSelectOptionAction: (item) {
+            values.add(item);
+            onPressed(values);
+          },
+          suggestionsBoxElevation: 10,
+          suggestionsBoxMaxHeight: 150,
+          findSuggestions: (String query) {
+            if (query.isNotEmpty) {
+              var lowercaseQuery = query.toLowerCase();
+
+              final mockResults =
+                  listValue.map((e) => e.qualification ?? "").toList();
+
+              return mockResults.where((profile) {
+                return profile.toLowerCase().contains(query.toLowerCase()) ||
+                    profile.toLowerCase().contains(query.toLowerCase());
+              }).toList(growable: false)
+                ..sort((a, b) => a
+                    .toLowerCase()
+                    .indexOf(lowercaseQuery)
+                    .compareTo(b.toLowerCase().indexOf(lowercaseQuery)));
+            }
+            return [];
+          },
+        ),
       ),
-    ),
-    // InputFormatters example, this disallow \ and /
-    inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))],
-    useDefaultHighlight: false,
-    suggestionBuilder:
-        (context, state, data, index, length, highlight, suggestionValid) {
-      var borderRadius = const BorderRadius.all(Radius.circular(20));
-      if (index == 0) {
-        borderRadius = const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        );
-      } else if (index == length - 1) {
-        borderRadius = const BorderRadius.only(
-          bottomRight: Radius.circular(10),
-          bottomLeft: Radius.circular(10),
-        );
-      }
-      return InkWell(
-        onTap: () {
-          values.add(data);
-          print("object");
-          onPressed(values);
-
-          state.resetTextField();
-          state.closeSuggestionBox();
-        },
-        child: Container(
-            decoration: highlight
-                ? BoxDecoration(
-                    color: Theme.of(context).focusColor,
-                    borderRadius: borderRadius)
-                : null,
-            padding: const EdgeInsets.all(10),
-            child: RichTextWidget(
-              wordSearched: suggestionValid ?? '',
-              textOrigin: data,
-            )),
-      );
-    },
-    onFocusTagAction: (focused) {
-      focusTagEnabled = focused;
-    },
-    onDeleteTagAction: () {
-      if (values.isNotEmpty) {
-        values.removeLast();
-      }
-    },
-    onSelectOptionAction: (item) {
-      values.add(item);
-      onPressed(values);
-    },
-    suggestionsBoxElevation: 10,
-    suggestionsBoxMaxHeight: 150,
-    findSuggestions: (String query) {
-      if (query.isNotEmpty) {
-        var lowercaseQuery = query.toLowerCase();
-
-        final mockResults =
-            listValue.map((e) => e.qualification ?? "").toList();
-
-        return mockResults.where((profile) {
-          return profile.toLowerCase().contains(query.toLowerCase()) ||
-              profile.toLowerCase().contains(query.toLowerCase());
-        }).toList(growable: false)
-          ..sort((a, b) => a
-              .toLowerCase()
-              .indexOf(lowercaseQuery)
-              .compareTo(b.toLowerCase().indexOf(lowercaseQuery)));
-      }
-      return [];
-    },
+      if (error != null) // Show error message
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            error,
+            style: TextStyle(color: Colors.red, fontSize: 12),
+          ),
+        ),
+    ],
   );
 }
 
@@ -653,7 +701,7 @@ Widget buildCompanyInfoRow(String pathPNG, String companyName,
     TextStyle textStyle, double imageWidth, double imageHeight,
     {required bool? isMapLogo}) {
   return Padding(
-    padding: const EdgeInsets.only(left: 15,top: 5),
+    padding: const EdgeInsets.only(left: 15, top: 5),
     child: Container(
       child: Row(
         children: [
@@ -830,49 +878,69 @@ Widget dropDownField(context,
     required List<String>? listValue,
     required void Function(String?)? onChanged,
     FocusNode? focusNode,
+    required String? error,
     String? Function(String?)? validator}) {
-  return Container(
-    height: 50,
-    width: MediaQuery.of(context).size.width,
-    decoration:
-        BoxDecoration(borderRadius: BorderRadius.circular(10), color: white2),
-    child: DropdownButtonFormField<String>(
-      focusNode: focusNode,
-      validator: validator,
-      // validator: (value) {
-      //   if (value!.isEmpty) {
-      //     return 'Please Select Career Status';
-      //   }
-      //   return null;
-      // },
-      hint: Text(
-        hintText!,
-        style: phoneHT,
-      ),
-      value: value,
-      isExpanded: true,
-      decoration: InputDecoration(border: InputBorder.none),
-      icon: Padding(
-        padding: const EdgeInsets.only(right: 10),
-        child: Icon(
-          Icons.keyboard_arrow_down_sharp,
-          color: Colors.black,
-          size: 35,
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: error != null
+                  ? Colors.red
+                  : Colors.grey, // Red border if error
+            ),
+            borderRadius: BorderRadius.circular(10),
+            color: white2),
+        child: DropdownButtonFormField<String>(
+          focusNode: focusNode,
+          validator: validator,
+          // validator: (value) {
+          //   if (value!.isEmpty) {
+          //     return 'Please Select Career Status';
+          //   }
+          //   return null;
+          // },
+          hint: Text(
+            hintText!,
+            style: phoneHT,
+          ),
+          value: value,
+          isExpanded: true,
+          decoration: InputDecoration(border: InputBorder.none),
+          icon: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Icon(
+              Icons.keyboard_arrow_down_sharp,
+              color: Colors.black,
+              size: 35,
+            ),
+          ),
+          items: listValue?.map((String option) {
+            return DropdownMenuItem<String>(
+              value: option,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Text(option),
+              ),
+            );
+          }).toList(),
+          onChanged: onChanged,
         ),
       ),
-      items: listValue?.map((String option) {
-        return DropdownMenuItem<String>(
-          value: option,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-            ),
-            child: Text(option),
+      if (error != null) // Show error message
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            error,
+            style: TextStyle(color: Colors.red, fontSize: 12),
           ),
-        );
-      }).toList(),
-      onChanged: onChanged,
-    ),
+        ),
+    ],
   );
 }
 

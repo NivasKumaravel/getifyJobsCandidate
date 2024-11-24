@@ -263,13 +263,12 @@ class _Candidate_Categoery_ScreenState
     specializationOption =
         (widget.candidateProfileResponseData?.specialization ?? "").split(',');
 
-
     skillsetOption =
         (widget.candidateProfileResponseData?.skill ?? "").split(',');
     preferredlocationOption =
-        (widget.candidateProfileResponseData?.preferredLocation ?? "").split(',');
+        (widget.candidateProfileResponseData?.preferredLocation ?? "")
+            .split(',');
     DesinationOption = widget.candidateProfileResponseData?.designation ?? "";
-
 
     SetSpecializrion();
   }
@@ -357,6 +356,9 @@ class _Candidate_Categoery_ScreenState
                             });
                           },
                           hintText: '  Select Your Career Status',
+                          error: selectedOption == null
+                              ? "Please Select Your Career Status'"
+                              : null,
                         ),
 
                         //CURRENT DESIGNATION
@@ -380,36 +382,38 @@ class _Candidate_Categoery_ScreenState
                             focus3.unfocus();
                             focus4.unfocus();
                             focus5.unfocus();
-                            if (_formKey.currentState!.validate()) {
-                              if (selectedOption == null) {
-                                ShowToastMessage("Please select career status");
-                              }
-                              // else if (SingleTon().lattidue == "") {
-                              //   ShowToastMessage("Please select Location");
-                              // }
-                              else if (specializationOption == []) {
-                                ShowToastMessage(
-                                    "Please Select Specialization");
-                              } else if (preferredlocationOption == []){
-                                ShowToastMessage(
-                                    "Please Select Preferred Location");
-                              }
-                              else if (skillsetOption == []) {
-                                ShowToastMessage("Please Select Skill Set");
-                              } else if (preferredlocationOption == []) {
-                                ShowToastMessage(
-                                    "Please Select Preferred Location");
-                              } else {
-                                if (widget.isEdit == true) {
-                                  AddProfileResponse();
-                                } else if (_isChecked == false) {
+                            setState(() {
+                              if (_formKey.currentState!.validate()) {
+                                if (selectedOption == null) {
                                   ShowToastMessage(
-                                      " Please Read and Agree to Our T&C");
+                                      "Please select career status");
+                                }
+                                // else if (SingleTon().lattidue == "") {
+                                //   ShowToastMessage("Please select Location");
+                                // }
+                                else if (specializationOption == []) {
+                                  ShowToastMessage(
+                                      "Please Select Specialization");
+                                } else if (preferredlocationOption == []) {
+                                  ShowToastMessage(
+                                      "Please Select Preferred Location");
+                                } else if (skillsetOption == []) {
+                                  ShowToastMessage("Please Select Skill Set");
+                                } else if (preferredlocationOption == []) {
+                                  ShowToastMessage(
+                                      "Please Select Preferred Location");
                                 } else {
-                                  AddProfileResponse();
+                                  if (widget.isEdit == true) {
+                                    AddProfileResponse();
+                                  } else if (_isChecked == false) {
+                                    ShowToastMessage(
+                                        " Please Read and Agree to Our T&C");
+                                  } else {
+                                    AddProfileResponse();
+                                  }
                                 }
                               }
-                            }
+                            });
                           }),
                         ),
                       ],
@@ -484,8 +488,9 @@ class _Candidate_Categoery_ScreenState
             : selectedOption == "Student"
                 ? dropDownSearchField(context,
                     listValue: collegeVal,
-                    controller: widget.isEdit == true?
-                    TextEditingController(text: collegeOption):null,
+                    controller: widget.isEdit == true
+                        ? TextEditingController(text: collegeOption)
+                        : null,
                     onChanged: ((x) {
                       focus1.unfocus();
                       setState(() {
@@ -528,6 +533,9 @@ class _Candidate_Categoery_ScreenState
                   });
                 },
                 hintText: '  Select Your Experienced',
+                error: selectExpVal == null
+                    ? "Please Select Your Experience"
+                    : null,
               )
             : Container(),
         //Qualification*
@@ -575,7 +583,6 @@ class _Candidate_Categoery_ScreenState
 
         tagSearchField(
           hintText: "Specialization",
-
           focus: null,
           listValue: specializationonVal,
           focusTagEnabled: false,
@@ -587,6 +594,9 @@ class _Candidate_Categoery_ScreenState
               specializationOption = p0;
             });
           },
+          error: (specializationOption?.length ?? 0) == 0
+              ? "Please select at least one specialization"
+              : null,
         ),
         // dropDownSearchField(
         //   context,
@@ -629,6 +639,9 @@ class _Candidate_Categoery_ScreenState
               skillsetOption = p0;
             });
           },
+          error: (skillsetOption?.length ?? 0) == 0
+              ? "Please select at least one Skill Set"
+              : null,
         ),
         // dropDownSearchField(context,
         //     listValue: skillsetVal,
@@ -828,7 +841,6 @@ class _Candidate_Categoery_ScreenState
             hintText: "Preferred Job Location",
             listValue: [],
             focusTagEnabled: false,
-
             values: preferredlocationOption,
             onPressed: (p0) {
               print(" PREFFERED LOCATION DATA ${p0}");
@@ -837,6 +849,9 @@ class _Candidate_Categoery_ScreenState
                 preferredlocationOption = p0;
               });
             },
+            error: (skillsetOption?.length ?? 0) == 0
+                ? "Please enter job location"
+                : null,
           ),
         ),
 
@@ -893,7 +908,9 @@ class _Candidate_Categoery_ScreenState
             : Container(),
 
         //Expected Salary*
-        Title_Style(Title: 'Expected Salary (Per Annum)', isStatus:selectedOption == "Experienced"?true: false),
+        Title_Style(
+            Title: 'Expected Salary (Per Annum)',
+            isStatus: selectedOption == "Experienced" ? true : false),
         textFormField(
           hintText: 'Expected Salary',
           keyboardtype: TextInputType.number,
@@ -929,25 +946,29 @@ class _Candidate_Categoery_ScreenState
         // Container(height: 105, child: Common_Map()),
 
         //ATTACHMENT
-       widget.isEdit == true?
-       Container(
-           height: 110,
-           alignment: Alignment.center,
-           color: white1,
-           margin: EdgeInsets.only(top: 25),
-           child: PdfPickerExample(
-             optionalTXT: '${widget.candidateProfileResponseData?.name ?? ""}.pdf',
-             pdfUrl: widget.candidateProfileResponseData?.resume ?? "",
-             isProfile: true, isCancelNeed: true,
-           )):
-       Container(
-            height: 110,
-            alignment: Alignment.center,
-            color: white1,
-            margin: EdgeInsets.only(top: 25),
-            child: PdfPickerExample(
-              optionalTXT: ' ', isProfile: false, isCancelNeed: true,
-            )),
+        widget.isEdit == true
+            ? Container(
+                height: 110,
+                alignment: Alignment.center,
+                color: white1,
+                margin: EdgeInsets.only(top: 25),
+                child: PdfPickerExample(
+                  optionalTXT:
+                      '${widget.candidateProfileResponseData?.name ?? ""}.pdf',
+                  pdfUrl: widget.candidateProfileResponseData?.resume ?? "",
+                  isProfile: true,
+                  isCancelNeed: true,
+                ))
+            : Container(
+                height: 110,
+                alignment: Alignment.center,
+                color: white1,
+                margin: EdgeInsets.only(top: 25),
+                child: PdfPickerExample(
+                  optionalTXT: ' ',
+                  isProfile: false,
+                  isCancelNeed: true,
+                )),
 
         //CHECK BOX
         widget.isEdit == true
