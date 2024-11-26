@@ -391,15 +391,17 @@ class _Candidate_Categoery_ScreenState
                                 // else if (SingleTon().lattidue == "") {
                                 //   ShowToastMessage("Please select Location");
                                 // }
-                                else if (specializationOption == []) {
+                                else if (specializationOption?.length == 0) {
                                   ShowToastMessage(
                                       "Please Select Specialization");
-                                } else if (preferredlocationOption == []) {
+                                } else if (preferredlocationOption.length ==
+                                    0) {
                                   ShowToastMessage(
                                       "Please Select Preferred Location");
-                                } else if (skillsetOption == []) {
+                                } else if (skillsetOption?.length == 0) {
                                   ShowToastMessage("Please Select Skill Set");
-                                } else if (preferredlocationOption == []) {
+                                } else if (preferredlocationOption.length ==
+                                    0) {
                                   ShowToastMessage(
                                       "Please Select Preferred Location");
                                 } else {

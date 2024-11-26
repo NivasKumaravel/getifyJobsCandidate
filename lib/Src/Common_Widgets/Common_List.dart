@@ -100,16 +100,16 @@ String getStatusText(String status) {
       return "Default Status";
   }
 }
+
 //NO DATA WIDGET
 Widget NoDataWidget({required String content}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Center(child: Container(
-        height: 200,
-          width: 200,
-          child: ImgPathSvg('nodata.svg'))),
+      Center(
+          child: Container(
+              height: 200, width: 200, child: ImgPathSvg('nodata.svg'))),
       SizedBox(
         height: 10,
       ),
@@ -155,11 +155,13 @@ Widget DirectList(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: MediaQuery.sizeOf(context).width/1.2,
+            width: MediaQuery.sizeOf(context).width / 1.2,
             margin: EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Text(
               jobName,
-              style: TitleT1,maxLines: 2,overflow:TextOverflow.ellipsis,
+              style: TitleT1,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             )),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
@@ -201,64 +203,57 @@ Widget DirectList(
                         color: campusTag == "Applied"
                             ? blue2
                             : campusTag == "Rejected"
-                            ? red4
-                            : campusTag == "Selected"
-                            ? green3
-                            : campusTag == "Final Round"
-                            ? green3
-                            : campusTag == "Call For Interview"
-                            ? yellow2
-                            : green3,
+                                ? red4
+                                : campusTag == "Selected"
+                                    ? green3
+                                    : campusTag == "Final Round"
+                                        ? green3
+                                        : campusTag == "Call For Interview"
+                                            ? yellow2
+                                            : green3,
                       ),
-                      child:
-                      Center(
+                      child: Center(
                           child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Text(
-                              campusTag == "Applied"
-                                  ? "Applied":
-                              campusTag == "Rejected"?
-                              "Rejected"
-                                  :
-                              campusTag == "Final Round"?
-                              "Final Round"
-                                  :
-                              campusTag == "Selected"?
-                              "Selected":
-                              campusTag == "Call For Interview"?
-                              "Call For Interview":
-                              "${campusTag}",
-                              style:
-                              TextStyle(
-                                  fontFamily: "Inter",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: campusTag == "Selected"
-                                      ? green1:
-                                  campusTag == "Final Round"
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          campusTag == "Applied"
+                              ? "Applied"
+                              : campusTag == "Rejected"
+                                  ? "Rejected"
+                                  : campusTag == "Final Round"
+                                      ? "Final Round"
+                                      : campusTag == "Selected"
+                                          ? "Selected"
+                                          : campusTag == "Call For Interview"
+                                              ? "Call For Interview"
+                                              : "${campusTag}",
+                          style: TextStyle(
+                              fontFamily: "Inter",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: campusTag == "Selected"
+                                  ? green1
+                                  : campusTag == "Final Round"
                                       ? green1
                                       : campusTag == "Call For Interview"
-                                      ? yellow1
-                                      : campusTag == "Rejected"
-                                      ? red1
-                                      : campusTag == "Applied"
-                                      ? blue1
-                                      : green1),
-
-                            ),
-                          )),
+                                          ? yellow1
+                                          : campusTag == "Rejected"
+                                              ? red1
+                                              : campusTag == "Applied"
+                                                  ? blue1
+                                                  : green1),
+                        ),
+                      )),
                     )
                   : Text(postedDate, style: decpgrey2),
-              isApplied == true
-                  ? Container()
-                  : InkWell(
-                      onTap: () {
-                        bookmarkClick?.call(currentIndex);
-                      },
-                      child: Container(
-                          margin: EdgeInsets.only(right: 15),
-                          child: ImgPathSvgWithColor(bookmark)),
-                    ),
+              InkWell(
+                onTap: () {
+                  bookmarkClick?.call(currentIndex);
+                },
+                child: Container(
+                    margin: EdgeInsets.only(right: 15),
+                    child: ImgPathSvgWithColor(bookmark)),
+              )
             ],
           ),
         ),
@@ -429,11 +424,13 @@ Widget Candidate_MyApplies_List(context,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: MediaQuery.sizeOf(context).width/1.2,
+            width: MediaQuery.sizeOf(context).width / 1.2,
             margin: EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Text(
               jobName,
-              style: TitleT,maxLines: 2,overflow: TextOverflow.ellipsis,
+              style: TitleT,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             )),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
@@ -442,15 +439,13 @@ Widget Candidate_MyApplies_List(context,
         ),
         Container(
             margin: EdgeInsets.only(left: 20, top: 10, right: 20),
-            child: collegeRowTitle(
-                "map-pin.svg", location, Homegrey2, 20, 20)),
+            child: collegeRowTitle("map-pin.svg", location, Homegrey2, 20, 20)),
         Container(
             margin: EdgeInsets.only(left: 20, top: 10, right: 20),
             child: collegeRowTitle("bag.svg", YOP, Homegrey2, 20, 20)),
         Container(
             margin: EdgeInsets.only(left: 20, top: 10, right: 20),
-            child:
-                collegeRowTitle("wallet.svg", ExpSalary, Homegrey2, 20, 20)),
+            child: collegeRowTitle("wallet.svg", ExpSalary, Homegrey2, 20, 20)),
         Container(
             margin: EdgeInsets.only(left: 20, top: 10, right: 20),
             child: Row(
@@ -477,7 +472,7 @@ Widget Candidate_MyApplies_List(context,
                         padding: const EdgeInsets.all(5),
                         child: Center(
                             child: Text(
-                              status,
+                          status,
                           style: getStatusTextStyle(status),
                         )),
                       ),
@@ -491,8 +486,7 @@ Widget Candidate_MyApplies_List(context,
 }
 
 //CAMPUS LIST
-Widget CampusList(
-    context,
+Widget CampusList(context,
     {required String? isTag,
     required String? iscampTag,
     required String jobName,
@@ -504,7 +498,7 @@ Widget CampusList(
     required String collegeLocation,
     required bool? isUsed,
     required bool? isCountNeeded,
-      required String applyCount,
+    required String applyCount,
     required void Function()? onTap}) {
   return Container(
       margin: EdgeInsets.only(top: 15, left: 20, right: 20),
@@ -519,11 +513,13 @@ Widget CampusList(
               ? Column(
                   children: [
                     Container(
-                      width: MediaQuery.sizeOf(context).width/1.2,
+                        width: MediaQuery.sizeOf(context).width / 1.2,
                         margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                         child: Text(
                           jobName,
-                          style: TitleT,maxLines: 2,overflow: TextOverflow.ellipsis,
+                          style: TitleT,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         )),
                     Padding(
                       padding:
@@ -630,10 +626,24 @@ Widget CampusList(
                             )),
                           ),
                         ),
-                        isCountNeeded == true? const Spacer():Container(),
-                        isCountNeeded == true?Icon(Icons.person,color: blue1,):Container(),
-                        isCountNeeded == true?Text(applyCount,style: TBlack,):Container(),
-                        isCountNeeded == true?const SizedBox(width: 20,):Container(),
+                        isCountNeeded == true ? const Spacer() : Container(),
+                        isCountNeeded == true
+                            ? Icon(
+                                Icons.person,
+                                color: blue1,
+                              )
+                            : Container(),
+                        isCountNeeded == true
+                            ? Text(
+                                applyCount,
+                                style: TBlack,
+                              )
+                            : Container(),
+                        isCountNeeded == true
+                            ? const SizedBox(
+                                width: 20,
+                              )
+                            : Container(),
                       ],
                     ),
                   ],
@@ -642,15 +652,14 @@ Widget CampusList(
       ));
 }
 
-Widget cards(
-    context,
+Widget cards(context,
     {required String countTxt,
     required String txt,
     required Color Ccolor,
     required TextStyle txtStyle}) {
   return Container(
     height: 90,
-    width: MediaQuery.sizeOf(context).width/2.5,
+    width: MediaQuery.sizeOf(context).width / 2.5,
     decoration:
         BoxDecoration(borderRadius: BorderRadius.circular(10), color: white1),
     child: Column(
@@ -959,8 +968,6 @@ Widget customListItem({
   );
 }
 
-
-
 Widget DirectList1(
   context, {
   required bool? isApplied,
@@ -1198,7 +1205,7 @@ Widget buildCompanyInfoRowNotifacation(
           Row(
             children: [
               Container(
-                width: MediaQuery.sizeOf(context).width/1.8,
+                width: MediaQuery.sizeOf(context).width / 1.8,
                 child: Text(
                   name,
                   style: appliesT,
@@ -1306,15 +1313,15 @@ Widget NoOfCandidatesSection(
   );
 }
 
-
 //INBOX LIST
-Widget Inbox_List(context,{
+Widget Inbox_List(
+  context, {
   required String CompanyLogo,
   required String CompanyName,
   required String jobTitle,
   required String Location,
   required String status,
-}){
+}) {
   Color containerColor; // Define a variable to hold the container color
 
   switch (status) {
@@ -1357,11 +1364,10 @@ Widget Inbox_List(context,{
   }
   return Container(
     width: MediaQuery.of(context).size.width,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10), color: white1),
+    decoration:
+        BoxDecoration(borderRadius: BorderRadius.circular(10), color: white1),
     child: Padding(
-      padding: const EdgeInsets.only(
-          left: 20, right: 20, top: 13, bottom: 13),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 13, bottom: 13),
       child: Row(
         children: [
           Container(
@@ -1372,9 +1378,7 @@ Widget Inbox_List(context,{
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
-                  image: NetworkImage(
-                      CompanyLogo),
-                  fit: BoxFit.cover),
+                  image: NetworkImage(CompanyLogo), fit: BoxFit.cover),
             ),
           ),
           Column(
@@ -1382,14 +1386,14 @@ Widget Inbox_List(context,{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: MediaQuery.sizeOf(context).width/1.8,
+                width: MediaQuery.sizeOf(context).width / 1.8,
                 child: Text(
                   CompanyName,
                   style: inboxcompany,
                 ),
               ),
               Container(
-                width: MediaQuery.sizeOf(context).width/1.8,
+                width: MediaQuery.sizeOf(context).width / 1.8,
                 child: Text(
                   jobTitle,
                   style: inboxJobTitle,
@@ -1402,7 +1406,7 @@ Widget Inbox_List(context,{
                     width: 5,
                   ),
                   Container(
-                    width: MediaQuery.sizeOf(context).width/2,
+                    width: MediaQuery.sizeOf(context).width / 2,
                     child: Text(
                       Location,
                       style: Homegrey2,
@@ -1412,16 +1416,19 @@ Widget Inbox_List(context,{
                   ),
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 decoration: BoxDecoration(color: containerColor),
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  child: Text(status,
-                      style: getStatusTextStyle(status)),
+                  child: Text(status, style: getStatusTextStyle(status)),
                 ),
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
             ],
           ),
           //COMPANY NAME AND LOCATION
@@ -1429,5 +1436,4 @@ Widget Inbox_List(context,{
       ),
     ),
   );
-
 }

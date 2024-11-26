@@ -33,9 +33,8 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
     _tabController.dispose();
     super.dispose();
   }
-  DirectJobListData? bookMarkListData;
-  List<DirectJobItems> jobLists = []; // List to hold fetched job data
-  List<DirectJobItems> tempjobLists = [];
+
+  List<DirectJobItems>? bookMarkItems;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _directList(bookMarkListData),
+            _directList(),
             SizedBox(
               height: 50,
             )
@@ -60,31 +59,28 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
       ),
     );
   }
+
   //BOOKMARK LIST RESPONSE
- BookMarkListResponse()async{
+  BookMarkListResponse() async {
     final bookMarkListApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
       "candidate_id": await getcandidateId(),
-      "no_of_records":"10",
-      "page_no":"1",
+      "no_of_records": "10",
+      "page_no": "1",
     });
-    final bookMarkListApiResponse = await bookMarkListApiService.
-    post<DirectJobListModel>(context, ConstantApi.bookMarkListUrl, formData);
-    if(bookMarkListApiResponse?.status == true){
+    final bookMarkListApiResponse =
+        await bookMarkListApiService.post<DirectJobListModel>(
+            context, ConstantApi.bookMarkListUrl, formData);
+    if (bookMarkListApiResponse?.status == true) {
       setState(() {
-        bookMarkListData = bookMarkListApiResponse?.data;
-        jobLists
-            .addAll(bookMarkListData?.items?.reversed.toList() ?? []);
-
-        tempjobLists
-            .addAll(bookMarkListData?.items?.reversed.toList() ?? []);
+        bookMarkItems?.addAll(bookMarkListApiResponse.data?.items ?? []);
       });
-    }else{
+    } else {
       ShowToastMessage(bookMarkListApiResponse?.message ?? "");
     }
- }
+  }
 
- //BOOKMARK LIST RESPONSE
+  //BOOKMARK LIST RESPONSE
   bookMarkApiResponse(String jobId, String recruiterId) async {
     final directJobListApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
@@ -93,8 +89,8 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
       "recruiter_id": recruiterId
     });
     final bookMarkJobResponse =
-    await directJobListApiService.post<ApplyCampusJobModel>(
-        context, ConstantApi.bookmarkJobUrl, formData);
+        await directJobListApiService.post<ApplyCampusJobModel>(
+            context, ConstantApi.bookmarkJobUrl, formData);
 
     if (bookMarkJobResponse.status == true) {
       print("SUCESS");
@@ -104,64 +100,54 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
       ShowToastMessage(bookMarkJobResponse.message ?? "");
     }
   }
-  Widget _directList(DirectJobListData? bookMarkListData) {
+
+  Widget _directList() {
     return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: bookMarkListData?.items?.length ?? 0,
+      itemCount: bookMarkItems?.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => Job_Details(
-                    jobId: bookMarkListData?.items?[index].jobId ?? "",
+                    jobId: bookMarkItems?[index].jobId ?? "",
                     TagActive: '',
-                    recruiterId: bookMarkListData?.items?[index].recruiterId ?? "",
-                    isApplied: bookMarkListData?.items?[index].already_applied ?? false,
-                    isInbox: bookMarkListData?.items?[index].bookmark ?? false,
+                    recruiterId: bookMarkItems?[index].recruiterId ?? "",
+                    isApplied: bookMarkItems?[index].already_applied ?? false,
+                    isInbox: bookMarkItems?[index].bookmark ?? false,
                     isSavedNeeded: true),
               ),
             );
           },
           child: DirectList(context,
               isApplied: false,
-              jobName: bookMarkListData?.items?[index].jobTitle ?? "",
-              companyName: bookMarkListData?.items?[index].companyName ?? "",
-              location: bookMarkListData?.items?[index].location ?? "",
-              companyLogo: bookMarkListData?.items?[index].logo ?? "",
-              YOP: bookMarkListData?.items?[index].experience ?? "",
-              ExpSalary: '₹ ${bookMarkListData?.items?[index].salaryFrom ?? ""} - ${bookMarkListData?.items?[index].salaryTo ?? ""} Per Annum',
-              postedDate: "Posted: ${bookMarkListData?.items?[index].createdDate ?? ""}",
+              jobName: bookMarkItems?[index].jobTitle ?? "",
+              companyName: bookMarkItems?[index].companyName ?? "",
+              location: bookMarkItems?[index].location ?? "",
+              companyLogo: bookMarkItems?[index].logo ?? "",
+              YOP: bookMarkItems?[index].experience ?? "",
+              ExpSalary:
+                  '₹ ${bookMarkItems?[index].salaryFrom ?? ""} - ${bookMarkItems?[index].salaryTo ?? ""} Per Annum',
+              postedDate: "Posted: ${bookMarkItems?[index].createdDate ?? ""}",
               collegeName: '',
               appliedDate: '',
               collegeLoctaion: '',
               collegeLogo: '',
               isCampus: false,
-              currentIndex: index,
-              bookmarkClick: (value) {
-                var dict = jobLists[value];
+              currentIndex: index, bookmarkClick: (value) {
+            setState(() {
+              bookMarkItems?.removeAt(index);
+            });
 
-                dict.bookmark =
-                dict.bookmark == true ? false : true;
-
-                setState(() {
-                  jobLists.removeAt(value);
-                  jobLists.insert(value, dict);
-                });
-
-                bookMarkApiResponse(jobLists[value].jobId ?? '',
-                    jobLists[index].recruiterId ?? '');
-              },
-              isStudent: true,
-              bookmark: bookMarkListData?.items?[index].bookmark ?? false,
-              campusTag: ''),
+            bookMarkApiResponse(bookMarkItems?[index].jobId ?? '',
+                bookMarkItems?[index].recruiterId ?? '');
+          }, isStudent: true, bookmark: true, campusTag: ''),
         );
       },
     );
   }
 }
-
-

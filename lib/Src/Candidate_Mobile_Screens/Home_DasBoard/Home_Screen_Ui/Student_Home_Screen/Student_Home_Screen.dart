@@ -11,14 +11,12 @@ import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Job_Detail_Screens/Job_D
 import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Notification_Ui/Notification_Screen.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_Button.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_List.dart';
-import 'package:getifyjobs/Src/Common_Widgets/Common_PopUp_Widgets.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Image_Path.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Text_Form_Field.dart';
 import 'package:getifyjobs/Src/utilits/ApiService.dart';
 import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
 import 'package:getifyjobs/Src/utilits/Generic.dart';
 import 'package:intl/intl.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../../../utilits/Common_Colors.dart';
 import '../../../../utilits/Text_Style.dart';
@@ -60,7 +58,15 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
     _scrollController.addListener(_scrollListener);
     _scrollController1.addListener(_scrollListener1);
 
-    directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', isFilter: false, SalaryT: '');
+    directJobListResponse(
+        JobT: '',
+        location: '',
+        Fdate: '',
+        Tdate: '',
+        ExpT: '',
+        CompanyT: '',
+        isFilter: false,
+        SalaryT: '');
   }
 
   @override
@@ -80,7 +86,15 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
       // reached the bottom
       SingleTon().isLoading = false;
       page += 1;
-      directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', isFilter: false, SalaryT: '');
+      directJobListResponse(
+          JobT: '',
+          location: '',
+          Fdate: '',
+          Tdate: '',
+          ExpT: '',
+          CompanyT: '',
+          isFilter: false,
+          SalaryT: '');
     }
   }
 
@@ -93,7 +107,8 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
       // reached the bottom
       SingleTon().isLoading = false;
       page1 += 1;
-      campusListResponse(location: '', Fdate: '', Tdate: '', isFilter: false, campusName: '');
+      campusListResponse(
+          location: '', Fdate: '', Tdate: '', isFilter: false, campusName: '');
     }
   }
 
@@ -133,14 +148,20 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
           InkWell(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Saved_Page())).then((value) => ref.refresh(
-                  directJobListResponse(
-                      JobT: '',
-                      location: '',
-                      Fdate: '',
-                      Tdate: '',
-                      ExpT: '',
-                      CompanyT: '', isFilter: false, SalaryT: '')));
+                      MaterialPageRoute(builder: (context) => Saved_Page()))
+                  .then((value) {
+                directResponseData = [];
+                tempDirectResponseData = [];
+                ref.refresh(directJobListResponse(
+                    JobT: '',
+                    location: '',
+                    Fdate: '',
+                    Tdate: '',
+                    ExpT: '',
+                    CompanyT: '',
+                    isFilter: false,
+                    SalaryT: ''));
+              });
             },
             child: Container(
                 margin: EdgeInsets.only(right: 15),
@@ -164,58 +185,58 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
             padding:
                 const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 20),
             child: textFormFieldSearchBar(
-              keyboardtype: TextInputType.text,
-              hintText: "Search ...",
-              Controller: null,
-              validating: null,
-              onChanged: (value) {
-                setState(() {
-                  value = value.toLowerCase();
-                  if (value != "") {
-                    if (tabIndex == 0) {
-                      directResponseData = [];
-                      tempDirectResponseData = [];
-                      directResponseData = tempDirectResponseData
-                          .where((job) =>
-                              job.jobTitle!.toLowerCase().contains(value) ||
-                              job.name!.toLowerCase().contains(value))
-                          .toList();
-                      print(directResponseData.length ?? 0);
+                keyboardtype: TextInputType.text,
+                hintText: "Search ...",
+                Controller: null,
+                validating: null,
+                onChanged: (value) {
+                  setState(() {
+                    value = value.toLowerCase();
+                    if (value != "") {
+                      if (tabIndex == 0) {
+                        directResponseData = [];
+                        tempDirectResponseData = [];
+                        directResponseData = tempDirectResponseData
+                            .where((job) =>
+                                job.jobTitle!.toLowerCase().contains(value) ||
+                                job.name!.toLowerCase().contains(value))
+                            .toList();
+                        print(directResponseData.length ?? 0);
+                      } else {
+                        campusResponseData = [];
+                        tempCampusResponseData = [];
+                        campusResponseData = tempCampusResponseData
+                            .where((job) =>
+                                job.name!.toLowerCase().contains(value))
+                            .toList();
+                        print(campusResponseData.length);
+                      }
                     } else {
-                      campusResponseData = [];
-                      tempCampusResponseData = [];
-                      campusResponseData = tempCampusResponseData
-                          .where(
-                              (job) => job.name!.toLowerCase().contains(value))
-                          .toList();
-                      print(campusResponseData.length);
+                      if (tabIndex == 0) {
+                        directResponseData = [];
+                        tempDirectResponseData = [];
+                        directResponseData = tempDirectResponseData;
+                      } else {
+                        campusResponseData = [];
+                        tempCampusResponseData = [];
+                        campusResponseData = tempCampusResponseData;
+                      }
                     }
-                  } else {
-                    if (tabIndex == 0) {
-                      directResponseData = [];
-                      tempDirectResponseData = [];
-                      directResponseData = tempDirectResponseData;
-                    } else {
-                      campusResponseData = [];
-                      tempCampusResponseData = [];
-                      campusResponseData = tempCampusResponseData;
-                    }
-                  }
-                });
-              },
-              focusNode: _focusNode,
-              isMultifilterNeeded: true,
-              MultifilteronTap: (){
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => InterviewSchedulePopup(context, isCampus: tabIndex == 0?false:true),
-                );
-              }
-            ),
+                  });
+                },
+                focusNode: _focusNode,
+                isMultifilterNeeded: true,
+                MultifilteronTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => InterviewSchedulePopup(
+                        context,
+                        isCampus: tabIndex == 0 ? false : true),
+                  );
+                }),
           ),
         ),
       ),
-
       body: InkWell(
         onTap: () {
           if (_focusNode.hasFocus) {
@@ -247,12 +268,25 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                       if (tabIndex == 0) {
                         directResponseData = [];
                         tempDirectResponseData = [];
-                        directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', isFilter: false, SalaryT: '');
+                        directJobListResponse(
+                            JobT: '',
+                            location: '',
+                            Fdate: '',
+                            Tdate: '',
+                            ExpT: '',
+                            CompanyT: '',
+                            isFilter: false,
+                            SalaryT: '');
                       } else {
                         campusResponseData = [];
                         tempCampusResponseData = [];
 
-                        campusListResponse( location: '', Fdate: '', Tdate: '', isFilter: false, campusName: '');
+                        campusListResponse(
+                            location: '',
+                            Fdate: '',
+                            Tdate: '',
+                            isFilter: false,
+                            campusName: '');
                       }
                     });
                   },
@@ -279,7 +313,8 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                   controller: _tabController,
                   children: [
                     directResponseData?.length == 0
-                        ? Center(child: NoDataWidget(content: "No Data Available"))
+                        ? Center(
+                            child: NoDataWidget(content: "No Data Available"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -306,7 +341,8 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                             ),
                           ),
                     campusResponseData?.length == 0
-                        ? Center(child: NoDataWidget(content: "No Data Available"))
+                        ? Center(
+                            child: NoDataWidget(content: "No Data Available"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -339,22 +375,21 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
       "candidate_id": await getcandidateId(),
       "page_no": page1,
       "no_of_records": totalCount1,
-      "campus_name":campusName,
-      "location":location,
-      "from_date":Fdate,
-      "to_date":Tdate,
+      "campus_name": campusName,
+      "location": location,
+      "from_date": Fdate,
+      "to_date": Tdate,
     });
     final campusResponseList = await campusListApiService.post<CampusListModel>(
         context, ConstantApi.campuslistUrl, formData);
     if (campusResponseList.status == true) {
-
       setState(() {
         campusResponseData.addAll(campusResponseList.data?.items ?? []);
         tempCampusResponseData.addAll(campusResponseList.data?.items ?? []);
 
         totalCount1 = campusResponseList.data?.totalItems ?? 0;
       });
-      isFilter == true? Navigator.pop(context):null;
+      isFilter == true ? Navigator.pop(context) : null;
     } else {
       page1--;
       ShowToastMessage(campusResponseList.message ?? "");
@@ -377,13 +412,13 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
       "candidate_id": await getcandidateId(),
       "page_no": page,
       "no_of_records": totalCount,
-      "job_title":JobT,
-      "location":location,
-      "from_date":Fdate,
-      "to_date":Tdate,
-      "experience":ExpT,
-      "company_name":CompanyT,
-      "salary_from":SalaryT
+      "job_title": JobT,
+      "location": location,
+      "from_date": Fdate,
+      "to_date": Tdate,
+      "experience": ExpT,
+      "company_name": CompanyT,
+      "salary_from": SalaryT
     });
     final directJobResponseList =
         await directJobListApiService.post<DirectJobListModel>(
@@ -408,7 +443,7 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
       // _CompanyName.clear();
       // _SalaryRange.clear();
 
-      isFilter == true? Navigator.pop(context):null;
+      isFilter == true ? Navigator.pop(context) : null;
     } else {
       page--;
       // _jobTitle.clear();
@@ -472,7 +507,15 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                             ))).then((value) {
                   directResponseData = [];
                   tempDirectResponseData = [];
-                  ref.refresh(directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', isFilter: false, SalaryT: ''));
+                  ref.refresh(directJobListResponse(
+                      JobT: '',
+                      location: '',
+                      Fdate: '',
+                      Tdate: '',
+                      ExpT: '',
+                      CompanyT: '',
+                      isFilter: false,
+                      SalaryT: ''));
                 });
               },
               child: DirectList(context,
@@ -530,8 +573,10 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                   tempCampusResponseData = [];
                   ref.refresh(campusListResponse(
                       location: _location.text,
-                      Fdate: _From.text, Tdate: _To.text,
-                       isFilter: false, campusName: _CampusName.text));
+                      Fdate: _From.text,
+                      Tdate: _To.text,
+                      isFilter: false,
+                      campusName: _CampusName.text));
                 });
               },
               child: CampusList(context,
@@ -545,7 +590,9 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                   collegeName: campusResponseData?[index].name ?? "",
                   collegeLogo: campusResponseData?[index].logo ?? "",
                   companyLocation: '',
-                  collegeLocation: campusResponseData?[index].location ?? "", applyCount: '', isCountNeeded: false));
+                  collegeLocation: campusResponseData?[index].location ?? "",
+                  applyCount: '',
+                  isCountNeeded: false));
         } else {
           if ((campusResponseData?.length ?? 0) != 0 &&
               totalCount != (campusResponseData?.length ?? 0)) {
@@ -556,69 +603,76 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
     );
   }
 
-  Widget InterviewSchedulePopup(BuildContext context,{required bool isCampus}) {
+  Widget InterviewSchedulePopup(BuildContext context,
+      {required bool isCampus}) {
     return Container(
       child: AlertDialog(
         surfaceTintColor: white1,
-        content:Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Multiple selection of ${isCampus == true?"campus name, location etc":"Job title, Location, Salary etc"}",style: Wbalck1,textAlign: TextAlign.center,),
-             isCampus == true? Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
-                hintText: 'Campus Name',
-                keyboardtype: TextInputType.text,
-                inputFormatters: null,
-                Controller: _CampusName,
-                focusNode:null,
-                validating: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Campus Name";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
-                    return "(Special Characters are Not Allowed)";
-                  }
-                  return null;
-                },
-                onChanged: null,
-              ),
-            ):
-              Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
-                hintText: 'Job Title',
-                keyboardtype: TextInputType.text,
-                inputFormatters: null,
-                Controller: _jobTitle,
-                focusNode:null,
-                validating: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Job Title";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
-                    return "(Special Characters are Not Allowed)";
-                  }
-                  return null;
-                },
-                onChanged: null,
-              ),
+            Text(
+              "Multiple selection of ${isCampus == true ? "campus name, location etc" : "Job title, Location, Salary etc"}",
+              style: Wbalck1,
+              textAlign: TextAlign.center,
             ),
+            isCampus == true
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: textFormField(
+                      hintText: 'Campus Name',
+                      keyboardtype: TextInputType.text,
+                      inputFormatters: null,
+                      Controller: _CampusName,
+                      focusNode: null,
+                      validating: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter Campus Name";
+                        } else if (!onlyText.hasMatch(value)) {
+                          return "(Special Characters are Not Allowed)";
+                        }
+                        return null;
+                      },
+                      onChanged: null,
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: textFormField(
+                      hintText: 'Job Title',
+                      keyboardtype: TextInputType.text,
+                      inputFormatters: null,
+                      Controller: _jobTitle,
+                      focusNode: null,
+                      validating: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter Job Title";
+                        } else if (!onlyText.hasMatch(value)) {
+                          return "(Special Characters are Not Allowed)";
+                        }
+                        return null;
+                      },
+                      onChanged: null,
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child:   textFormField(
+              child: textFormField(
                 hintText: 'Location',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _location,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Location";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -631,11 +685,10 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
               child: Row(
                 children: [
                   Container(
-                    width: MediaQuery.sizeOf(context).width/3.2,
+                    width: MediaQuery.sizeOf(context).width / 3.2,
                     child: TextFieldDatePicker(
                         Controller: _From,
-                        onChanged: (value) {
-                        },
+                        onChanged: (value) {},
                         validating: (value) {
                           if (value!.isEmpty) {
                             return 'Please select  Date';
@@ -652,7 +705,7 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                               lastDate: DateTime(2050));
                           if (pickdate != null) {
                             String formatdate =
-                            DateFormat("yyyy-MM-dd").format(pickdate!);
+                                DateFormat("yyyy-MM-dd").format(pickdate!);
                             if (mounted) {
                               setState(() {
                                 _From.text = formatdate;
@@ -661,15 +714,15 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                             }
                           }
                         },
-                        hintText: 'Form', isDownArrow: false),
+                        hintText: 'Form',
+                        isDownArrow: false),
                   ),
                   const Spacer(),
                   Container(
-                    width: MediaQuery.sizeOf(context).width/3.2,
+                    width: MediaQuery.sizeOf(context).width / 3.2,
                     child: TextFieldDatePicker(
                         Controller: _To,
-                        onChanged: (value) {
-                        },
+                        onChanged: (value) {},
                         validating: (value) {
                           if (value!.isEmpty) {
                             return 'Please select  Date';
@@ -686,7 +739,7 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                               lastDate: DateTime(2050));
                           if (pickdate != null) {
                             String formatdate =
-                            DateFormat("yyyy-MM-dd").format(pickdate!);
+                                DateFormat("yyyy-MM-dd").format(pickdate!);
                             if (mounted) {
                               setState(() {
                                 _To.text = formatdate;
@@ -695,79 +748,87 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                             }
                           }
                         },
-                        hintText: 'To', isDownArrow: false),
+                        hintText: 'To',
+                        isDownArrow: false),
                   ),
                 ],
               ),
             ),
-          isCampus == true?Container(): Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
-                hintText: 'Expected Salary',
-                keyboardtype: TextInputType.text,
-                inputFormatters: null,
-                Controller: _SalaryRange,
-                focusNode:null,
-                validating: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Salary";
-                  }
-                  else {
-                    return "Please Enter Valid Salary";
-                  }
-                },
-                onChanged: null,
-              ),
-            ),
-            isCampus == true?Container(): Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
-                hintText: 'Career Status',
-                keyboardtype: TextInputType.text,
-                inputFormatters: null,
-                Controller: _careerStatus,
-                focusNode:null,
-                validating: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter CareerStatus";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
-                    return "(Special Characters are Not Allowed)";
-                  }
-                  return null;
-                },
-                onChanged: null,
-              ),
-            ),
-            isCampus == true?Container(): Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
-                hintText: 'Company Name',
-                keyboardtype: TextInputType.text,
-                inputFormatters: null,
-                Controller: _CompanyName,
-                focusNode:null,
-                validating: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Company Name";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
-                    return "(Special Characters are Not Allowed)";
-                  }
-                  return null;
-                },
-                onChanged: null,
-              ),
-            ),
-       
-
+            isCampus == true
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: textFormField(
+                      hintText: 'Expected Salary',
+                      keyboardtype: TextInputType.text,
+                      inputFormatters: null,
+                      Controller: _SalaryRange,
+                      focusNode: null,
+                      validating: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter Salary";
+                        } else {
+                          return "Please Enter Valid Salary";
+                        }
+                      },
+                      onChanged: null,
+                    ),
+                  ),
+            isCampus == true
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: textFormField(
+                      hintText: 'Career Status',
+                      keyboardtype: TextInputType.text,
+                      inputFormatters: null,
+                      Controller: _careerStatus,
+                      focusNode: null,
+                      validating: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter CareerStatus";
+                        } else if (!onlyText.hasMatch(value)) {
+                          return "(Special Characters are Not Allowed)";
+                        }
+                        return null;
+                      },
+                      onChanged: null,
+                    ),
+                  ),
+            isCampus == true
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: textFormField(
+                      hintText: 'Company Name',
+                      keyboardtype: TextInputType.text,
+                      inputFormatters: null,
+                      Controller: _CompanyName,
+                      focusNode: null,
+                      validating: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Enter Company Name";
+                        } else if (!onlyText.hasMatch(value)) {
+                          return "(Special Characters are Not Allowed)";
+                        }
+                        return null;
+                      },
+                      onChanged: null,
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Cancel", () {
                         _jobTitle.clear();
                         _location.clear();
@@ -780,23 +841,29 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                         Navigator.pop(context);
                       })),
                   Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Okay", () {
-
                         directResponseData = [];
                         tempDirectResponseData = [];
                         campusResponseData = [];
-                        tempCampusResponseData =[];
+                        tempCampusResponseData = [];
                         totalCount = 0;
-                        isCampus == false?
-                        directJobListResponse (JobT: _jobTitle.text,
-                            location: _location.text,
-                            Fdate: _From.text, Tdate: _To.text,
-                            ExpT: _careerStatus.text, CompanyT: _CompanyName.text, isFilter: true, SalaryT: _SalaryRange.text):
-                        campusListResponse(
-                            location: _location.text,
-                            Fdate: _From.text, Tdate: _To.text,
-                            isFilter: true, campusName: _CampusName.text);
+                        isCampus == false
+                            ? directJobListResponse(
+                                JobT: _jobTitle.text,
+                                location: _location.text,
+                                Fdate: _From.text,
+                                Tdate: _To.text,
+                                ExpT: _careerStatus.text,
+                                CompanyT: _CompanyName.text,
+                                isFilter: true,
+                                SalaryT: _SalaryRange.text)
+                            : campusListResponse(
+                                location: _location.text,
+                                Fdate: _From.text,
+                                Tdate: _To.text,
+                                isFilter: true,
+                                campusName: _CampusName.text);
                       })),
                 ],
               ),
