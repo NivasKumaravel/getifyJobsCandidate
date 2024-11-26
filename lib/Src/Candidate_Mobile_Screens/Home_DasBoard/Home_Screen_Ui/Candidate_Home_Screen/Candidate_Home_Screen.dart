@@ -16,8 +16,8 @@ import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
 import 'package:getifyjobs/Src/utilits/Generic.dart';
 import 'package:getifyjobs/Src/utilits/Text_Style.dart';
 import 'package:intl/intl.dart';
-import '../../../../utilits/Common_Colors.dart';
 
+import '../../../../utilits/Common_Colors.dart';
 
 class Candidate_Home_Screen extends ConsumerStatefulWidget {
   Candidate_Home_Screen({super.key});
@@ -32,7 +32,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
   List<DirectJobItems> tempjobLists = []; //
 
   ScrollController _scrollController = ScrollController();
-   FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode = FocusNode();
   TextEditingController _From = TextEditingController();
   TextEditingController _To = TextEditingController();
   TextEditingController _location = TextEditingController();
@@ -45,15 +45,21 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
 
   int _visibleItemCount = 10; // Initial number of visible items
   bool _isLoadingMore = false; // List to hold fetched job data
-  int _currentPage = 1;// Track the current page for pagination
-
-
+  int _currentPage = 1; // Track the current page for pagination
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
-    directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', SalaryT: '', isFilter: false);
+    directJobListResponse(
+        JobT: '',
+        location: '',
+        Fdate: '',
+        Tdate: '',
+        ExpT: '',
+        CompanyT: '',
+        SalaryT: '',
+        isFilter: false);
   }
 
   @override
@@ -66,17 +72,16 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
   void _scrollListener() {
     if (!_isLoadingMore &&
         _scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent&&
+            _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange &&
         _visibleItemCount != jobLists?.length) {
       SingleTon().isLoading = false;
-      _currentPage+=1;
+      _currentPage += 1;
       // User has reached the end of the list
       // Load more data when scrolled to the bottom
       // loadMoreData();
     }
   }
-
 
   directJobListResponse({
     required String JobT,
@@ -93,13 +98,13 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
       "candidate_id": await getcandidateId(),
       "page_no": _currentPage,
       "no_of_records": _visibleItemCount,
-      "job_title":JobT,
-      "location":location,
-      "from_date":Fdate,
-      "to_date":Tdate,
-      "experience":ExpT,
-      "company_name":CompanyT,
-      "salary_from":SalaryT
+      "job_title": JobT,
+      "location": location,
+      "from_date": Fdate,
+      "to_date": Tdate,
+      "experience": ExpT,
+      "company_name": CompanyT,
+      "salary_from": SalaryT
     });
     final directJobResponseList =
         await directJobListApiService.post<DirectJobListModel>(
@@ -108,14 +113,13 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
     if (directJobResponseList.status == true) {
       print("DIRECT LIST SUCCESS");
       setState(() {
-        jobLists
-            .addAll(directJobResponseList.data?.items?.toList() ?? []);
+        jobLists.addAll(directJobResponseList.data?.items?.toList() ?? []);
 
-        tempjobLists
-            .addAll(directJobResponseList.data?.items?.toList() ?? []);
+        tempjobLists.addAll(directJobResponseList.data?.items?.toList() ?? []);
       });
-      isFilter == true?Navigator.pop(context):null;
-      print('BOOK MARK LIST ${directJobResponseList.data?.items?[0].bookmark ?? false}');
+      isFilter == true ? Navigator.pop(context) : null;
+      print(
+          'BOOK MARK LIST ${directJobResponseList.data?.items?[0].bookmark ?? false}');
     } else {
       print("DIRECT LIST ERROR");
       ShowToastMessage(directJobResponseList?.message ?? "");
@@ -145,7 +149,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         _focusNode.unfocus();
       },
       child: Scaffold(
@@ -175,7 +179,19 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Saved_Page()),
-                    ).then((value) => ref.refresh(directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', SalaryT: '', isFilter: false)));
+                    ).then((value) {
+                      jobLists = [];
+                      tempjobLists = [];
+                      ref.refresh(directJobListResponse(
+                          JobT: '',
+                          location: '',
+                          Fdate: '',
+                          Tdate: '',
+                          ExpT: '',
+                          CompanyT: '',
+                          SalaryT: '',
+                          isFilter: false));
+                    });
                   },
                   child: ImgPathSvg("save1.svg")),
             ),
@@ -197,13 +213,14 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(60.0), // Adjust the height as needed
             child: Padding(
-              padding:
-                  const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 20),
+              padding: const EdgeInsets.only(
+                  right: 20, left: 20, top: 20, bottom: 20),
               child: textFormFieldSearchBar(
-                MultifilteronTap: (){
+                MultifilteronTap: () {
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) => InterviewSchedulePopup(context),
+                    builder: (BuildContext context) =>
+                        InterviewSchedulePopup(context),
                   );
                 },
                 keyboardtype: TextInputType.text,
@@ -231,12 +248,12 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-              children: [
+          child: Column(children: [
             jobLists?.length == 0
                 ? SizedBox(
-                height: MediaQuery.sizeOf(context).height/1.5,
-                child: Center(child: NoDataWidget(content: "No Data Available")))
+                    height: MediaQuery.sizeOf(context).height / 1.5,
+                    child: Center(
+                        child: NoDataWidget(content: "No Data Available")))
                 : ListView.builder(
                     controller: _scrollController,
                     shrinkWrap: true,
@@ -252,15 +269,27 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                                       jobId: jobLists?[index].jobId ?? "",
                                       recruiterId:
                                           jobLists?[index].recruiterId ?? "",
-                                      isApplied:  jobLists?[index].already_applied ?? false,
-                                      isInbox: jobLists[index].bookmark ?? false,
-                                      TagActive: '', isSavedNeeded: true,
+                                      isApplied:
+                                          jobLists?[index].already_applied ??
+                                              false,
+                                      isInbox:
+                                          jobLists[index].bookmark ?? false,
+                                      TagActive: '',
+                                      isSavedNeeded: true,
                                     )),
                           ).then((value) {
                             jobLists = [];
                             tempjobLists = [];
                             _visibleItemCount = 0;
-                            ref.refresh(directJobListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', SalaryT: '', isFilter: false));
+                            ref.refresh(directJobListResponse(
+                                JobT: '',
+                                location: '',
+                                Fdate: '',
+                                Tdate: '',
+                                ExpT: '',
+                                CompanyT: '',
+                                SalaryT: '',
+                                isFilter: false));
                           });
                         },
                         child: DirectList(
@@ -296,7 +325,8 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                           },
                           currentIndex: index,
                           isStudent: true,
-                          bookmark: jobLists[index].bookmark ?? false, campusTag: '',
+                          bookmark: jobLists[index].bookmark ?? false,
+                          campusTag: '',
                         ),
                       );
                     },
@@ -307,29 +337,37 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
       ),
     );
   }
-  Widget InterviewSchedulePopup(BuildContext context,) {
+
+  Widget InterviewSchedulePopup(
+    BuildContext context,
+  ) {
     return Container(
       child: AlertDialog(
         surfaceTintColor: white1,
-        content:Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Multiple selection of ${"Job title, Location, Salary etc"}",style: Wbalck1,textAlign: TextAlign.center,),
+            Text(
+              "Multiple selection of ${"Job title, Location, Salary etc"}",
+              style: Wbalck1,
+              textAlign: TextAlign.center,
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Job Title',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _jobTitle,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Job Title";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -339,17 +377,16 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child:   textFormField(
+              child: textFormField(
                 hintText: 'Location',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _location,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Location";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -362,11 +399,10 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
               child: Row(
                 children: [
                   Container(
-                    width: MediaQuery.sizeOf(context).width/3,
+                    width: MediaQuery.sizeOf(context).width / 3,
                     child: TextFieldDatePicker(
                         Controller: _From,
-                        onChanged: (value) {
-                        },
+                        onChanged: (value) {},
                         validating: (value) {
                           if (value!.isEmpty) {
                             return 'Please select  Date';
@@ -383,7 +419,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                               lastDate: DateTime(2050));
                           if (pickdate != null) {
                             String formatdate =
-                            DateFormat("yyyy-MM-dd").format(pickdate!);
+                                DateFormat("yyyy-MM-dd").format(pickdate!);
                             if (mounted) {
                               setState(() {
                                 _From.text = formatdate;
@@ -392,15 +428,15 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                             }
                           }
                         },
-                        hintText: 'Form', isDownArrow: false),
+                        hintText: 'Form',
+                        isDownArrow: false),
                   ),
                   const Spacer(),
                   Container(
-                    width: MediaQuery.sizeOf(context).width/3.1,
+                    width: MediaQuery.sizeOf(context).width / 3.1,
                     child: TextFieldDatePicker(
                         Controller: _To,
-                        onChanged: (value) {
-                        },
+                        onChanged: (value) {},
                         validating: (value) {
                           if (value!.isEmpty) {
                             return 'Please select  Date';
@@ -417,7 +453,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                               lastDate: DateTime(2050));
                           if (pickdate != null) {
                             String formatdate =
-                            DateFormat("yyyy-MM-dd").format(pickdate!);
+                                DateFormat("yyyy-MM-dd").format(pickdate!);
                             if (mounted) {
                               setState(() {
                                 _To.text = formatdate;
@@ -426,43 +462,46 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                             }
                           }
                         },
-                        hintText: 'To', isDownArrow: false),
+                        hintText: 'To',
+                        isDownArrow: false),
                   ),
                 ],
               ),
             ),
-          Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Expected Salary',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _SalaryRange,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Salary";
-                  }
-                  else {
+                  } else {
                     return "Please Enter Valid Salary";
                   }
                 },
                 onChanged: null,
               ),
             ),
-             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Career Status',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _careerStatus,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter CareerStatus";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -471,18 +510,19 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Company Name',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _CompanyName,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Company Name";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -490,30 +530,32 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                 onChanged: null,
               ),
             ),
-
-
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Cancel", () {
                         Navigator.pop(context);
                       })),
                   Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Okay", () {
-
                         jobLists = [];
                         tempjobLists = [];
                         _visibleItemCount = 0;
 
-                        directJobListResponse (JobT: _jobTitle.text,
+                        directJobListResponse(
+                            JobT: _jobTitle.text,
                             location: _location.text,
-                            Fdate: _From.text, Tdate: _To.text,
-                            ExpT: _careerStatus.text, CompanyT: _CompanyName.text, isFilter: true, SalaryT: _SalaryRange.text);
+                            Fdate: _From.text,
+                            Tdate: _To.text,
+                            ExpT: _careerStatus.text,
+                            CompanyT: _CompanyName.text,
+                            isFilter: true,
+                            SalaryT: _SalaryRange.text);
                       })),
                 ],
               ),
