@@ -293,7 +293,7 @@ class _Candidate_Categoery_ScreenState
               isTitleUsed: true,
               title: "Edit Career",
             ),
-      body: SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());

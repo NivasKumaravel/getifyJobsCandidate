@@ -41,9 +41,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
 
 
   void _onShare(BuildContext context, referral) async {
-    Share.share('Hey!. If you’re looking for a new job, You should give it a shot :'
-        ' https://play.google.com/store/apps/details?id=com.getifyjobs.candidate'
-        'I’ve had great success with it. Here’s my referral id : $referral'
+    Share.share('Hey!. If you’re looking for a new job, You should give it a shot :\nhttps://play.google.com/store/apps/details?id=com.getifyjobs.candidate\nI’ve had great success with it. Here’s my referral id : $referral'
     );
     // if (result.status == ShareResultStatus.success) {
     //   print('Thank you for sharing my website!');
