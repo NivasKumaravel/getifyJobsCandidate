@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,15 +14,11 @@ import 'package:getifyjobs/Src/Common_Widgets/Image_Path.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Pdf_Picker.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Refferal_Card.dart';
 import 'package:getifyjobs/Src/utilits/ApiProvider.dart';
-import 'package:getifyjobs/Src/utilits/ApiService.dart';
 import 'package:getifyjobs/Src/utilits/Common_Colors.dart';
-import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
 import 'package:getifyjobs/Src/utilits/Generic.dart';
 import 'package:getifyjobs/Src/utilits/Text_Style.dart';
-import 'package:getifyjobs/Src/utilits/loading_overlay.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'Employeement_History_Screen.dart';
 import 'Profile_Detail_Screen.dart';
 
 class Profile_Screen extends ConsumerStatefulWidget {
@@ -523,9 +518,9 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                     )),
 
                 // //EDUCATION TYPE
-                // Container(
-                //     width:MediaQuery.of(context).size.width/1.5,
-                //     child: Text(educationDetail.educationType,style: companyT,)),
+                Container(
+                    width:MediaQuery.of(context).size.width/1.5,
+                    child: Text(educationDetail?.educationType ?? "",style: companyT,)),
 
                 //PERCENTAGE/CGPA
                 Container(

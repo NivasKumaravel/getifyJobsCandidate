@@ -35,7 +35,7 @@ class Campus_JobDetail_Screen extends ConsumerStatefulWidget {
       required this.ReruiterId,
       required this.isApplied,
       required this.TagType,
-        required this.CampusTagType,
+      required this.CampusTagType,
       required this.interviewDate,
       required this.interviewTime});
   @override
@@ -48,7 +48,7 @@ class _Campus_JobDetail_ScreenState
   CampusJobDetailsData? CampusJobDetailsResponseData;
   bool? isScanned;
   bool isBookMark = false;
-  
+
   TextEditingController _EnterCode = TextEditingController();
 
   @override
@@ -77,11 +77,15 @@ class _Campus_JobDetail_ScreenState
       bottomNavigationBar: BottomBar(context,
           ButtonTitle: widget.isApplied == true ? "Apply Job" : "Applied",
           backgroundColor: widget.isApplied == true ? blue1 : green1,
-          bookmark: false, onPress:widget.isApplied == true ? () {
-            ApplyCampusJobResponse();
-      }:(){}, shareBtnPress: () {}, onTap: () {
-        
-          }, isSavedUsed: false),
+          bookmark: false,
+          onPress: widget.isApplied == true
+              ? () {
+                  ApplyCampusJobResponse();
+                }
+              : () {},
+          shareBtnPress: () {},
+          onTap: () {},
+          isSavedUsed: false),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -97,11 +101,11 @@ class _Campus_JobDetail_ScreenState
                         ? _TagRound(TagType: widget.TagType ?? "")
                         : widget.TagType == "Rejected"
                             ? _TagRound(TagType: widget.TagType ?? "")
-                            :widget.TagType == "Enrolled"?
-                                _TagRound(TagType: widget.TagType ?? ""):
-                                widget.TagType == ""
-                                ? Container()
-                                : _TagRound(TagType: widget.TagType ?? ""),
+                            : widget.TagType == "Enrolled"
+                                ? _TagRound(TagType: widget.TagType ?? "")
+                                : widget.TagType == ""
+                                    ? Container()
+                                    : _TagRound(TagType: widget.TagType ?? ""),
             //COLLEGE CARD
             CampusList(
               context,
@@ -116,7 +120,9 @@ class _Campus_JobDetail_ScreenState
               collegeLogo: CampusJobDetailsResponseData?.college?.logo ?? "",
               companyLocation: '',
               collegeLocation:
-                  CampusJobDetailsResponseData?.college?.location ?? "", applyCount: '', isCountNeeded: false,
+                  CampusJobDetailsResponseData?.college?.location ?? "",
+              applyCount: '',
+              isCountNeeded: false,
             ),
 
             //DATE AND TIME
@@ -144,10 +150,18 @@ class _Campus_JobDetail_ScreenState
               setState(() {
                 isScanned = false;
                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => QRCodeScannerApp(JobId: widget.JobId, CampusId: widget.CampusId, ReruiterId: widget.ReruiterId,)));
-
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => QRCodeScannerApp(
+                              JobId: widget.JobId,
+                              CampusId: widget.CampusId,
+                              ReruiterId: widget.ReruiterId,
+                              screenType: 'campus',
+                            ))).then((onValue) {
+                  if (onValue == true) {
+                    CampusJobDetailsResponse();
+                  }
+                });
               });
             }, backgroundColor: blue1)),
         Padding(
@@ -555,13 +569,14 @@ class QRCodeScannerApp extends ConsumerStatefulWidget {
   String JobId;
   String CampusId;
   String ReruiterId;
+  String screenType;
 
   QRCodeScannerApp(
       {super.key,
-        required this.JobId,
-        required this.CampusId,
-        required this.ReruiterId,
-      });
+      required this.JobId,
+      required this.CampusId,
+      required this.ReruiterId,
+      required this.screenType});
   @override
   _QRCodeScannerAppState createState() => _QRCodeScannerAppState();
 }
@@ -610,7 +625,6 @@ class _QRCodeScannerAppState extends ConsumerState<QRCodeScannerApp> {
                 cutOutSize: 200,
               ),
               onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-
             ),
           ),
         ),
@@ -624,15 +638,18 @@ class _QRCodeScannerAppState extends ConsumerState<QRCodeScannerApp> {
     );
   }
 
-
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       _controller = controller;
     });
 
     controller.scannedDataStream.listen((scanData) {
-
-      EnrolledResponse(ScanCode:  scanData.code ?? "");
+      controller.pauseCamera();
+      if (widget.screenType == "direct") {
+        directResponse(ScanCode: scanData.code ?? "");
+      } else {
+        EnrolledResponse(ScanCode: scanData.code ?? "");
+      }
 
       // Handle the scanned data here (scanData).
     });
@@ -652,6 +669,7 @@ class _QRCodeScannerAppState extends ConsumerState<QRCodeScannerApp> {
     _controller?.dispose();
     super.dispose();
   }
+
   //ENROLLED RESPONSE
   EnrolledResponse({required String ScanCode}) async {
     final enrolledApiService = ApiService(ref.read(dioProvider));
@@ -663,15 +681,50 @@ class _QRCodeScannerAppState extends ConsumerState<QRCodeScannerApp> {
       "qr_code": ScanCode,
     });
     final enrolledApiResponse =
-    await enrolledApiService.post<CampusEnrolledJobModel>(
-        context, ConstantApi.campusEnrolledJobUrl, formData);
+        await enrolledApiService.post<CampusEnrolledJobModel>(
+            context, ConstantApi.campusEnrolledJobUrl, formData);
     if (enrolledApiResponse?.status == true) {
       print("ENROLLED SUCCESS");
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Bottom_Navigation(select: 1)), (route) => false);
+      _controller?.dispose();
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Bottom_Navigation(select: 2)),
+          (route) => false);
       ShowToastMessage(enrolledApiResponse?.message ?? "");
     } else {
+      _controller?.resumeCamera();
+
       print("ENROLLED ERROR");
       ShowToastMessage(enrolledApiResponse?.message ?? "");
+    }
+  }
+
+  //ENROLLED RESPONSE
+  directResponse({required String ScanCode}) async {
+    final enrolledApiService = ApiService(ref.read(dioProvider));
+    var formData = FormData.fromMap({
+      "job_id": widget.JobId,
+      "candidate_id": await getcandidateId(),
+      "recruiter_id": widget.ReruiterId,
+      "qr_code": ScanCode,
+    });
+    final enrolledApiResponse =
+        await enrolledApiService.post<CampusEnrolledJobModel>(
+            context, ConstantApi.directEnrolledJobUrl, formData);
+    if (enrolledApiResponse?.status == true) {
+      print("ENROLLED SUCCESS");
+      _controller?.dispose();
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Bottom_Navigation(select: 2)),
+          (route) => false);
+      ShowToastMessage(enrolledApiResponse.message ?? "");
+    } else {
+      _controller?.resumeCamera();
+
+      print("ENROLLED ERROR");
+      ShowToastMessage(enrolledApiResponse.message ?? "");
     }
   }
 }

@@ -6,7 +6,6 @@ import 'package:getifyjobs/Models/OtpModel.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Bottom_Navigation_Bar.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_Button.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_PopUp_Widgets.dart';
-import 'package:getifyjobs/Src/Common_Widgets/Custom_App_Bar.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Image_Path.dart';
 import 'package:getifyjobs/Src/utilits/Common_Colors.dart';
 import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
@@ -21,8 +20,11 @@ class Profile_Detail_Screen extends ConsumerStatefulWidget {
   canidateProfileData? CandidateProfileResponseData;
   final String? careerStatus;
 
-  Profile_Detail_Screen(
-      {super.key, required this.CandidateProfileResponseData,required this.careerStatus,});
+  Profile_Detail_Screen({
+    super.key,
+    required this.CandidateProfileResponseData,
+    required this.careerStatus,
+  });
 
   @override
   _Profile_Detail_ScreenState createState() => _Profile_Detail_ScreenState();
@@ -67,7 +69,6 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
       );
     }
   }
-
 
   @override
   void initState() {
@@ -142,36 +143,47 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
     return Scaffold(
       backgroundColor: white2,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         backgroundColor: white2,
         leading: IconButton(
-          icon:  ImgPathSvg("arrowback.svg"),
+          icon: ImgPathSvg("arrowback.svg"),
           onPressed: () {
             showDialog(
               context: context,
-              builder: (BuildContext context) => Profile_Back_Pop_Up(context,
-                  BackonPress: () {
-                widget.careerStatus == "Student"?
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Bottom_Navigation(select: 3)), (route) => false):
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Candidate_Bottom_Navigation(select: 3)), (route) => false);
-                  },
-                  SaveonPress: () {
-                    Add_Profile_Detail_Api();
-                  }),
+              builder: (BuildContext context) =>
+                  Profile_Back_Pop_Up(context, BackonPress: () {
+                widget.careerStatus == "Student"
+                    ? Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Bottom_Navigation(select: 3)),
+                        (route) => false)
+                    : Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Candidate_Bottom_Navigation(select: 3)),
+                        (route) => false);
+              }, SaveonPress: () {
+                Add_Profile_Detail_Api();
+              }),
             );
-            },
+          },
         ),
-        title: Text("Profile Detail",style: LoginT,),
+        title: Text(
+          "Profile Detail",
+          style: LoginT,
+        ),
         centerTitle: true,
         actions: [
           InkWell(
               onTap: () async {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) => Profile_Save_Pop_Up(context,
-                      SaveonPress: () {
-                        Add_Profile_Detail_Api();
-                      }),
+                  builder: (BuildContext context) =>
+                      Profile_Save_Pop_Up(context, SaveonPress: () {
+                    Add_Profile_Detail_Api();
+                  }),
                 );
               },
               child: Padding(
@@ -183,7 +195,6 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
               )),
         ],
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -191,7 +202,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
             widget.careerStatus == "Student"
                 ? Container()
                 : _EmployeementHistory(),
-            widget.careerStatus== "Student"
+            widget.careerStatus == "Student"
                 ? Container()
                 : InkWell(
                     onTap: () async {
@@ -295,7 +306,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
   }
 
   //SAVE PROFILE DETAIL API
-  Add_Profile_Detail_Api() async{
+  Add_Profile_Detail_Api() async {
     final profileEditApiService = ApiService(ref.read(dioProvider));
 
     var formData = FormData.fromMap({
@@ -304,16 +315,12 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
       "phone": CandidateProfileResponseData?.phone ?? "",
       "address": CandidateProfileResponseData?.address ?? "",
       "gender": CandidateProfileResponseData?.gender ?? "",
-      "specialization":
-      CandidateProfileResponseData?.specialization ?? "",
-      "qualification":
-      CandidateProfileResponseData?.qualification ?? "",
+      "specialization": CandidateProfileResponseData?.specialization ?? "",
+      "qualification": CandidateProfileResponseData?.qualification ?? "",
       "preferred_location":
-      CandidateProfileResponseData?.preferredLocation ?? "",
-      "expected_salary":
-      CandidateProfileResponseData?.expectedSalary ?? "",
-      "current_salary":
-      CandidateProfileResponseData?.currentSalary ?? "",
+          CandidateProfileResponseData?.preferredLocation ?? "",
+      "expected_salary": CandidateProfileResponseData?.expectedSalary ?? "",
+      "current_salary": CandidateProfileResponseData?.currentSalary ?? "",
       "location": CandidateProfileResponseData?.location ?? "",
       "skill_set": CandidateProfileResponseData?.skillSet ?? "",
       "marital_status": martialVal == 0 ? "single" : "married",
@@ -321,8 +328,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
       "nationality": _Nationality.text,
       "differently_abled": DifferentlyAbledVal == 0 ? "Yes" : "No",
       "passport": passportVal == 0 ? "Yes" : "No",
-      "language_known":
-      textFormFields.map((e) => e.text).join(", "),
+      "language_known": textFormFields.map((e) => e.text).join(", "),
       "career_break": careerBreakVal == 0 ? "Yes" : "No",
       "candidate_id": await getcandidateId(),
     });
@@ -330,43 +336,43 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
     print('PROFILE DETAIL ${formData}');
 
     for (int i = 0; i < eduHistory.length; i++) {
+      formData.fields.add(
+          MapEntry('education[$i][institute]', eduHistory[i].university_id));
       formData.fields.add(MapEntry(
-          'education[$i][institute]', eduHistory[i].university_id));
-      formData.fields.add(MapEntry('education[$i][qualification]',
-          eduHistory[i].qualification_id));
-      formData.fields.add(MapEntry('education[$i][specialization]',
-          eduHistory[i].specilization_id));
-      formData.fields.add(MapEntry('education[$i][education_type]',
-          eduHistory[i].educationType));
+          'education[$i][qualification]', eduHistory[i].qualification_id));
+      formData.fields.add(MapEntry(
+          'education[$i][specialization]', eduHistory[i].specilization_id));
+      formData.fields.add(MapEntry(
+          'education[$i][education_type]', eduHistory[i].educationType));
+      formData.fields.add(MapEntry('education[$i][cgpa]', eduHistory[i].cgpa));
       formData.fields
-          .add(MapEntry('education[$i][cgpa]', eduHistory[i].cgpa));
-      formData.fields.add(MapEntry(
-          'education[$i][start_date]', eduHistory[i].startYear));
-      formData.fields.add(MapEntry(
-          'education[$i][end_date]', eduHistory[i].endYear));
+          .add(MapEntry('education[$i][start_date]', eduHistory[i].startYear));
+      formData.fields
+          .add(MapEntry('education[$i][end_date]', eduHistory[i].endYear));
     }
     for (int i = 0; i < experienceDetails.length; i++) {
-      formData.fields.add(MapEntry('employment[$i][job_role]',
-          experienceDetails[i].JobRole));
-      formData.fields.add(MapEntry('employment[$i][company_name]',
-          experienceDetails[i].CompanyName));
-      formData.fields.add(MapEntry('employment[$i][job_type]',
-          experienceDetails[i].EmployementType));
-      formData.fields.add(MapEntry('employment[$i][start_date]',
-          experienceDetails[i].StartDate));
-      formData.fields.add(MapEntry('employment[$i][end_date]',
-          experienceDetails[i].EndDate));
-      formData.fields.add(MapEntry('employment[$i][notice_period]',
-          experienceDetails[i].NoticePeriod));
-      formData.fields.add(MapEntry('employment[$i][description]',
-          experienceDetails[i].Description));
+      formData.fields.add(
+          MapEntry('employment[$i][job_role]', experienceDetails[i].JobRole));
+      formData.fields.add(MapEntry(
+          'employment[$i][company_name]', experienceDetails[i].CompanyName));
+      formData.fields.add(MapEntry(
+          'employment[$i][job_type]', experienceDetails[i].EmployementType));
+      formData.fields.add(MapEntry(
+          'employment[$i][start_date]', experienceDetails[i].StartDate));
+      formData.fields.add(
+          MapEntry('employment[$i][end_date]', experienceDetails[i].EndDate));
+      formData.fields.add(MapEntry(
+          'employment[$i][notice_period]', experienceDetails[i].NoticePeriod));
+      formData.fields.add(MapEntry(
+          'employment[$i][description]', experienceDetails[i].Description));
     }
 
-    final profileEditResponse =
-    await profileEditApiService.post<OtpModel>(
+    final profileEditResponse = await profileEditApiService.post<OtpModel>(
         context, ConstantApi.candidateEditProfileUrl, formData);
 
     if (profileEditResponse.status == true) {
+      Navigator.pop(context);
+
       Navigator.pop(context, 'true');
     } else {
       ShowToastMessage(profileEditResponse.message ?? "");
@@ -385,7 +391,6 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(
           children: [
-
             //NATIONALITY
             Title_Style(Title: 'Nationality', isStatus: false),
             textFormField(

@@ -16,6 +16,7 @@ import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
 import 'package:getifyjobs/Src/utilits/Generic.dart';
 import 'package:getifyjobs/Src/utilits/Text_Style.dart';
 import 'package:share_plus/share_plus.dart';
+
 import '../../../Models/DirectJobDetailsModel.dart';
 import '../../Common_Widgets/Text_Form_Field.dart';
 import 'Campus_Job_Detail_UI/Campus_Job_Detail_Page.dart';
@@ -34,14 +35,14 @@ class Job_Details extends ConsumerStatefulWidget {
       required this.TagActive,
       required this.recruiterId,
       required this.isApplied,
-      required this.isInbox,required this.isSavedNeeded});
+      required this.isInbox,
+      required this.isSavedNeeded});
 
   @override
   ConsumerState<Job_Details> createState() => _Job_DetailsState();
 }
 
 class _Job_DetailsState extends ConsumerState<Job_Details> {
-
   Data? jobDetailsData; // Define the variable to hold the value
   ApplyDirectJobModel? ApplyJobs;
   bool isStatus = true;
@@ -164,7 +165,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
       final apiService = ApiService(ref.read(dioProvider));
 
       var formData = FormData.fromMap({
-        "candidate_id":await getcandidateId(),
+        "candidate_id": await getcandidateId(),
         "job_id": widget.jobId,
       } // Pass appropriate FormData if needed
           );
@@ -189,8 +190,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
       "recruiter_id": widget.recruiterId
     });
     final bookMarkJobResponse =
-    await directJobListApiService.post<ApplyCampusJobModel>(
-        context, ConstantApi.bookmarkJobUrl, formData);
+        await directJobListApiService.post<ApplyCampusJobModel>(
+            context, ConstantApi.bookmarkJobUrl, formData);
 
     if (bookMarkJobResponse.status == true) {
       print("SUCESS");
@@ -209,7 +210,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
       appBar: Custom_AppBar(
         title: "",
         isUsed: true,
-        actions:null,
+        actions: null,
         isLogoUsed: true,
         isTitleUsed: true,
       ),
@@ -220,27 +221,28 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
         bookmark: isBookMark,
         onPress: () {
           setState(() {
-
-           jobDetailsData?.resume == true? applyButtonPressed():  showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return ShowModalBottomSheet(
-                    context,
-                    onPress: () {
-                      applyButtonPressed();
+            jobDetailsData?.resume == true
+                ? applyButtonPressed()
+                : showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return ShowModalBottomSheet(
+                        context,
+                        onPress: () {
+                          applyButtonPressed();
+                        },
+                      );
                     },
                   );
-                },
-              );
-            }
-          );
+          });
         },
         shareBtnPress: () {
           _onShare(context);
-        }, onTap: () {
-        bookMarkApiResponse();
-
-      }, isSavedUsed: widget.isSavedNeeded ?? false,
+        },
+        onTap: () {
+          bookMarkApiResponse();
+        },
+        isSavedUsed: widget.isSavedNeeded ?? false,
       ),
       body: Form(
         key: _formKey,
@@ -354,11 +356,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 headertxt: "Specialization",
                 subtxt: jobDetailsData?.specialization ?? ""),
 
-            jobDetailsData?.yearsofexperience == null ? Container() :
-            textWithheader(
-                headertxt: "Years of Experience",
-                subtxt: jobDetailsData?.yearsofexperience ?? ""),
-
+            jobDetailsData?.yearsofexperience == null
+                ? Container()
+                : textWithheader(
+                    headertxt: "Years of Experience",
+                    subtxt: jobDetailsData?.yearsofexperience ?? ""),
 
             jobDetailsData?.currentArrears == ''
                 ? Container()
@@ -376,20 +378,21 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                         headertxt: "History of Arrears",
                         subtxt: jobDetailsData?.historyOfArrears ?? ""),
 
-            jobDetailsData?.requiredPercentage == "" ? Container() :
-            textWithheader(
-                headertxt: "Required Percentage/CGPA",
-                subtxt: jobDetailsData?.requiredPercentage ?? ""),
-
+            jobDetailsData?.requiredPercentage == ""
+                ? Container()
+                : textWithheader(
+                    headertxt: "Required Percentage/CGPA",
+                    subtxt: jobDetailsData?.requiredPercentage ?? ""),
 
             textWithheader(
                 headertxt: "Work Type", subtxt: jobDetailsData?.workType ?? ""),
 
-            jobDetailsData?.workMode == "Please Select" || jobDetailsData?.workMode == ""
-                ? Container() :
-            textWithheader(
-                headertxt: "Work Mode",
-                subtxt: jobDetailsData?.workMode ?? ""),
+            jobDetailsData?.workMode == "Please Select" ||
+                    jobDetailsData?.workMode == ""
+                ? Container()
+                : textWithheader(
+                    headertxt: "Work Mode",
+                    subtxt: jobDetailsData?.workMode ?? ""),
 
             textWithheader(
                 headertxt: "Shift Details",
@@ -473,10 +476,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
               style: bluetxt,
             ),
             Container(
-              width: MediaQuery.sizeOf(context).width/1.2,
+              width: MediaQuery.sizeOf(context).width / 1.2,
               child: Text(
                 jobDetailsData?.recruiter ?? "",
-                style: stxt,maxLines: 2,
+                style: stxt,
+                maxLines: 2,
               ),
             ),
             SizedBox(
@@ -503,19 +507,19 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                           ? yellow2
                           : TagActive == "Schedule Rejected"
                               ? white1
-                          : TagActive == "Rejected"
-                               ? white1
-                              : TagActive == "Candidate Rescheduled"
-                                  ? yellow2
-                                  : TagActive == 'Recruiter Rescheduled'
+                              : TagActive == "Rejected"
+                                  ? white1
+                                  : TagActive == "Candidate Rescheduled"
                                       ? yellow2
-                      : TagActive == 'Interview Rescheduled'
-                      ? yellow2
-                                      : TagActive == 'Selected'
-                                          ? green2
-                                          : TagActive == 'Wait List'
+                                      : TagActive == 'Recruiter Rescheduled'
+                                          ? yellow2
+                                          : TagActive == 'Interview Rescheduled'
                                               ? yellow2
-                                              : white1,
+                                              : TagActive == 'Selected'
+                                                  ? green2
+                                                  : TagActive == 'Wait List'
+                                                      ? yellow2
+                                                      : white1,
                   child: Center(
                     child: Text(
                       TagActive == "Schedule Requested"
@@ -528,25 +532,22 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                       ? "Reschedule Requested"
                                       : TagActive == 'Recruiter Rescheduled'
                                           ? "Recruiter Rescheduled"
-                          : TagActive == 'Interview Rescheduled'
-                          ? "Recruiter Rescheduled"
-                                          : TagActive == 'Not Shortlisted'
-                                              ? "Not Shortlisted"
-                                              : TagActive ==
-                                                      "Wait List"
-                                                  ? 'Waiting For Result'
-                                                  : TagActive ==
-                                                          "Selected"
-                                                      ? 'You were Selected'
-                          : TagActive ==
-                          "Rejected"
-                          ? 'You were Rejected'
-                                                      : TagActive ==
-                                                              "You were not Shortlisted"
-                                                          ? 'You were not Shortlisted'
-                                                          : '',
-                      style:
-                      TextStyle(
+                                          : TagActive == 'Interview Rescheduled'
+                                              ? "Recruiter Rescheduled"
+                                              : TagActive == 'Not Shortlisted'
+                                                  ? "Not Shortlisted"
+                                                  : TagActive == "Wait List"
+                                                      ? 'Waiting For Result'
+                                                      : TagActive == "Selected"
+                                                          ? 'You were Selected'
+                                                          : TagActive ==
+                                                                  "Rejected"
+                                                              ? 'You were Rejected'
+                                                              : TagActive ==
+                                                                      "You were not Shortlisted"
+                                                                  ? 'You were not Shortlisted'
+                                                                  : '',
+                      style: TextStyle(
                           fontFamily: "Inter",
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
@@ -554,28 +555,31 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                               ? green1
                               : TagActive == "Schedule Rejected"
                                   ? grey4
-                              : TagActive == "Rejected"
-                              ? grey4
-                                  : TagActive == "Schedule Requested"
-                                      ? yellow1
-                                      : TagActive == "Candidate Rescheduled"
+                                  : TagActive == "Rejected"
+                                      ? grey4
+                                      : TagActive == "Schedule Requested"
                                           ? yellow1
-                                          : TagActive == 'Recruiter Rescheduled'
+                                          : TagActive == "Candidate Rescheduled"
                                               ? yellow1
-                              : TagActive == 'Interview Rescheduled'
-                              ? yellow1
-                                              : TagActive == 'Not Shortlisted'
-                                                  ? grey4
+                                              : TagActive ==
+                                                      'Recruiter Rescheduled'
+                                                  ? yellow1
                                                   : TagActive ==
-                                                          'Wait List'
+                                                          'Interview Rescheduled'
                                                       ? yellow1
                                                       : TagActive ==
-                                                              'Selected'
-                                                          ? green1
+                                                              'Not Shortlisted'
+                                                          ? grey4
                                                           : TagActive ==
-                                                                  'You were not Shortlisted'
-                                                              ? grey4
-                                                              : white1),
+                                                                  'Wait List'
+                                                              ? yellow1
+                                                              : TagActive ==
+                                                                      'Selected'
+                                                                  ? green1
+                                                                  : TagActive ==
+                                                                          'You were not Shortlisted'
+                                                                      ? grey4
+                                                                      : white1),
                     ),
                   ),
                 ),
@@ -602,11 +606,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                               ? "You were Shortlisted for the Interview on"
                                               : TagActive ==
                                                       "Recruiter Rescheduled"
-                                                  ? "You were Shortlisted for the Interview on":
-                              TagActive ==
-                                  "Interview Rescheduled"
-                                  ? "Recruiter Reschedule Interview on"
-                                                  : "",
+                                                  ? "You were Shortlisted for the Interview on"
+                                                  : TagActive ==
+                                                          "Interview Rescheduled"
+                                                      ? "Recruiter Reschedule Interview on"
+                                                      : "",
                               style: TagActive == "Schedule Accepted"
                                   ? attachT1
                                   : TagActive == "Schedule Requested"
@@ -618,9 +622,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                             ),
                             Text(
                               TagActive == "Schedule Accepted"
-                                  ? "${jobDetailsData?.scheduleAccepted?.interviewTime==[]? jobDetailsData?.scheduleRequested?.interviewTime ?? "":
-                              jobDetailsData?.scheduleAccepted?.interviewTime ?? ""}, "
-                                  "${jobDetailsData?.scheduleAccepted?.interviewDate==[]?jobDetailsData?.scheduleRequested?.interviewDate ?? "":jobDetailsData?.scheduleAccepted?.interviewDate ?? ""}"
+                                  ? "${jobDetailsData?.scheduleAccepted?.interviewTime == [] ? jobDetailsData?.scheduleRequested?.interviewTime ?? "" : jobDetailsData?.scheduleAccepted?.interviewTime ?? ""}, "
+                                      "${jobDetailsData?.scheduleAccepted?.interviewDate == [] ? jobDetailsData?.scheduleRequested?.interviewDate ?? "" : jobDetailsData?.scheduleAccepted?.interviewDate ?? ""}"
                                   : TagActive == "Schedule Requested"
                                       ? "${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}"
                                       : TagActive == "You Rejected"
@@ -630,10 +633,10 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                               : TagActive ==
                                                       "Recruiter Rescheduled"
                                                   ? "${jobDetailsData?.scheduleRequested?.interviewTime ?? ""}, ${jobDetailsData?.scheduleRequested?.interviewDate ?? ""}"
-                                  : TagActive ==
-                                  "Interview Rescheduled"
-                                  ? "${jobDetailsData?.interviewReschedule?.interviewTime ?? ""}, ${jobDetailsData?.interviewReschedule?.interviewDate ?? ""}"
-                                                  : "",
+                                                  : TagActive ==
+                                                          "Interview Rescheduled"
+                                                      ? "${jobDetailsData?.interviewReschedule?.interviewTime ?? ""}, ${jobDetailsData?.interviewReschedule?.interviewDate ?? ""}"
+                                                      : "",
                               style: TagActive == "Schedule Accepted"
                                   ? TBlack
                                   : TagActive == "Schedule Requested"
@@ -642,7 +645,9 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                           ? TBlack
                                           : Homewhite,
                             ),
-                            TagActive == "Schedule Accepted"? _ScanDetail(context):Container(),
+                            TagActive == "Schedule Accepted"
+                                ? _ScanDetail(context)
+                                : Container(),
                           ],
                         ),
                       ),
@@ -651,53 +656,78 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                         ? Padding(
                             padding: const EdgeInsets.only(
                                 top: 10, bottom: 25, left: 20, right: 20),
-                            child: isRescheduled == true?Container():isStatus == true
-                                ?
-                            Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                          height: 50,
-                                          width: MediaQuery.sizeOf(context).width/4.5,
-                                          child: CommonElevatedButton2(
-                                              context, "Yes", () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  RescheduleConfirmationPop(context,
-                                                      typeT: 'accept', onPress: () {
-                                                        ScheduleAcceptedResponse();
-                                                      }, scheduleT: TagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
-                                            );
-
+                            child: isRescheduled == true
+                                ? Container()
+                                : isStatus == true
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                              height: 50,
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  4.5,
+                                              child: CommonElevatedButton2(
+                                                  context, "Yes", () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      RescheduleConfirmationPop(
+                                                          context,
+                                                          typeT: 'accept',
+                                                          onPress: () {
+                                                    ScheduleAcceptedResponse();
+                                                  },
+                                                          scheduleT: TagActive ==
+                                                                  "Schedule Requested"
+                                                              ? 'Scheduled'
+                                                              : 'Rescheduled'),
+                                                );
                                               })),
-                                      Container(
-                                          height: 50,
-                                          width: MediaQuery.sizeOf(context).width/2.7,
-                                          child: CommonElevatedButton2(
-                                              context, "Reschedule Requested", () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) => RescheduleDatePop(context),
-                                            );
-                                          })),
-                                      Container(
-                                          height: 50,
-                                          width: MediaQuery.sizeOf(context).width/4.5,
-                                          child: CommonElevatedButton2(
-                                              context, "No", () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  RescheduleConfirmationPop(context,
-                                                      typeT: 'reject', onPress: () {
-                                                        ScheduleRejectedResponse();
-                                                      }, scheduleT: TagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
-                                            );
+                                          Container(
+                                              height: 50,
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  2.7,
+                                              child: CommonElevatedButton2(
+                                                  context,
+                                                  "Reschedule Requested", () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          RescheduleDatePop(
+                                                              context),
+                                                );
                                               })),
-                                    ],
-                                  )
-                                : Container(),
+                                          Container(
+                                              height: 50,
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  4.5,
+                                              child: CommonElevatedButton2(
+                                                  context, "No", () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      RescheduleConfirmationPop(
+                                                          context,
+                                                          typeT: 'reject',
+                                                          onPress: () {
+                                                    ScheduleRejectedResponse();
+                                                  },
+                                                          scheduleT: TagActive ==
+                                                                  "Schedule Requested"
+                                                              ? 'Scheduled'
+                                                              : 'Rescheduled'),
+                                                );
+                                              })),
+                                        ],
+                                      )
+                                    : Container(),
                           )
                         : Container(),
                     TagActive == "Candidate Rescheduled"
@@ -711,8 +741,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                 style: attachT1,
                               ),
                               Text(
-                                "${jobDetailsData?.candidateReschedule?.interviewTime ==[]?SingleTon().setTime:jobDetailsData?.candidateReschedule?.interviewTime ?? ""}, "
-                                    "${jobDetailsData?.candidateReschedule?.interviewDate == []?dateController.text:jobDetailsData?.candidateReschedule?.interviewDate ?? ""}",
+                                "${jobDetailsData?.candidateReschedule?.interviewTime == [] ? SingleTon().setTime : jobDetailsData?.candidateReschedule?.interviewTime ?? ""}, "
+                                "${jobDetailsData?.candidateReschedule?.interviewDate == [] ? dateController.text : jobDetailsData?.candidateReschedule?.interviewDate ?? ""}",
                                 style: TBlack,
                               ),
                             ],
@@ -734,15 +764,19 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                       TagActive == "Candidate Rescheduled"
                                           ? " 9.00 AM, 12 Oct 2023"
                                           : "${jobDetailsData?.candidateReschedule?.interviewTime ?? ""}, ${jobDetailsData?.candidateReschedule?.interviewDate ?? ""}",
-                                      style: TagActive == "Candidate Rescheduled"
-                                          ? TBlack
-                                          : Homewhite),
+                                      style:
+                                          TagActive == "Candidate Rescheduled"
+                                              ? TBlack
+                                              : Homewhite),
                                 ],
                               )
                             : Container(),
                     TagActive == "Recruiter Reschedule"
-                        ? _Recruiter_Reschedule_Buttons("Recruiter Rescheduled"):TagActive == "Interview Rescheduled"? _Recruiter_Reschedule_Buttons("Interview Rescheduled")
-                        : Container(),
+                        ? _Recruiter_Reschedule_Buttons("Recruiter Rescheduled")
+                        : TagActive == "Interview Rescheduled"
+                            ? _Recruiter_Reschedule_Buttons(
+                                "Interview Rescheduled")
+                            : Container(),
                     TagActive == "Selected"
                         ? _OfferLetterSection()
                         : Container(),
@@ -758,56 +792,68 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
   Widget _Recruiter_Reschedule_Buttons(String? tagActive) {
     return Column(
       children: [
-        tagActive == "Interview Rescheduled"? Container():  Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Text(
-            "Recruiter Rescheduled to",
-            style: attachT1,
-          ),
-        ),
-        tagActive == "Interview Rescheduled"? Container():   Text(
-          "${jobDetailsData?.recruiterReschedule?.interviewTime ?? ""}, ${jobDetailsData?.recruiterReschedule?.interviewDate ?? ""}",
-          style: TBlack,
-        ),
-    isClicked == true? Container(
-      margin: EdgeInsets.only(bottom: 10),
-    ):Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  height: 50,
-                  width: 105,
-                  child: CommonElevatedButton2(context, "Yes", () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          RescheduleConfirmationPop(context,
-                              typeT: 'accept', onPress: () {
-                                ScheduleAcceptedResponse();
-                              }, scheduleT: tagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
-                    );
-                  })),
-              SizedBox(
-                width: 20,
+        tagActive == "Interview Rescheduled"
+            ? Container()
+            : Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  "Recruiter Rescheduled to",
+                  style: attachT1,
+                ),
               ),
-              Container(
-                  height: 50,
-                  width: 105,
-                  child: CommonElevatedButton2(context, "No", () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          RescheduleConfirmationPop(context,
-                              typeT: 'reject', onPress: () {
-                                ScheduleRejectedResponse();
-                              }, scheduleT: tagActive == "Schedule Requested"?'Scheduled':'Rescheduled'),
-                    );
-                  })),
-            ],
-          ),
-        ),
+        tagActive == "Interview Rescheduled"
+            ? Container()
+            : Text(
+                "${jobDetailsData?.recruiterReschedule?.interviewTime ?? ""}, ${jobDetailsData?.recruiterReschedule?.interviewDate ?? ""}",
+                style: TBlack,
+              ),
+        isClicked == true
+            ? Container(
+                margin: EdgeInsets.only(bottom: 10),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 50,
+                        width: 105,
+                        child: CommonElevatedButton2(context, "Yes", () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                RescheduleConfirmationPop(context,
+                                    typeT: 'accept', onPress: () {
+                              ScheduleAcceptedResponse();
+                            },
+                                    scheduleT: tagActive == "Schedule Requested"
+                                        ? 'Scheduled'
+                                        : 'Rescheduled'),
+                          );
+                        })),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                        height: 50,
+                        width: 105,
+                        child: CommonElevatedButton2(context, "No", () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                RescheduleConfirmationPop(context,
+                                    typeT: 'reject', onPress: () {
+                              ScheduleRejectedResponse();
+                            },
+                                    scheduleT: tagActive == "Schedule Requested"
+                                        ? 'Scheduled'
+                                        : 'Rescheduled'),
+                          );
+                        })),
+                  ],
+                ),
+              ),
       ],
     );
   }
@@ -848,8 +894,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                         style: attachT1,
                       ),
                       Text(
-                        "${jobDetailsData?.recruiterReschedule?.interviewTime== null ?jobDetailsData?.scheduleRequested?.interviewTime ?? "":jobDetailsData?.recruiterReschedule?.interviewTime ?? ""}, "
-                            "${jobDetailsData?.recruiterReschedule?.interviewDate == null ?jobDetailsData?.scheduleRequested?.interviewDate ?? "":jobDetailsData?.recruiterReschedule?.interviewDate ?? ""}",
+                        "${jobDetailsData?.recruiterReschedule?.interviewTime == null ? jobDetailsData?.scheduleRequested?.interviewTime ?? "" : jobDetailsData?.recruiterReschedule?.interviewTime ?? ""}, "
+                        "${jobDetailsData?.recruiterReschedule?.interviewDate == null ? jobDetailsData?.scheduleRequested?.interviewDate ?? "" : jobDetailsData?.recruiterReschedule?.interviewDate ?? ""}",
                         style: TBlack,
                       ),
                     ],
@@ -860,6 +906,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
           )
         : Container();
   }
+
   //RESCHEDULE REQUESTED TAG
   Widget RescheduleRequestedTag() {
     return isRescheduled == true
@@ -867,10 +914,10 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             children: [
               Container(
                 height: 50,
-                color:orange3,
+                color: orange3,
                 child: Center(
                   child: Text(
-                     "Reschedule Requested",
+                    "Reschedule Requested",
                     style: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 20,
@@ -891,7 +938,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                     children: [
                       Text(
                         "You requested to reschedule the interview on",
-                        style: attachT1,textAlign: TextAlign.center,
+                        style: attachT1,
+                        textAlign: TextAlign.center,
                       ),
                       Text(
                         "${SingleTon().setTime}, ${dateController.text}",
@@ -910,18 +958,33 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
     return Column(
       children: [
         Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30,),
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+            ),
             child: AppliedButton(context, "Click to Scan", onPress: () {
               setState(() {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => QRCodeScannerApp(JobId: widget.jobId ?? "", CampusId:'', ReruiterId: widget.recruiterId ?? "",)));
+                        builder: (context) => QRCodeScannerApp(
+                              JobId: widget.jobId ?? "",
+                              CampusId: '',
+                              ReruiterId: jobDetailsData?.recruiterId ?? "",
+                              screenType: 'direct',
+                            ))).then((onValue) {
+                  if (onValue == true) {
+                    setApplyJob();
+                  }
+                });
               });
             }, backgroundColor: blue1)),
         Padding(
-          padding: const EdgeInsets.only(top: 5,bottom: 5),
-          child: Text("OR",style: dateT,),
+          padding: const EdgeInsets.only(top: 5, bottom: 5),
+          child: Text(
+            "OR",
+            style: dateT,
+          ),
         ),
         _writeMessage(),
         Text(
@@ -932,9 +995,9 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
     );
   }
 
-  Widget _writeMessage(){
-    return   Container(
-      margin: EdgeInsets.only(left: 20,right: 20,bottom:10),
+  Widget _writeMessage() {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
       child: Chat_Field(
         context,
         hintText: 'Enter Code',
@@ -942,9 +1005,10 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
         inputFormatters: null,
         Controller: _EnterCode,
         validating: null,
-        onChanged: null, onTap: () {
-        DirectEnrolledResponse();
-            },
+        onChanged: null,
+        onTap: () {
+          DirectEnrolledResponse();
+        },
       ),
     );
   }
@@ -974,32 +1038,38 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
               ],
             ),
           ),
-          isFeedBack == true?Container(): Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 10),
-            child: Text("Feedback about company", style: TBlack),
-          ),
-          isFeedBack == true?Container(): textfieldDescription3(
-            Controller: _FeedBack,
-            validating: (value) {
-              if (value == null || value.isEmpty) {
-                return "Please Enter Feedback";
-              }
-              if (value == null) {
-                return "Please Enter Feedback";
-              }
-              return null;
-            },
-          ),
-          isFeedBack == true?Container(): Center(
-              child: Padding(
-            padding: const EdgeInsets.only(top: 23, bottom: 23),
-            child: Container(
-                width: 200,
-                height: 44,
-                child: CommonElevatedButton(context, "Submit", () {
-                  OfferFeedBackResponse();
-                })),
-          )),
+          isFeedBack == true
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 10),
+                  child: Text("Feedback about company", style: TBlack),
+                ),
+          isFeedBack == true
+              ? Container()
+              : textfieldDescription3(
+                  Controller: _FeedBack,
+                  validating: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter Feedback";
+                    }
+                    if (value == null) {
+                      return "Please Enter Feedback";
+                    }
+                    return null;
+                  },
+                ),
+          isFeedBack == true
+              ? Container()
+              : Center(
+                  child: Padding(
+                  padding: const EdgeInsets.only(top: 23, bottom: 23),
+                  child: Container(
+                      width: 200,
+                      height: 44,
+                      child: CommonElevatedButton(context, "Submit", () {
+                        OfferFeedBackResponse();
+                      })),
+                )),
           SizedBox(
             height: 5,
           ),
@@ -1050,7 +1120,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
   Widget RescheduleDatePop(BuildContext context) {
     return AlertDialog(
       surfaceTintColor: white1,
-      content:Container(
+      content: Container(
         width: 350,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1058,7 +1128,11 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //DATE PICKER
-            Text("Please select the reschedule date & time for the Interview",style: Wbalck6,textAlign: TextAlign.center,),
+            Text(
+              "Please select the reschedule date & time for the Interview",
+              style: Wbalck6,
+              textAlign: TextAlign.center,
+            ),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               readOnly: true,
@@ -1117,8 +1191,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             //TIME PICKER
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
-              child:
-              TimePickerFormField(onValidate: (value){
+              child: TimePickerFormField(onValidate: (value) {
                 _selectedTime = value;
               }),
             ),
@@ -1128,23 +1201,24 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                      width:MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Cancel", () {
                         Navigator.pop(context);
                       })),
                   Container(
-                      width:MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Okay", () {
                         print("TIME ${_selectedTime}");
                         print("DATE CONTROLLER ${dateController.text}");
-                        if(_selectedTime == null || dateController.text.isEmpty){
-                          ShowToastMessage("Please Enter Interview Date & Time");
-                        }else{
+                        if (_selectedTime == null ||
+                            dateController.text.isEmpty) {
+                          ShowToastMessage(
+                              "Please Enter Interview Date & Time");
+                        } else {
                           print('Please Enter Interview Date');
                           _validateTime();
                           RescheduleRequestedResponse();
                         }
-
                       })),
                 ],
               ),
@@ -1156,17 +1230,18 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
   }
 
   //SCHEDULE ACCEPTED
-  ScheduleAcceptedResponse() async{
+  ScheduleAcceptedResponse() async {
     final scheduleAcceptedApiService = ApiService(ref.refresh(dioProvider));
     var formData = FormData.fromMap({
       "job_id": widget.jobId,
-      "candidate_id":await getcandidateId(),
-      "recruiter_id":jobDetailsData?.recruiterId ?? "",
-      "status":5
+      "candidate_id": await getcandidateId(),
+      "recruiter_id": jobDetailsData?.recruiterId ?? "",
+      "status": 5
     });
-    final scheduleAcceptedApiResponse = await scheduleAcceptedApiService.post<CandidateUpdateModel>
-      (context, ConstantApi.candidateUpdateInterviewUrl, formData);
-    if(scheduleAcceptedApiResponse?.status == true){
+    final scheduleAcceptedApiResponse =
+        await scheduleAcceptedApiService.post<CandidateUpdateModel>(
+            context, ConstantApi.candidateUpdateInterviewUrl, formData);
+    if (scheduleAcceptedApiResponse?.status == true) {
       print("SCHEDULE ACCEPTED SUCESS");
       setState(() {
         isStatus = false;
@@ -1175,23 +1250,24 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
         _AcceptedRejectedByCandidate();
       });
       Navigator.pop(context);
-
-    }else{
+    } else {
       print("SCHEDULE ACCEPTED ERROR");
     }
   }
+
   //SCHEDULE REJECTED
-  ScheduleRejectedResponse() async{
+  ScheduleRejectedResponse() async {
     final scheduleAcceptedApiService = ApiService(ref.refresh(dioProvider));
     var formData = FormData.fromMap({
       "job_id": widget.jobId,
-      "candidate_id":await getcandidateId(),
-      "recruiter_id":jobDetailsData?.recruiterId ?? "",
-      "status":7
+      "candidate_id": await getcandidateId(),
+      "recruiter_id": jobDetailsData?.recruiterId ?? "",
+      "status": 7
     });
-    final scheduleAcceptedApiResponse = await scheduleAcceptedApiService.post<CandidateUpdateModel>
-      (context, ConstantApi.candidateUpdateInterviewUrl, formData);
-    if(scheduleAcceptedApiResponse?.status == true){
+    final scheduleAcceptedApiResponse =
+        await scheduleAcceptedApiService.post<CandidateUpdateModel>(
+            context, ConstantApi.candidateUpdateInterviewUrl, formData);
+    if (scheduleAcceptedApiResponse?.status == true) {
       print("SCHEDULE REJECTED SUCCESS");
       setState(() {
         isStatus = false;
@@ -1200,114 +1276,121 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
         _AcceptedRejectedByCandidate();
       });
       Navigator.pop(context);
-
-    }else{
+    } else {
       print("SCHEDULE REJECTED ERROR");
     }
   }
+
   //RESCHEDULE REQUESTED
-  RescheduleRequestedResponse() async{
+  RescheduleRequestedResponse() async {
     final scheduleAcceptedApiService = ApiService(ref.refresh(dioProvider));
     var formData = FormData.fromMap({
       "job_id": widget.jobId,
-      "candidate_id":await getcandidateId(),
-      "recruiter_id":jobDetailsData?.recruiterId ?? "",
-      "interview_date":dateController.text,
-      "interview_time":SingleTon().setTime,
-      "status":6,
-      "reschedule_by":"candidate",
+      "candidate_id": await getcandidateId(),
+      "recruiter_id": jobDetailsData?.recruiterId ?? "",
+      "interview_date": dateController.text,
+      "interview_time": SingleTon().setTime,
+      "status": 6,
+      "reschedule_by": "candidate",
     });
-    final scheduleAcceptedApiResponse = await scheduleAcceptedApiService.post<CandidateUpdateModel>
-      (context, ConstantApi.rescheduleInterview, formData);
-    if(scheduleAcceptedApiResponse?.status == true){
+    final scheduleAcceptedApiResponse =
+        await scheduleAcceptedApiService.post<CandidateUpdateModel>(
+            context, ConstantApi.rescheduleInterview, formData);
+    if (scheduleAcceptedApiResponse?.status == true) {
       ShowToastMessage(scheduleAcceptedApiResponse?.message ?? "");
       print("RESCHEDULE SUCCESS");
       setState(() {
         isRescheduled = true;
       });
       Navigator.pop(context);
-    }else{
+    } else {
       print("RESCHEDULE ERROR");
       ShowToastMessage(scheduleAcceptedApiResponse?.message ?? "");
     }
   }
+
   //OFFERFEEDBACK
- OfferFeedBackResponse() async{
+  OfferFeedBackResponse() async {
     final offerFeedBackApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
-     "candidate_id": await getcandidateId(),
-      "job_id":widget.jobId,
-      "feedback":_FeedBack.text,
+      "candidate_id": await getcandidateId(),
+      "job_id": widget.jobId,
+      "feedback": _FeedBack.text,
     });
-    final offerFeedBackApiResponse = await offerFeedBackApiService.post<JobFeedBackModel>(context, ConstantApi.jobFeedBackUrl,
-        formData);
-    if(offerFeedBackApiResponse?.status == true){
+    final offerFeedBackApiResponse = await offerFeedBackApiService
+        .post<JobFeedBackModel>(context, ConstantApi.jobFeedBackUrl, formData);
+    if (offerFeedBackApiResponse?.status == true) {
       print("FEED BACK SUCCESS");
       setState(() {
         isFeedBack = true;
       });
       ShowToastMessage(offerFeedBackApiResponse?.message ?? "");
-    }else{
+    } else {
       print("FEED BACK ERROR");
       ShowToastMessage(offerFeedBackApiResponse?.message ?? "");
     }
- }
+  }
 
- //DIRECT ENROLLED RESPONSE
- DirectEnrolledResponse() async{
+  //DIRECT ENROLLED RESPONSE
+  DirectEnrolledResponse() async {
     final directEnrolledApiService = ApiService(ref.read(dioProvider));
 
-      var formData = FormData.fromMap({
-        "job_id":widget.jobId,
-        "candidate_id":await getcandidateId(),
-        "recruiter_id":jobDetailsData?.recruiterId ?? "",
-        "qr_code":_EnterCode.text
-      });
-    final directEnrolledResponse = await directEnrolledApiService.post<CampusEnrolledJobModel>
-      (context, ConstantApi.directEnrolledJobUrl, formData);
-    if(directEnrolledResponse?.status == true){
+    var formData = FormData.fromMap({
+      "job_id": widget.jobId,
+      "candidate_id": await getcandidateId(),
+      "recruiter_id": jobDetailsData?.recruiterId ?? "",
+      "qr_code": _EnterCode.text
+    });
+    final directEnrolledResponse =
+        await directEnrolledApiService.post<CampusEnrolledJobModel>(
+            context, ConstantApi.directEnrolledJobUrl, formData);
+    if (directEnrolledResponse?.status == true) {
       print("ENROLLED SUCCESS");
       setState(() {
         widget.TagActive == "Wait List";
       });
       ShowToastMessage(directEnrolledResponse?.message ?? "");
-
-    }else{
+    } else {
       print("ENROLLED ERROR");
       ShowToastMessage(directEnrolledResponse?.message ?? "");
     }
-
- }
-
+  }
 }
 
 //RESCHEDULE CONFIRMATION POP UP
-Widget RescheduleConfirmationPop(BuildContext context,{required String typeT,
-  required String scheduleT,
-  required void Function()? onPress}) {
+Widget RescheduleConfirmationPop(BuildContext context,
+    {required String typeT,
+    required String scheduleT,
+    required void Function()? onPress}) {
   return AlertDialog(
     surfaceTintColor: white1,
-    content:Container(
+    content: Container(
       //color: white1,
       width: 350,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Are you sure want to ${typeT} the ${scheduleT} date and time',style: Wbalck2,textAlign: TextAlign.center,maxLines: 3,),
-          SizedBox(height: 15,),
+          Text(
+            'Are you sure want to ${typeT} the ${scheduleT} date and time',
+            style: Wbalck2,
+            textAlign: TextAlign.center,
+            maxLines: 3,
+          ),
+          SizedBox(
+            height: 15,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                  width:MediaQuery.of(context).size.width/3.7,
+                  width: MediaQuery.of(context).size.width / 3.7,
                   child: PopButton(context, "Cancel", () {
                     Navigator.pop(context);
                   })),
               Container(
-                  width:MediaQuery.of(context).size.width/3.7,
+                  width: MediaQuery.of(context).size.width / 3.7,
                   child: PopButton(context, "Confirm", onPress)),
-
             ],
           ),
         ],

@@ -102,6 +102,8 @@ class _Candidate_Categoery_ScreenState
   List<String> preferredlocationOption = [];
 
   String? DesinationOption;
+  String? DesinationOptionName;
+
   String? collegeOption;
   String? collegeOptionId;
   List<DropDownData> qualificationVal = [];
@@ -134,6 +136,8 @@ class _Candidate_Categoery_ScreenState
     await setSkillset();
     await Desination();
     await CollegeName();
+    await SetSpecializrion();
+
     SingleTon().isLoading = true;
   }
 
@@ -175,10 +179,10 @@ class _Candidate_Categoery_ScreenState
 
       // final response = await apiService.get<Collage_Profile>(
       //     context, ConstantApi.ProfileScreenspecialization);
-      setState(() {
-        // Assuming response.data is a List<Data> from your API
-        specializationonVal = response.data ?? [];
-      });
+      // setState(() {
+      // Assuming response.data is a List<Data> from your API
+      specializationonVal = response.data ?? [];
+      // });
     } catch (e) {
       print('Error fetching data from API: $e');
     }
@@ -262,15 +266,19 @@ class _Candidate_Categoery_ScreenState
         widget.candidateProfileResponseData?.qualificationId ?? "";
     specializationOption =
         (widget.candidateProfileResponseData?.specialization ?? "").split(',');
+    specializationId =
+        (widget.candidateProfileResponseData?.specialization ?? "")
+            .split(',')
+            .toList();
 
     skillsetOption =
         (widget.candidateProfileResponseData?.skill ?? "").split(',');
     preferredlocationOption =
         (widget.candidateProfileResponseData?.preferredLocation ?? "")
             .split(',');
-    DesinationOption = widget.candidateProfileResponseData?.designation ?? "";
-
-    SetSpecializrion();
+    DesinationOption = widget.candidateProfileResponseData?.designationId ?? "";
+    DesinationOptionName =
+        widget.candidateProfileResponseData?.designation ?? "";
   }
 
   @override
@@ -293,7 +301,7 @@ class _Candidate_Categoery_ScreenState
               isTitleUsed: true,
               title: "Edit Career",
             ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -341,6 +349,7 @@ class _Candidate_Categoery_ScreenState
                               specializationOption = [];
                               skillsetOption = [];
                               DesinationOption = "";
+                              DesinationOptionName = "";
                               collegeOption = "";
 
                               selectExpVal = null;
@@ -462,7 +471,7 @@ class _Candidate_Categoery_ScreenState
             ? dropDownSearchField(context,
                 listValue: DesinationVal,
                 controller: widget.isEdit == true
-                    ? TextEditingController(text: DesinationOption)
+                    ? TextEditingController(text: DesinationOptionName)
                     : null,
                 onChanged: ((x) {
                   focus.unfocus();
@@ -474,6 +483,7 @@ class _Candidate_Categoery_ScreenState
                     print(result.id);
 
                     DesinationOption = result.id;
+                    DesinationOptionName = result.designation;
                   });
                 }),
                 focus: focus,
@@ -1074,21 +1084,22 @@ class _Candidate_Categoery_ScreenState
       CandidateType(selectedOption == "Student" ? "Student" : "Candidate");
 
       if (widget.isEdit == true) {
-        selectedOption == 'Student'
-            ? Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Bottom_Navigation(
-                          select: 3,
-                        )),
-                (route) => false)
-            : Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Candidate_Bottom_Navigation(
-                          select: 3,
-                        )),
-                (route) => false);
+        Navigator.pop(context, "true");
+        // selectedOption == 'Student'
+        //     ? Navigator.pushAndRemoveUntil(
+        //         context,
+        //         MaterialPageRoute(
+        //             builder: (context) => Bottom_Navigation(
+        //                   select: 3,
+        //                 )),
+        //         (route) => false)
+        //     : Navigator.pushAndRemoveUntil(
+        //         context,
+        //         MaterialPageRoute(
+        //             builder: (context) => Candidate_Bottom_Navigation(
+        //                   select: 3,
+        //                 )),
+        //         (route) => false);
       } else {
         selectedOption == 'Student'
             ? Navigator.pushAndRemoveUntil(
