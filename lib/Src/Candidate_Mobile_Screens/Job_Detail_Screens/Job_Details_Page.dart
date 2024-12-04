@@ -770,6 +770,46 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                           TagActive == "Candidate Rescheduled"
                                               ? TBlack
                                               : Homewhite),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10, bottom: 15),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            height: 50,
+                                            width: 105,
+                                            child: CommonElevatedButton2(context, "Yes", () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) =>
+                                                    RescheduleConfirmationPop(context,
+                                                        typeT: 'accept', onPress: () {
+                                                          ScheduleAcceptedResponse();
+                                                        },
+                                                        scheduleT: 'Rescheduled'),
+                                              );
+                                            })),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Container(
+                                            height: 50,
+                                            width: 105,
+                                            child: CommonElevatedButton2(context, "No", () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) =>
+                                                    RescheduleConfirmationPop(context,
+                                                        typeT: 'reject', onPress: () {
+                                                          ScheduleRejectedResponse();
+                                                        },
+                                                        scheduleT: 'Rescheduled'),
+                                              );
+                                            })),
+                                      ],
+                                    ),
+                                  ),
+
                                 ],
                               )
                             : Container(),
@@ -813,7 +853,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             ? Container(
                 margin: EdgeInsets.only(bottom: 10),
               )
-            : Padding(
+            :
+        Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
