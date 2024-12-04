@@ -89,7 +89,7 @@ class _Forget_Password_ScreenState extends ConsumerState<Forget_Password_Screen>
                           //FORGET PASSWORD
                          Padding(
                            padding: const EdgeInsets.only(top: 35,bottom: 25),
-                           child: Text(widget.isReset == true?"Forgot Password":"Reset Password",style: TitleT,),
+                           child: Text(widget.isReset == true?"Reset Password":"Reset Password",style: TitleT,),
                          ),
 
                          //ENTER NEW PASSWORD

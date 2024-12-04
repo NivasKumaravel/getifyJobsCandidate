@@ -228,7 +228,7 @@ class _Student_MyApplies_ScreenState
                   controller: _tabController,
                   children: [
                     DirectMyAppliesResponseData?.length == 0
-                        ? Center(child: NoDataWidget(content: "No Data Available"))
+                        ? Center(child: NoDataWidget(content: "Your Data is Loading"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -239,7 +239,7 @@ class _Student_MyApplies_ScreenState
                             ),
                           ),
                     CampusMyAppliesResponseData?.length == 0
-                        ? Center(child: NoDataWidget(content: "No Data Available"))
+                        ? Center(child: NoDataWidget(content: "Your Data is Loading"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(

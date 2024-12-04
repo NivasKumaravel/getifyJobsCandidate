@@ -853,7 +853,7 @@ class _Employeement_History_PageState
                                               } else if (endDate
                                                   .isAtSameMomentAs(
                                                       startDate)) {
-                                                return 'End date cannot be the same as start date';
+                                                return 'End Date Cant be Same';
                                               }
                                             }
                                             return null;

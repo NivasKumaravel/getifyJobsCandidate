@@ -324,9 +324,19 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
           _profileInformation(
               title: 'Specialization',
               data: data?.specialization ?? ""),
-          _profileInformation(
-              title: 'Skill Sets',
-              data: data?.skill ?? ""),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
+            child: Text("Skill Stes",style: infoT,),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
+            child: Text(data?.skill ?? "",style: stxt,textAlign: TextAlign.justify,),
+          ),
+
+          // _profileInformation(
+          //     title: 'Skill Sets',
+          //     data: data?.skill ?? ""),
           //CURRENT ARRERS
           data?.currentArrears == null
               ? Container()

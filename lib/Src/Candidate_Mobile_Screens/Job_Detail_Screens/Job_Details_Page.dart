@@ -352,6 +352,8 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
             textWithheader(
                 headertxt: "Qualification",
                 subtxt: jobDetailsData?.qualification ?? ""),
+            jobDetailsData?.skills == ''
+                ? Container() :
             textWithheader(
                 headertxt: "Specialization",
                 subtxt: jobDetailsData?.specialization ?? ""),
@@ -687,13 +689,13 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                                 );
                                               })),
                                           Container(
-                                              height: 50,
+                                              height: 55,
                                               width: MediaQuery.sizeOf(context)
                                                       .width /
                                                   2.7,
                                               child: CommonElevatedButton2(
                                                   context,
-                                                  "Reschedule Requested", () {
+                                                  "Reschedule Request", () {
                                                 showDialog(
                                                   context: context,
                                                   builder:

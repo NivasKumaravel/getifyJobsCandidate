@@ -365,9 +365,7 @@ class _Candidate_Categoery_ScreenState
                             });
                           },
                           hintText: '  Select Your Career Status',
-                          error: selectedOption == null
-                              ? "Please Select Your Career Status'"
-                              : null,
+                          error: null
                         ),
 
                         //CURRENT DESIGNATION
@@ -578,7 +576,8 @@ class _Candidate_Categoery_ScreenState
             });
           }),
           focus: focus3,
-          validator: (x) {
+          validator: (x)
+          {
             if (x!.isEmpty) {
               return 'Please Select Qualification';
             }

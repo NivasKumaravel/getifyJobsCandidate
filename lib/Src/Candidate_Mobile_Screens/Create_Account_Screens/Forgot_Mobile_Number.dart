@@ -120,7 +120,7 @@ class _Login_PageState extends ConsumerState<Forget_Mobile_Screen> {
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Text(
-                "Enter Mobile Number",
+                "Enter New Mobile Number",
                 style: logintxt,
               ),
             ),

@@ -428,6 +428,7 @@ class _Campus_JobDetail_ScreenState
             textWithheader(
                 headertxt: "Qualification",
                 subtxt: CampusJobDetailsResponseData?.qualification ?? ""),
+            CampusJobDetailsResponseData?.specialization == null ? Container() :
             textWithheader(
                 headertxt: "Specialization",
                 subtxt: CampusJobDetailsResponseData?.specialization ?? ""),
