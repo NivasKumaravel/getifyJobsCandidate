@@ -139,13 +139,15 @@ class _Campus_Company_List_PageState
                         'retry': {'enabled': true, 'max_count': 1},
                         'send_sms_hash': true,
                         'prefill': {
-                          'contact': '7708919494',
-                          'email': 'nivas@gmail.com'
+                          'contact': SingleTon().userModelData?.phone,
+                          'email': SingleTon().userModelData?.email
                         },
                         'external': {
                           'wallets': ['paytm']
                         }
                       };
+
+                      print('PAYMENT REQUEST ${options}');
                       razorpay.on(
                           Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
                       razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,

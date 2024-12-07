@@ -635,24 +635,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
 
 
 
-  // CandidateProfileResponse() async {
-  //   final candidateProfileApiService = ApiService(ref.read(dioProvider));
-  //   var formData = FormData.fromMap({"candidate_id": await getcandidateId()});
-  //   final profileResponseJobDetails =
-  //       await candidateProfileApiService.post<CandidateProfileModel>(
-  //           context, ConstantApi.candidateProfileUrl, formData);
-  //   if (profileResponseJobDetails.status == true) {
-  //     setState(() {
-  //       CandidateProfileResponseData = profileResponseJobDetails?.data;
-  //       print("RESPONSE : ${profileResponseJobDetails.data}");
-  //       PercentageFinalVal(CandidateProfileResponseData?.profilePercentage ?? 0);
-  //     });
-  //
-  //   } else {
-  //     ShowToastMessage(profileResponseJobDetails.message ?? "");
-  //     print('ERROR');
-  //   }
-  // }
+
 
   void PercentageFinalVal(int currentPercentage) {
     if (currentPercentage != null) {

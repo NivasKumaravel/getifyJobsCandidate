@@ -5,6 +5,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:getifyjobs/Models/CandidateProfileModel.dart';
 import 'package:getifyjobs/Src/utilits/Common_Colors.dart';
 import 'package:motion_toast/motion_toast.dart';
 
@@ -180,6 +181,7 @@ class SingleTon {
   String longitude = "";
   // LatLng locationLat = LatLng(0.0, 0.0);
   File? setPdf;
+  canidateProfileData? userModelData;
   bool isLoading = true;
   bool isDataLoaded = true;
 
