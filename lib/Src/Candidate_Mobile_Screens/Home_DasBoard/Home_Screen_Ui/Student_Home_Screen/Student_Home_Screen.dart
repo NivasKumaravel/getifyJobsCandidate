@@ -505,17 +505,21 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                               TagActive: '',
                               isSavedNeeded: true,
                             ))).then((value) {
+                              print("BACK VALUE ${value}");
                   directResponseData = [];
                   tempDirectResponseData = [];
-                  ref.refresh(directJobListResponse(
-                      JobT: '',
-                      location: '',
-                      Fdate: '',
-                      Tdate: '',
-                      ExpT: '',
-                      CompanyT: '',
-                      isFilter: false,
-                      SalaryT: ''));
+                  if(value == true){
+                    directJobListResponse(
+                        JobT: '',
+                        location: '',
+                        Fdate: '',
+                        Tdate: '',
+                        ExpT: '',
+                        CompanyT: '',
+                        isFilter: false,
+                        SalaryT: '');
+                  }
+
                 });
               },
               child: DirectList(context,
@@ -571,12 +575,16 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                             ))).then((value) {
                   campusResponseData = [];
                   tempCampusResponseData = [];
-                  ref.refresh(campusListResponse(
-                      location: _location.text,
-                      Fdate: _From.text,
-                      Tdate: _To.text,
-                      isFilter: false,
-                      campusName: _CampusName.text));
+                  if(value == true){
+                    campusListResponse(
+                        location: _location.text,
+                        Fdate: _From.text,
+                        Tdate: _To.text,
+                        isFilter: false,
+                        campusName: _CampusName.text);
+                  }else{
+                    return null;
+                  }
                 });
               },
               child: CampusList(context,
