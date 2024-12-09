@@ -79,7 +79,6 @@ class _Login_PageState extends ConsumerState<Login_Page> {
             ? Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Bottom_Navigation(select: 0)), (route) => false)
             : Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>
             Candidate_Bottom_Navigation(select: 0)), (route) => false);
-        CandidateProfileResponse(candidateId: postResponse.data?.candidateId ?? "");
       } else {
         CandidateId(postResponse.data?.candidateId ?? "");
         CandidateType(postResponse.data?.candidateType ?? "");
@@ -100,25 +99,7 @@ class _Login_PageState extends ConsumerState<Login_Page> {
     }
   }
 
-  CandidateProfileResponse({required String candidateId}) async {
-    final candidateProfileApiService = ApiService(ref.read(dioProvider));
-    var formData = FormData.fromMap({"candidate_id": candidateId});
-    final profileResponseJobDetails =
-    await candidateProfileApiService.post<CandidateProfileModel>(
-        context, ConstantApi.candidateProfileUrl, formData);
-    if (profileResponseJobDetails.status == true) {
-      setState(() {
-        SingleTon singleton = SingleTon();
-        singleton.userModelData = profileResponseJobDetails?.data;
-        print("RESPONSE : ${profileResponseJobDetails.data}");
 
-      });
-
-    } else {
-      ShowToastMessage(profileResponseJobDetails.message ?? "");
-      print('ERROR');
-    }
-  }
 
   //PASSWORD VISIBILITY FUNCTION
   void _togglePasswordVisibility() {

@@ -87,17 +87,17 @@ class _Config {
   static const BUILD_VARIANTS = "GetifyJobs-dev";
 
   static Map<String, dynamic> debugConstants = {
-    SERVER_ONE: "https://qa.getifyjobs.com/api/",
+    SERVER_ONE: "https://getifyjobs.com/api/",
     BUILD_VARIANTS: "GetifyJobs-dev",
   };
 
   static Map<String, dynamic> stagingConstants = {
-    SERVER_ONE: "https://qa.getifyjobs.com/api/",
+    SERVER_ONE: "https://getifyjobs.com/api/",
     BUILD_VARIANTS: "GetifyJobs-dev",
   };
 
   static Map<String, dynamic> prodConstants = {
-    SERVER_ONE: "https://qa.getifyjobs.com/api/",
+    SERVER_ONE: "https://getifyjobs.com/api/",
     BUILD_VARIANTS: "GetifyJobs-dev",
   };
 }

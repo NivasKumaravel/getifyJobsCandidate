@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:getifyjobs/Models/CampusCompanyListModel.dart';
+import 'package:getifyjobs/Models/CandidateProfileModel.dart';
 import 'package:getifyjobs/Models/GetPaymentIdModel.dart';
 import 'package:getifyjobs/Models/PaymentSuccessModel.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Custom_App_Bar.dart';
@@ -29,11 +30,13 @@ class _Campus_Company_List_PageState
     extends ConsumerState<Campus_Company_List_Page> {
 
   bool isClicked = true;
+  canidateProfileData? Candiatedata;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      CandidateProfileResponse();
       CampusCompanyListResponse();
       GetPaymentResponse();
     });
@@ -100,7 +103,8 @@ class _Campus_Company_List_PageState
           dateTime(
               time:
                   'Date: 09:00AM, ${CampusCompanyResponseData?.items?.recruitmentDate ?? ""}'),
-          CampusCompanyResponseData?.items?.type == "Off campus"?_paidContainer(context, isPayed: false):Container(),
+          CampusCompanyResponseData?.items?.type == "Off campus"?
+          _paidContainer(context, isPayed: CampusCompanyResponseData?.items?.payment ?? false):Container(),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Padding(
@@ -127,20 +131,21 @@ class _Campus_Company_List_PageState
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             InkWell(
-                    onTap: () {
+                    onTap:
+                    isPayed == true?null:() async{
                       int amountInRupees = CampusCompanyResponseData?.items?.fees ?? 0;
                       int amountInPaisa = amountInRupees * 100;
                       Razorpay razorpay = Razorpay();
                       var options = {
-                        'key':getPaymentResponseData?.keyId ?? "",
+                        'key':"rzp_live_6KHrAGkAbjJClU",
                         'amount': amountInPaisa,
                         'name': CampusCompanyResponseData?.items?.name ?? "",
                         'description': 'To Attend campus, this is one time payment & you can Apply for multiple job in this Campus',
                         'retry': {'enabled': true, 'max_count': 1},
                         'send_sms_hash': true,
                         'prefill': {
-                          'contact': SingleTon().userModelData?.phone,
-                          'email': SingleTon().userModelData?.email
+                          'contact': "+91 ${Candiatedata?.phone}",
+                          'email': "${Candiatedata?.email ?? ""}"
                         },
                         'external': {
                           'wallets': ['paytm']
@@ -163,12 +168,12 @@ class _Campus_Company_List_PageState
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: isClicked == true ? blue1 : green1,
+                          color: isPayed != true ? blue1 : green1,
                         ),
                         margin: EdgeInsets.only(left: 10, right: 10),
                         child: Center(
                             child: Text(
-                          isClicked == true ? "Pay ₹${CampusCompanyResponseData?.items?.fees ?? 0}" : "Paid ₹${CampusCompanyResponseData?.items?.fees ?? 0}",
+                              isPayed != true ? "Pay ₹${CampusCompanyResponseData?.items?.fees ?? 0}" : "Paid ₹${CampusCompanyResponseData?.items?.fees ?? 0}",
                           style: priceT,
                         )),
                       ),
@@ -251,6 +256,26 @@ class _Campus_Company_List_PageState
       ShowToastMessage(paymentApiResponse.message ?? "");
     }
   }
+
+  CandidateProfileResponse() async {
+    final candidateProfileApiService = ApiService(ref.read(dioProvider));
+    var formData = FormData.fromMap(
+        {"candidate_id": await getcandidateId()});
+    final profileResponseJobDetails =
+    await candidateProfileApiService.post<CandidateProfileModel>(
+        context, ConstantApi.candidateProfileUrl, formData);
+    if (profileResponseJobDetails.status == true) {
+      setState(() {
+        Candiatedata = profileResponseJobDetails?.data;
+        print("RESPONSE : ${profileResponseJobDetails.data}");
+
+      });
+
+    } else {
+      ShowToastMessage(profileResponseJobDetails.message ?? "");
+      print('ERROR');
+    }
+  }
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
     /*
     * PaymentFailureResponse contains three values:
@@ -274,8 +299,8 @@ class _Campus_Company_List_PageState
       isClicked = false;
     });
     PaymentSucessResponse(transactionId: response?.paymentId ?? "", Data: response.data.toString(), );
-    showAlertDialog(
-        context, "Payment Successful", "Payment ID: ${response.paymentId}");
+    // showAlertDialog(
+    //     context, "Payment Successful", "Payment ID: ${response.paymentId}");
   }
 
   void handleExternalWalletSelected(ExternalWalletResponse response) {
