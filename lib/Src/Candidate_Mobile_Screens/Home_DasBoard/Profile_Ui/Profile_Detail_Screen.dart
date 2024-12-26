@@ -417,7 +417,11 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
               scrollDirection: Axis.vertical,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return _languageKnown(textFormFields[index]);
+                return _languageKnown(textFormFields[index], () {
+                  setState(() {
+                    textFormFields.removeAt(index);
+                  });
+                });
               },
             ),
 
@@ -819,7 +823,8 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
   }
 
   //LANGUAGE FIELD
-  Widget _languageKnown(TextEditingController? Controller) {
+  Widget _languageKnown(
+      TextEditingController? Controller, void Function() onPress) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Stack(
@@ -842,14 +847,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
           Positioned(
             top: 0,
             right: 0,
-            child: IconButton(
-              icon: Icon(Icons.cancel),
-              onPressed: () {
-                setState(() {
-                  textFormFields.removeAt(textFormFields.length - 1);
-                });
-              },
-            ),
+            child: IconButton(icon: Icon(Icons.cancel), onPressed: onPress),
           ),
         ],
       ),

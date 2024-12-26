@@ -335,38 +335,36 @@ class _Candidate_Categoery_ScreenState
                       children: [
                         //Career Status
                         Title_Style(Title: 'Career Status', isStatus: true),
-                        dropDownField(
-                          context,
-                          focusNode: _focusNode,
-                          value: selectedOption,
-                          listValue: Categoery,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedOption = newValue;
+                        dropDownField(context,
+                            focusNode: _focusNode,
+                            value: selectedOption,
+                            listValue: Categoery,
+                            onChanged: (String? newValue) {
+                          setState(() {
+                            selectedOption = newValue;
 
-                              qualificationOption = "";
-                              experienceOption = "";
-                              specializationOption = [];
-                              skillsetOption = [];
-                              DesinationOption = "";
-                              DesinationOptionName = "";
-                              collegeOption = "";
+                            qualificationOption = "";
+                            experienceOption = "";
+                            specializationOption = [];
+                            skillsetOption = [];
+                            DesinationOption = "";
+                            DesinationOptionName = "";
+                            collegeOption = "";
 
-                              selectExpVal = null;
+                            selectExpVal = null;
 
-                              _PreferredLocation.text = "";
-                              _ExpectedSalary.text = "";
-                              _CurrentSalary.text = "";
-                              _StartYear.text = "";
-                              _EndYear.text = "";
-                              _CurrentPercent.text = "";
-                              _CurrentArrears.text = "";
-                              _HistoryofArrears.text = "";
-                            });
-                          },
-                          hintText: '  Select Your Career Status',
-                          error: null
-                        ),
+                            _PreferredLocation.text = "";
+                            _ExpectedSalary.text = "";
+                            _CurrentSalary.text = "";
+                            _StartYear.text = "";
+                            _EndYear.text = "";
+                            _CurrentPercent.text = "";
+                            _CurrentArrears.text = "";
+                            _HistoryofArrears.text = "";
+                          });
+                        },
+                            hintText: '  Select Your Career Status',
+                            error: null),
 
                         //CURRENT DESIGNATION
                         selectedOption == "Fresher"
@@ -468,9 +466,7 @@ class _Candidate_Categoery_ScreenState
         selectedOption == "Experienced"
             ? dropDownSearchField(context,
                 listValue: DesinationVal,
-                controller: widget.isEdit == true
-                    ? TextEditingController(text: DesinationOptionName)
-                    : null,
+                controller: TextEditingController(text: DesinationOptionName),
                 onChanged: ((x) {
                   focus.unfocus();
                   setState(() {
@@ -498,9 +494,7 @@ class _Candidate_Categoery_ScreenState
             : selectedOption == "Student"
                 ? dropDownSearchField(context,
                     listValue: collegeVal,
-                    controller: widget.isEdit == true
-                        ? TextEditingController(text: collegeOption)
-                        : null,
+                    controller: TextEditingController(text: collegeOption),
                     onChanged: ((x) {
                       focus1.unfocus();
                       setState(() {
@@ -554,9 +548,7 @@ class _Candidate_Categoery_ScreenState
         dropDownSearchField(
           context,
           listValue: qualificationVal,
-          controller: widget.isEdit == true
-              ? TextEditingController(text: qualificationOption)
-              : null,
+          controller: TextEditingController(text: qualificationOption),
           onChanged: ((x) {
             focus3.unfocus();
 
@@ -576,8 +568,7 @@ class _Candidate_Categoery_ScreenState
             });
           }),
           focus: focus3,
-          validator: (x)
-          {
+          validator: (x) {
             if (x!.isEmpty) {
               return 'Please Select Qualification';
             }

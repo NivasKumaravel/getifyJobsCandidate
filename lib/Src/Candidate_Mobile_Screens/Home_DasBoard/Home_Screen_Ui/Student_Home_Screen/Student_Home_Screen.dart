@@ -194,17 +194,13 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                     value = value.toLowerCase();
                     if (value != "") {
                       if (tabIndex == 0) {
-                        directResponseData = [];
-                        tempDirectResponseData = [];
                         directResponseData = tempDirectResponseData
                             .where((job) =>
                                 job.jobTitle!.toLowerCase().contains(value) ||
-                                job.name!.toLowerCase().contains(value))
+                                job.companyName!.toLowerCase().contains(value))
                             .toList();
                         print(directResponseData.length ?? 0);
                       } else {
-                        campusResponseData = [];
-                        tempCampusResponseData = [];
                         campusResponseData = tempCampusResponseData
                             .where((job) =>
                                 job.name!.toLowerCase().contains(value))
@@ -213,12 +209,8 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                       }
                     } else {
                       if (tabIndex == 0) {
-                        directResponseData = [];
-                        tempDirectResponseData = [];
                         directResponseData = tempDirectResponseData;
                       } else {
-                        campusResponseData = [];
-                        tempCampusResponseData = [];
                         campusResponseData = tempCampusResponseData;
                       }
                     }
@@ -314,7 +306,8 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                   children: [
                     directResponseData?.length == 0
                         ? Center(
-                            child: NoDataWidget(content: "Your Data is Loading"))
+                            child:
+                                NoDataWidget(content: "Your Data is Loading"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -342,7 +335,8 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                           ),
                     campusResponseData?.length == 0
                         ? Center(
-                            child: NoDataWidget(content: "Your Data is Loading"))
+                            child:
+                                NoDataWidget(content: "Your Data is Loading"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -505,10 +499,10 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                               TagActive: '',
                               isSavedNeeded: true,
                             ))).then((value) {
-                              print("BACK VALUE ${value}");
+                  print("BACK VALUE ${value}");
                   directResponseData = [];
                   tempDirectResponseData = [];
-                  if(value == true){
+                  if (value == true) {
                     directJobListResponse(
                         JobT: '',
                         location: '',
@@ -519,7 +513,6 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                         isFilter: false,
                         SalaryT: '');
                   }
-
                 });
               },
               child: DirectList(context,
@@ -575,14 +568,14 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                             ))).then((value) {
                   campusResponseData = [];
                   tempCampusResponseData = [];
-                  if(value == true){
+                  if (value == true) {
                     campusListResponse(
                         location: _location.text,
                         Fdate: _From.text,
                         Tdate: _To.text,
                         isFilter: false,
                         campusName: _CampusName.text);
-                  }else{
+                  } else {
                     return null;
                   }
                 });

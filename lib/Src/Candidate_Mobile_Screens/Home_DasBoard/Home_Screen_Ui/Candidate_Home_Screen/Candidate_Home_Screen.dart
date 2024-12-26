@@ -233,7 +233,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                       jobLists = tempjobLists
                           .where((job) =>
                               job.jobTitle!.toLowerCase().contains(value) ||
-                              job.name!.toLowerCase().contains(value))
+                              job.companyName!.toLowerCase().contains(value))
                           .toList();
                       print(jobLists?.length ?? 0);
                     } else {

@@ -47,8 +47,17 @@ class _Candidate_MyApplies_ScreenState
   void initState() {
     // TODO: implement initState
     _scrollController.addListener(_scrollListener);
-    DirectMyAppliesListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', SalaryT: '', isFilter: false);
+    DirectMyAppliesListResponse(
+        JobT: '',
+        location: '',
+        Fdate: '',
+        Tdate: '',
+        ExpT: '',
+        CompanyT: '',
+        SalaryT: '',
+        isFilter: false);
   }
+
   @override
   void dispose() {
     _focusNode.dispose();
@@ -59,11 +68,11 @@ class _Candidate_MyApplies_ScreenState
   void _scrollListener() {
     if (!_isLoadingMore &&
         _scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent&&
+            _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange &&
         _visibleItemCount != DirectMyAppliesResponseData?.length) {
       SingleTon().isLoading = false;
-      _currentPage+=1;
+      _currentPage += 1;
       // User has reached the end of the list
       // Load more data when scrolled to the bottom
       // loadMoreData();
@@ -110,10 +119,11 @@ class _Candidate_MyApplies_ScreenState
             padding:
                 const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 20),
             child: textFormFieldSearchBar(
-              MultifilteronTap: (){
+              MultifilteronTap: () {
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) => InterviewSchedulePopup(context),
+                  builder: (BuildContext context) =>
+                      InterviewSchedulePopup(context),
                 );
               },
               keyboardtype: TextInputType.text,
@@ -127,7 +137,7 @@ class _Candidate_MyApplies_ScreenState
                         tempDirectMyAppliesResponseData
                             ?.where((job) =>
                                 job.jobTitle!.toLowerCase().contains(value) ||
-                                job.name!.toLowerCase().contains(value))
+                                job.companyName!.toLowerCase().contains(value))
                             .toList();
                     print(DirectMyAppliesResponseData?.length ?? 0);
                   } else {
@@ -152,8 +162,9 @@ class _Candidate_MyApplies_ScreenState
           child: Column(children: [
             DirectMyAppliesResponseData?.length == 0
                 ? SizedBox(
-                height: MediaQuery.sizeOf(context).height/1.5,
-                child: Center(child: NoDataWidget(content: "No Data Available")))
+                    height: MediaQuery.sizeOf(context).height / 1.5,
+                    child: Center(
+                        child: NoDataWidget(content: "No Data Available")))
                 : _campusList(DirectMyAppliesResponseData),
             SizedBox(height: 50),
           ]),
@@ -171,19 +182,19 @@ class _Candidate_MyApplies_ScreenState
     required String CompanyT,
     required String SalaryT,
     required bool? isFilter,
-}) async {
+  }) async {
     final directJobListApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
       "candidate_id": await getcandidateId(),
       "page_no": _currentPage,
       "no_of_records": _visibleItemCount,
-      "job_title":JobT,
-      "location":location,
-      "from_date":Fdate,
-      "to_date":Tdate,
-      "experience":ExpT,
-      "company_name":CompanyT,
-      "salary_from":SalaryT
+      "job_title": JobT,
+      "location": location,
+      "from_date": Fdate,
+      "to_date": Tdate,
+      "experience": ExpT,
+      "company_name": CompanyT,
+      "salary_from": SalaryT
     });
     final directMyAppliesResponseList =
         await directJobListApiService.post<StudentDirectMyAppliesListModel>(
@@ -192,10 +203,12 @@ class _Candidate_MyApplies_ScreenState
     if (directMyAppliesResponseList.status == true) {
       print("SUCCESS");
       setState(() {
-        DirectMyAppliesResponseData?.addAll(directMyAppliesResponseList.data?.toList() ?? []);
-        tempDirectMyAppliesResponseData?.addAll(directMyAppliesResponseList.data?.toList() ?? []);
+        DirectMyAppliesResponseData?.addAll(
+            directMyAppliesResponseList.data?.toList() ?? []);
+        tempDirectMyAppliesResponseData
+            ?.addAll(directMyAppliesResponseList.data?.toList() ?? []);
       });
-      isFilter == true?Navigator.pop(context):null;
+      isFilter == true ? Navigator.pop(context) : null;
     } else {
       _currentPage--;
       print("ERROR");
@@ -203,29 +216,36 @@ class _Candidate_MyApplies_ScreenState
     }
   }
 
-  Widget InterviewSchedulePopup(BuildContext context,) {
+  Widget InterviewSchedulePopup(
+    BuildContext context,
+  ) {
     return Container(
       child: AlertDialog(
         surfaceTintColor: white1,
-        content:Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Multiple selection of ${"Job title, Location, Salary etc"}",style: Wbalck1,textAlign: TextAlign.center,),
+            Text(
+              "Multiple selection of ${"Job title, Location, Salary etc"}",
+              style: Wbalck1,
+              textAlign: TextAlign.center,
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Job Title',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _jobTitle,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Job Title";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -235,17 +255,16 @@ class _Candidate_MyApplies_ScreenState
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child:   textFormField(
+              child: textFormField(
                 hintText: 'Location',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _location,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Location";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -258,11 +277,10 @@ class _Candidate_MyApplies_ScreenState
               child: Row(
                 children: [
                   Container(
-                    width: MediaQuery.sizeOf(context).width/3,
+                    width: MediaQuery.sizeOf(context).width / 3,
                     child: TextFieldDatePicker(
                         Controller: _From,
-                        onChanged: (value) {
-                        },
+                        onChanged: (value) {},
                         validating: (value) {
                           if (value!.isEmpty) {
                             return 'Please select  Date';
@@ -279,7 +297,7 @@ class _Candidate_MyApplies_ScreenState
                               lastDate: DateTime(2050));
                           if (pickdate != null) {
                             String formatdate =
-                            DateFormat("yyyy-MM-dd").format(pickdate!);
+                                DateFormat("yyyy-MM-dd").format(pickdate!);
                             if (mounted) {
                               setState(() {
                                 _From.text = formatdate;
@@ -288,15 +306,15 @@ class _Candidate_MyApplies_ScreenState
                             }
                           }
                         },
-                        hintText: 'Form', isDownArrow: false),
+                        hintText: 'Form',
+                        isDownArrow: false),
                   ),
                   const Spacer(),
                   Container(
-                    width: MediaQuery.sizeOf(context).width/3.1,
+                    width: MediaQuery.sizeOf(context).width / 3.1,
                     child: TextFieldDatePicker(
                         Controller: _To,
-                        onChanged: (value) {
-                        },
+                        onChanged: (value) {},
                         validating: (value) {
                           if (value!.isEmpty) {
                             return 'Please select  Date';
@@ -313,7 +331,7 @@ class _Candidate_MyApplies_ScreenState
                               lastDate: DateTime(2050));
                           if (pickdate != null) {
                             String formatdate =
-                            DateFormat("yyyy-MM-dd").format(pickdate!);
+                                DateFormat("yyyy-MM-dd").format(pickdate!);
                             if (mounted) {
                               setState(() {
                                 _To.text = formatdate;
@@ -322,24 +340,26 @@ class _Candidate_MyApplies_ScreenState
                             }
                           }
                         },
-                        hintText: 'To', isDownArrow: false),
+                        hintText: 'To',
+                        isDownArrow: false),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Expected Salary',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _SalaryRange,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Salary";
-                  }
-                  else {
+                  } else {
                     return "Please Enter Valid Salary";
                   }
                 },
@@ -347,18 +367,19 @@ class _Candidate_MyApplies_ScreenState
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Career Status',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _careerStatus,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter CareerStatus";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -367,18 +388,19 @@ class _Candidate_MyApplies_ScreenState
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10,),
-              child:   textFormField(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: textFormField(
                 hintText: 'Company Name',
                 keyboardtype: TextInputType.text,
                 inputFormatters: null,
                 Controller: _CompanyName,
-                focusNode:null,
+                focusNode: null,
                 validating: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Company Name";
-                  }
-                  else if (!onlyText.hasMatch(value)) {
+                  } else if (!onlyText.hasMatch(value)) {
                     return "(Special Characters are Not Allowed)";
                   }
                   return null;
@@ -386,30 +408,32 @@ class _Candidate_MyApplies_ScreenState
                 onChanged: null,
               ),
             ),
-
-
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Cancel", () {
                         Navigator.pop(context);
                       })),
                   Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Okay", () {
-
                         DirectMyAppliesResponseData = [];
                         tempDirectMyAppliesResponseData = [];
                         _visibleItemCount = 0;
 
-                        DirectMyAppliesListResponse (JobT: _jobTitle.text,
+                        DirectMyAppliesListResponse(
+                            JobT: _jobTitle.text,
                             location: _location.text,
-                            Fdate: _From.text, Tdate: _To.text,
-                            ExpT: _careerStatus.text, CompanyT: _CompanyName.text, isFilter: true, SalaryT: _SalaryRange.text);
+                            Fdate: _From.text,
+                            Tdate: _To.text,
+                            ExpT: _careerStatus.text,
+                            CompanyT: _CompanyName.text,
+                            isFilter: true,
+                            SalaryT: _SalaryRange.text);
                       })),
                 ],
               ),
@@ -433,32 +457,45 @@ class _Candidate_MyApplies_ScreenState
                   context,
                   MaterialPageRoute(
                       builder: (context) => Job_Details(
-                        jobId: directMyAppliesResponseData?[index].jobId,
-                        recruiterId:
-                        directMyAppliesResponseData?[index].recruiterId,
-                        isApplied: true,
-                        isInbox: true,
-                        TagActive: directMyAppliesResponseData?[index]?.jobStatus ?? "", isSavedNeeded: false,
-                      ))).then((value) {
-
+                            jobId: directMyAppliesResponseData?[index].jobId,
+                            recruiterId:
+                                directMyAppliesResponseData?[index].recruiterId,
+                            isApplied: true,
+                            isInbox: true,
+                            TagActive: directMyAppliesResponseData?[index]
+                                    ?.jobStatus ??
+                                "",
+                            isSavedNeeded: false,
+                          ))).then((value) {
                 DirectMyAppliesResponseData = [];
                 DirectMyAppliesResponseData = [];
                 _visibleItemCount = 0;
-                ref.refresh(DirectMyAppliesListResponse(JobT: '', location: '', Fdate: '', Tdate: '', ExpT: '', CompanyT: '', SalaryT: '', isFilter: false));} );
+                ref.refresh(DirectMyAppliesListResponse(
+                    JobT: '',
+                    location: '',
+                    Fdate: '',
+                    Tdate: '',
+                    ExpT: '',
+                    CompanyT: '',
+                    SalaryT: '',
+                    isFilter: false));
+              });
             },
             child: Candidate_MyApplies_List(
               context,
               isApplied: false,
               jobName: directMyAppliesResponseData?[index]?.jobTitle ?? "",
-              companyName: directMyAppliesResponseData?[index]?.companyName ?? "",
+              companyName:
+                  directMyAppliesResponseData?[index]?.companyName ?? "",
               location: directMyAppliesResponseData?[index]?.location ?? "",
               companyLogo: directMyAppliesResponseData?[index]?.logo ?? "",
               YOP: directMyAppliesResponseData?[index]?.experience ?? "",
               ExpSalary:
-              '₹ ${directMyAppliesResponseData?[index]?.salaryFrom ?? ""} - ${directMyAppliesResponseData?[index]?.salaryTo ?? ""} Per Annum',
+                  '₹ ${directMyAppliesResponseData?[index]?.salaryFrom ?? ""} - ${directMyAppliesResponseData?[index]?.salaryTo ?? ""} Per Annum',
               postedDate: 'Posted: 23 Sep 2023',
               collegeName: '',
-              appliedDate: directMyAppliesResponseData?[index]?.appliedDate ?? "",
+              appliedDate:
+                  directMyAppliesResponseData?[index]?.appliedDate ?? "",
               status: directMyAppliesResponseData?[index]?.jobStatus ?? "",
             ));
 
@@ -474,4 +511,3 @@ class _Candidate_MyApplies_ScreenState
     );
   }
 }
-

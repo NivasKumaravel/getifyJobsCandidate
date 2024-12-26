@@ -20,6 +20,7 @@ class Saved_Page extends ConsumerStatefulWidget {
 class _Saved_PageState extends ConsumerState<Saved_Page>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<DirectJobItems> bookMarkItems = [];
 
   @override
   void initState() {
@@ -33,8 +34,6 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
     _tabController.dispose();
     super.dispose();
   }
-
-  List<DirectJobItems>? bookMarkItems;
 
   @override
   Widget build(BuildContext context) {
@@ -139,12 +138,11 @@ class _Saved_PageState extends ConsumerState<Saved_Page>
               collegeLogo: '',
               isCampus: false,
               currentIndex: index, bookmarkClick: (value) {
+            bookMarkApiResponse(bookMarkItems?[index].jobId ?? '',
+                bookMarkItems?[index].recruiterId ?? '');
             setState(() {
               bookMarkItems?.removeAt(index);
             });
-
-            bookMarkApiResponse(bookMarkItems?[index].jobId ?? '',
-                bookMarkItems?[index].recruiterId ?? '');
           }, isStudent: true, bookmark: true, campusTag: ''),
         );
       },
