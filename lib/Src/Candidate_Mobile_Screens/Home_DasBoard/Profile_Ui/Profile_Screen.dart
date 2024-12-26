@@ -462,10 +462,12 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                   MaterialPageRoute(
                       builder: (context) => Profile_Detail_Screen(
                             CandidateProfileResponseData:
-                                null, careerStatus: CandidateProfileResponseData?.careerStatus ?? "",
+                                CandidateProfileResponseData,
+                            careerStatus:
+                                CandidateProfileResponseData?.careerStatus ??
+                                    "",
                           ))).then((value) {
-                if (value == "true")
-                {
+                if (value == "true") {
                   ref.refresh(profileApiProvider);
                 }
 
