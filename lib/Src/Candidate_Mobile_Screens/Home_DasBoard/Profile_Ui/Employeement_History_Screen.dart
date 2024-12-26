@@ -780,11 +780,9 @@ class _Employeement_History_PageState
                                 Expanded(
                                   child: Container(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        _durationText(
-                                            title: 'Starting Year & Month'),
+                                        _durationText(title: 'Starting Year & Month'),
                                         TextFieldDatePicker(
                                           Controller: _StartD,
                                           onChanged: null,
@@ -796,17 +794,14 @@ class _Employeement_History_PageState
                                           },
                                           onTap: () async {
                                             FocusScope.of(context).unfocus();
-                                            DateTime? pickdate =
-                                                await showDatePicker(
+                                            DateTime? pickdate = await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1950),
                                               lastDate: DateTime.now(),
                                             );
                                             if (pickdate != null) {
-                                              String formatdate =
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .format(pickdate);
+                                              String formatdate = DateFormat("dd/MM/yyyy").format(pickdate);
                                               if (mounted) {
                                                 setState(() {
                                                   _StartD.text = formatdate;
@@ -828,11 +823,9 @@ class _Employeement_History_PageState
                                 Expanded(
                                   child: Container(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        _durationText(
-                                            title: 'Ending Year & Month'),
+                                        _durationText(title: 'Ending Year & Month'),
                                         TextFieldDatePicker(
                                           Controller: _EndD,
                                           onChanged: null,
@@ -842,35 +835,43 @@ class _Employeement_History_PageState
                                             } else if (_StartD.text.isEmpty) {
                                               return 'Please select Start Date first';
                                             } else {
-                                              DateTime startDate =
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .parse(_StartD.text);
-                                              DateTime endDate =
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .parse(value);
+                                              DateTime startDate = DateFormat("dd/MM/yyyy").parse(_StartD.text);
+                                              DateTime endDate = DateFormat("dd/MM/yyyy").parse(value);
+
+                                              // Check if End Date is before Start Date
                                               if (endDate.isBefore(startDate)) {
-                                                return 'End date cannot be before start date';
-                                              } else if (endDate
-                                                  .isAtSameMomentAs(
-                                                      startDate)) {
-                                                return 'End Date Cant be Same';
+                                                return 'End date cannot be before Start Date';
+                                              }
+
+                                              // Check if End Date is the same as Start Date
+                                              if (endDate.isAtSameMomentAs(startDate)) {
+                                                return 'End Date cannot be the same as Start Date';
+                                              }
+
+                                              // Calculate the difference in months
+                                              int monthsDifference = (endDate.year - startDate.year) * 12 +
+                                                  (endDate.month - startDate.month);
+
+                                              if (monthsDifference < 1) {
+                                                return 'End Date must be at least 1 month after Start Date';
+                                              }
+
+                                              if (monthsDifference > 60) {
+                                                return 'End Date cannot be more than 5 years after Start Date';
                                               }
                                             }
                                             return null;
                                           },
                                           onTap: () async {
                                             FocusScope.of(context).unfocus();
-                                            DateTime? pickdate =
-                                                await showDatePicker(
+                                            DateTime? pickdate = await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime(1950),
                                               lastDate: DateTime(2050),
                                             );
                                             if (pickdate != null) {
-                                              String formatdate =
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .format(pickdate);
+                                              String formatdate = DateFormat("dd/MM/yyyy").format(pickdate);
                                               if (mounted) {
                                                 setState(() {
                                                   _EndD.text = formatdate;
@@ -886,6 +887,7 @@ class _Employeement_History_PageState
                                     ),
                                   ),
                                 ),
+
                               ],
                             ),
 

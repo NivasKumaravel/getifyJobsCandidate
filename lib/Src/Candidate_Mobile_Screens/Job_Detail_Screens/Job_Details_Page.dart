@@ -603,7 +603,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                   : TagActive == "Schedule Requested"
                                       ? "Are you okay with the date & time?"
                                       : TagActive == "Schedule Rejected"
-                                          ? "Schedule Rejected the Interview"
+                                          ? "The schedule has been Rejected"
                                           : TagActive == "Candidate Rescheduled"
                                               ? "You were Shortlisted for the Interview on"
                                               : TagActive ==

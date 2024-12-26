@@ -538,6 +538,13 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                   Container(
                       width: MediaQuery.of(context).size.width / 3.5,
                       child: PopButton(context, "Cancel", () {
+                        _jobTitle.clear();
+                        _location.clear();
+                        _From.clear();
+                        _To.clear();
+                        _CompanyName.clear();
+                        _careerStatus.clear();
+                        _SalaryRange.clear();
                         Navigator.pop(context);
                       })),
                   Container(

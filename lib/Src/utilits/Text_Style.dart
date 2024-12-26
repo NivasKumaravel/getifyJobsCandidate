@@ -31,7 +31,7 @@ TextStyle ActiveT = TextStyle(
     fontWeight: FontWeight.w500);
 TextStyle phoneHT = TextStyle(
     fontFamily: 'Roboto',
-    fontSize: 14,
+    fontSize: 12,
     color: Color.fromRGBO(140, 140, 140, 1),
     fontWeight: FontWeight.w400);
 TextStyle phoneHT1 = TextStyle(

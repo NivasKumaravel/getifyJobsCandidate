@@ -126,7 +126,7 @@ Widget TextFieldDatePicker(
       hintStyle: phoneHT,
       errorMaxLines: 3,
       contentPadding:
-          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 5.0, right: 5.0),
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 2.0, right: 2.0),
       fillColor: white2,
       filled: true,
     ),

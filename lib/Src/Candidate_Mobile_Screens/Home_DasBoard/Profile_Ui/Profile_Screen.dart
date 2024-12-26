@@ -327,7 +327,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
 
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Text("Skill Stes",style: infoT,),
+            child: Text("Skill Sets",style: infoT,),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
@@ -368,7 +368,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
               : _profileInformation(
                   title: 'Current Salary (Per Annum)',
                   data: data?.currentSalary ?? ""),
-          data?.expectedSalary == null
+          data?.expectedSalary == ''
               ? Container()
               : _profileInformation(
                   title: 'Expected Salary (Per Annum)',

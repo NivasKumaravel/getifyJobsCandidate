@@ -334,8 +334,8 @@ class _Candidate_Categoery_ScreenState
                     child: Column(
                       children: [
                         //Career Status
-                        Title_Style(Title: 'Career Status', isStatus: true),
-                        dropDownField(
+                       widget.isEdit == true?Container(): Title_Style(Title: 'Career Status', isStatus: true),
+                        widget.isEdit == true?Container(): dropDownField(
                           context,
                           focusNode: _focusNode,
                           value: selectedOption,

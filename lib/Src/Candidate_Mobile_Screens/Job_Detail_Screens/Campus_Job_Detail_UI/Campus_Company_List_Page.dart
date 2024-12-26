@@ -137,7 +137,7 @@ class _Campus_Company_List_PageState
                       int amountInPaisa = amountInRupees * 100;
                       Razorpay razorpay = Razorpay();
                       var options = {
-                        'key':"rzp_live_6KHrAGkAbjJClU",
+                        'key':getPaymentResponseData?.keySecret ?? "",
                         'amount': amountInPaisa,
                         'name': CampusCompanyResponseData?.items?.name ?? "",
                         'description': 'To Attend campus, this is one time payment & you can Apply for multiple job in this Campus',
@@ -284,7 +284,7 @@ class _Campus_Company_List_PageState
     * 3. Metadata
     * */
     showAlertDialog(context, "Payment Failed",
-        "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
+        "Transaction Failed. Pay now to secure your spot in the campus drive!");
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
