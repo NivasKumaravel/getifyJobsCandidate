@@ -937,6 +937,7 @@ class _Employeement_History_PageState
                             List<String> getSpecializationID = [];
 
                             if ((specializationOption?.length ?? 0) > 0) {
+
                               specializationOption!.forEach((user) {
                                 String username = user;
 
@@ -958,9 +959,7 @@ class _Employeement_History_PageState
                             }
                             if (selectedOption == null) {
                               ShowToastMessage("Please Select Education Type");
-                            } else if (specializationOption == []) {
-                              ShowToastMessage("Please");
-                            } else if (specializationOption == []) {
+                            } else if (specializationOption?.length == 0) {
                               ShowToastMessage("Please Select Specialization");
                             } else {
                               final eduHistoryDetail = EducationDetail(
