@@ -5,7 +5,6 @@ import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Home_DasBoard/Profile_Ui
 import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Job_Detail_Screens/Job_Details_Page.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_List.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Custom_App_Bar.dart';
-import 'package:getifyjobs/Src/Common_Widgets/Image_Path.dart';
 import 'package:getifyjobs/Src/utilits/ApiService.dart';
 import 'package:getifyjobs/Src/utilits/Common_Colors.dart';
 import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
@@ -22,13 +21,16 @@ class Inbox_Page extends ConsumerStatefulWidget {
 class _Inbox_PageState extends ConsumerState<Inbox_Page> {
   InboxModel? inboxMessageList;
   String Status = "all";
+  ScrollController _scrollController = ScrollController();
+  int _currentPage = 1;
+  bool _isLoadingMore = false; // List to hold fetched job data
 
   inboxListResponse() async {
     final directJobListApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
       "candidate_id": await getcandidateId(),
       "status": 'all',
-      "page_no": "1",
+      "page_no": _currentPage,
       "no_of_records": "10"
     });
     final inboxResponseList = await directJobListApiService.post<InboxModel>(
@@ -72,8 +74,23 @@ class _Inbox_PageState extends ConsumerState<Inbox_Page> {
     super.initState();
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {});
+    _scrollController.addListener(_scrollListener);
 
     inboxListResponse();
+  }
+
+  void _scrollListener() {
+    if (!_isLoadingMore &&
+        _scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange &&
+        inboxMessageList?.data?.count !=
+            inboxMessageList?.data?.items?.length) {
+      SingleTon().isLoading = false;
+      _currentPage += 1;
+
+      inboxListResponse();
+    }
   }
 
   @override
@@ -102,12 +119,10 @@ class _Inbox_PageState extends ConsumerState<Inbox_Page> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Inbox_lists(
-                                title: 'Scheduled Jobs',
-                              )));
-
+                                    title: 'Scheduled Jobs',
+                                  )));
                     },
-                    child: cards(
-                      context,
+                    child: cards(context,
                         countTxt:
                             "${inboxMessageList?.data?.count?.accepted ?? "0"}",
                         txt: "Scheduled",
@@ -120,11 +135,10 @@ class _Inbox_PageState extends ConsumerState<Inbox_Page> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Inbox_lists(
-                                title: 'Selected Jobs',
-                              )));
+                                    title: 'Selected Jobs',
+                                  )));
                     },
-                    child: cards(
-                      context,
+                    child: cards(context,
                         countTxt:
                             "${inboxMessageList?.data?.count?.selected ?? "0"}",
                         txt: "Selected",
@@ -210,6 +224,7 @@ class _Inbox_PageState extends ConsumerState<Inbox_Page> {
 
   Widget _InboxList(context, {required List<Items> inboxMessageList}) {
     return ListView.builder(
+        controller: _scrollController,
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         physics: const NeverScrollableScrollPhysics(),
@@ -218,22 +233,29 @@ class _Inbox_PageState extends ConsumerState<Inbox_Page> {
           return Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
             child: InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Job_Details(
-                    jobId: inboxMessageList[index].jobId ?? "",
-                    recruiterId: '',
-                  isApplied: true,
-                  isInbox: true,
-                  TagActive: inboxMessageList[index].jobStatus ?? "", isSavedNeeded: false,))).then((value) => ref.refresh(inboxListResponse()));
+              onTap: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Job_Details(
+                                  jobId: inboxMessageList[index].jobId ?? "",
+                                  recruiterId: '',
+                                  isApplied: true,
+                                  isInbox: true,
+                                  TagActive:
+                                      inboxMessageList[index].jobStatus ?? "",
+                                  isSavedNeeded: false,
+                                )))
+                    .then((value) => ref.refresh(inboxListResponse()));
               },
-              child:
-              Inbox_List(
-                  context,
-                  CompanyLogo: inboxMessageList[index].logo ?? "",
-                  CompanyName: inboxMessageList[index].companyName ?? "",
-                  jobTitle: inboxMessageList[index].jobTitle ?? "",
-                  Location: inboxMessageList[index].location ?? "",
-                  status: inboxMessageList[index].jobStatus ?? "",),
+              child: Inbox_List(
+                context,
+                CompanyLogo: inboxMessageList[index].logo ?? "",
+                CompanyName: inboxMessageList[index].companyName ?? "",
+                jobTitle: inboxMessageList[index].jobTitle ?? "",
+                Location: inboxMessageList[index].location ?? "",
+                status: inboxMessageList[index].jobStatus ?? "",
+              ),
             ),
           );
         });

@@ -106,16 +106,16 @@ class _Student_MyApplies_ScreenState
 
   _scrollListener1() {
     print("object 23");
-    // if (_scrollController.offset >=
-    //         _scrollController.position.maxScrollExtent &&
-    //     !_scrollController.position.outOfRange &&
-    //     totalCount1 != CampusMyAppliesResponseData?.length) {
-    //   // reached the bottom
-    //   SingleTon().isLoading = false;
-    //   page1 += 1;
-    //   CampusMyAppliesListResponse(
-    //       campusName: '', location: '', Fdate: '', Tdate: '', isFilter: false);
-    // }
+    if (_scrollController1.offset >=
+            _scrollController1.position.maxScrollExtent &&
+        !_scrollController1.position.outOfRange &&
+        totalCount1 != CampusMyAppliesResponseData?.length) {
+      // reached the bottom
+      SingleTon().isLoading = false;
+      page1 += 1;
+      CampusMyAppliesListResponse(
+          campusName: '', location: '', Fdate: '', Tdate: '', isFilter: false);
+    }
   }
 
   @override

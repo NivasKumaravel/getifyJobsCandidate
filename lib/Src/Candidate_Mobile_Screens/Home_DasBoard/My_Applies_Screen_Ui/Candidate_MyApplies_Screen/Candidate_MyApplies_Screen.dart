@@ -73,9 +73,16 @@ class _Candidate_MyApplies_ScreenState
         _visibleItemCount != DirectMyAppliesResponseData?.length) {
       SingleTon().isLoading = false;
       _currentPage += 1;
-      // User has reached the end of the list
-      // Load more data when scrolled to the bottom
-      // loadMoreData();
+
+      DirectMyAppliesListResponse(
+          JobT: '',
+          location: '',
+          Fdate: '',
+          Tdate: '',
+          ExpT: '',
+          CompanyT: '',
+          SalaryT: '',
+          isFilter: false);
     }
   }
 
@@ -83,13 +90,6 @@ class _Candidate_MyApplies_ScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white2,
-      // appBar: Custom_AppBar(
-      //   isUsed: false,
-      //   actions: null,
-      //   isLogoUsed: false,
-      //   title: 'My Applies',
-      //   isTitleUsed: false,
-      // ),
       appBar: AppBar(
         toolbarHeight: 80,
         primary: true,

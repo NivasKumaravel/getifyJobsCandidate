@@ -1004,7 +1004,6 @@ Widget dropDownSearchFieldSpecialization(context,
   lists.sort((a, b) => a.specialization!.compareTo(b.specialization!));
 
   return SearchField(
-    initialValue: null,
     focusNode: focus,
     suggestionDirection: SuggestionDirection.down,
     suggestions: lists
@@ -1051,7 +1050,6 @@ Widget dropDownSearchFieldCollege(context,
   lists.sort((a, b) => a.collegeName!.compareTo(b.collegeName!));
 
   return SearchField(
-    initialValue: null,
     focusNode: focus,
     suggestionDirection: SuggestionDirection.down,
     suggestions: lists
