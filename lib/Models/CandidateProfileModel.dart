@@ -70,48 +70,47 @@ class canidateProfileData {
 
   canidateProfileData(
       {this.candidateId,
-        this.name,
-        this.profilePic,
-        this.email,
-        this.phone,
-        this.address,
-        this.gender,
-        this.maritalStatus,
-        this.careerStatus,
-        this.designation,
-        this.designationId,
-        this.experience,
-        this.qualification,
-        this.qualificationId,
-        this.specialization,
-        this.specializationId,
-        this.preferredLocation,
-        this.currentSalary,
-        this.expectedSalary,
-        this.collegeName,
-        this.collegeId,
-        this.startYear,
-        this.endYear,
-        this.currentPercentage,
-        this.currentArrears,
-        this.historyOfArrears,
-        this.resume,
-        this.dob,
-        this.nationality,
-        this.location,
-        this.languageKnown,
-        this.profilePercentage,
-        this.skill,
-        this.skillSet,
-        this.differentlyAbled,
-        this.passport,
-        this.careerBreak,
-        this.employment,
-        this.education,
-        this.refferalCode,
-        this.totalReferral,
-        this.refferalUrl
-      });
+      this.name,
+      this.profilePic,
+      this.email,
+      this.phone,
+      this.address,
+      this.gender,
+      this.maritalStatus,
+      this.careerStatus,
+      this.designation,
+      this.designationId,
+      this.experience,
+      this.qualification,
+      this.qualificationId,
+      this.specialization,
+      this.specializationId,
+      this.preferredLocation,
+      this.currentSalary,
+      this.expectedSalary,
+      this.collegeName,
+      this.collegeId,
+      this.startYear,
+      this.endYear,
+      this.currentPercentage,
+      this.currentArrears,
+      this.historyOfArrears,
+      this.resume,
+      this.dob,
+      this.nationality,
+      this.location,
+      this.languageKnown,
+      this.profilePercentage,
+      this.skill,
+      this.skillSet,
+      this.differentlyAbled,
+      this.passport,
+      this.careerBreak,
+      this.employment,
+      this.education,
+      this.refferalCode,
+      this.totalReferral,
+      this.refferalUrl});
 
   canidateProfileData.fromJson(Map<String, dynamic> json) {
     candidateId = json['candidate_id'];
@@ -268,8 +267,11 @@ class Employment {
 class Education {
   String? id;
   String? institute;
+  String? instituteId;
+  String? qualificationId;
   String? qualification;
   String? specialization;
+  String? specializationId;
   String? educationType;
   String? cgpa;
   String? startDate;
@@ -278,8 +280,11 @@ class Education {
   Education(
       {this.id,
       this.institute,
+      this.instituteId,
+      this.qualificationId,
       this.qualification,
       this.specialization,
+      this.specializationId,
       this.educationType,
       this.cgpa,
       this.startDate,
@@ -288,8 +293,11 @@ class Education {
   Education.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     institute = json['institute'];
+    instituteId = json['institute_id'];
+    qualificationId = json['qualification_id'];
     qualification = json['qualification'];
     specialization = json['specialization'];
+    specializationId = json['specialization_id'];
     educationType = json['education_type'];
     cgpa = json['cgpa'];
     startDate = json['start_date'];
@@ -300,8 +308,11 @@ class Education {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['institute'] = this.institute;
+    data['institute_id'] = this.instituteId;
+    data['qualification_id'] = this.qualificationId;
     data['qualification'] = this.qualification;
     data['specialization'] = this.specialization;
+    data['specialization_id'] = this.specializationId;
     data['education_type'] = this.educationType;
     data['cgpa'] = this.cgpa;
     data['start_date'] = this.startDate;

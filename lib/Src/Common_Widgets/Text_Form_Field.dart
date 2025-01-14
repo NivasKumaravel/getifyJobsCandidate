@@ -1045,11 +1045,13 @@ Widget dropDownSearchFieldCollege(context,
     required String? Function(String?)? validator,
     required void Function(String?)? searchText,
     required void Function(SearchFieldListItem<DropDownData> x)? onChanged,
+    required TextEditingController? controller,
     required String hintT}) {
   List<DropDownData> lists = listValue.map((e) => e).toList();
   lists.sort((a, b) => a.collegeName!.compareTo(b.collegeName!));
 
   return SearchField(
+    controller: controller,
     focusNode: focus,
     suggestionDirection: SuggestionDirection.down,
     suggestions: lists

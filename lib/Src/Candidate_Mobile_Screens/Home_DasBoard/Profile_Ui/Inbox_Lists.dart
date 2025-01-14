@@ -5,12 +5,10 @@ import 'package:getifyjobs/Models/InboxModel.dart';
 import 'package:getifyjobs/Src/Candidate_Mobile_Screens/Job_Detail_Screens/Job_Details_Page.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Common_List.dart';
 import 'package:getifyjobs/Src/Common_Widgets/Custom_App_Bar.dart';
-import 'package:getifyjobs/Src/Common_Widgets/Image_Path.dart';
 import 'package:getifyjobs/Src/utilits/ApiService.dart';
 import 'package:getifyjobs/Src/utilits/Common_Colors.dart';
 import 'package:getifyjobs/Src/utilits/ConstantsApi.dart';
 import 'package:getifyjobs/Src/utilits/Generic.dart';
-import 'package:getifyjobs/Src/utilits/Text_Style.dart';
 
 class Inbox_lists extends ConsumerStatefulWidget {
   final String title;
@@ -23,11 +21,33 @@ class Inbox_lists extends ConsumerStatefulWidget {
 class _Inbox_listsState extends ConsumerState<Inbox_lists> {
   late String titleText;
   InboxData? scheduleResponseData;
+
+  ScrollController _scrollController = ScrollController();
+  int _currentPage = 1;
+  int totalCount = 0;
+
+  bool _isLoadingMore = false; // List to hold fetched job data
+
   @override
   void initState() {
     super.initState();
     titleText = widget.title;
+    _scrollController.addListener(_scrollListener);
+
     inboxListResponse();
+  }
+
+  void _scrollListener() {
+    if (!_isLoadingMore &&
+        _scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange &&
+        totalCount != scheduleResponseData?.items?.length) {
+      SingleTon().isLoading = false;
+      _currentPage += 1;
+
+      inboxListResponse();
+    }
   }
 
   @override
@@ -42,6 +62,7 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
         isTitleUsed: true,
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             _ScheduedInboxList(context),
@@ -53,6 +74,7 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
       ),
     );
   }
+
   Widget _ScheduedInboxList(context) {
     return ListView.builder(
         shrinkWrap: true,
@@ -63,22 +85,32 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
           return Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
             child: InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Job_Details(
-                  jobId:  scheduleResponseData?.items?[index].jobId ?? "",
-                  recruiterId: '',
-                  isApplied: true,
-                  isInbox: true,
-                  TagActive: scheduleResponseData?.items?[index].jobStatus ?? "", isSavedNeeded: false,)));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Job_Details(
+                              jobId:
+                                  scheduleResponseData?.items?[index].jobId ??
+                                      "",
+                              recruiterId: '',
+                              isApplied: true,
+                              isInbox: true,
+                              TagActive: scheduleResponseData
+                                      ?.items?[index].jobStatus ??
+                                  "",
+                              isSavedNeeded: false,
+                            )));
               },
-              child:
-              Inbox_List(
+              child: Inbox_List(
                 context,
                 CompanyLogo: scheduleResponseData?.items?[index].logo ?? "",
-                CompanyName: scheduleResponseData?.items?[index].companyName ?? "",
+                CompanyName:
+                    scheduleResponseData?.items?[index].companyName ?? "",
                 jobTitle: scheduleResponseData?.items?[index].jobTitle ?? "",
                 Location: scheduleResponseData?.items?[index].location ?? "",
-                status: scheduleResponseData?.items?[index].jobStatus ?? "",),
+                status: scheduleResponseData?.items?[index].jobStatus ?? "",
+              ),
             ),
           );
         });
@@ -88,8 +120,8 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
     final directJobListApiService = ApiService(ref.read(dioProvider));
     var formData = FormData.fromMap({
       "candidate_id": await getcandidateId(),
-      "status": widget.title == "Scheduled Jobs"?5:9,
-      "page_no": "1",
+      "status": widget.title == "Scheduled Jobs" ? 5 : 9,
+      "page_no": _currentPage,
       "no_of_records": "10"
     });
     print("CANDIDATE ID :  ${await getcandidateId()}");
@@ -99,15 +131,14 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
     if (inboxResponseList.status == true) {
       print("SUCESS");
       setState(() {
-        scheduleResponseData = inboxResponseList?.data;
-        }
-      );
+        totalCount = inboxResponseList.data?.count?.selected ?? 0;
+        scheduleResponseData?.items
+            ?.addAll(inboxResponseList.data?.items ?? []);
+      });
     } else {
       print("ERROR");
     }
   }
-
-
 }
 
 Widget _scheduledList(List<Items> inboxlist) {
@@ -128,7 +159,8 @@ Widget _scheduledList(List<Items> inboxlist) {
               ExpSalary: '₹ 3.5 - 5 LPA',
               postedDate: 'Posted: 23 Sep 2023',
               collegeName: '',
-              appliedDate: ' 23 Sep 2023', status: ''));
+              appliedDate: ' 23 Sep 2023',
+              status: ''));
     },
   );
 }

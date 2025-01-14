@@ -118,13 +118,15 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
     }
 
     for (Education obj in CandidateProfileResponseData?.education ?? []) {
+      List<String> array = obj.specialization!.split(',');
+
       var eduValue = EducationDetail(
           obj.institute ?? "",
-          '',
-          '',
-          '',
-          [],
-          '',
+          obj.instituteId ?? "",
+          obj.qualification ?? "",
+          obj.qualificationId ?? "",
+          array,
+          obj.specializationId ?? "",
           obj.educationType ?? "",
           obj.cgpa ?? "",
           obj.startDate ?? "",
@@ -251,7 +253,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
                             )),
                   );
 
-                  if (newEducationDetail != null) {
+                  if (newEducationDetail != true) {
                     setState(() {
                       eduHistory.add(newEducationDetail);
                     });
@@ -695,30 +697,32 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
                                     )),
                                 const Spacer(),
                                 IconButton(
-                                    onPressed: () {
-                                      final EducationHistory = Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Employeement_History_Page(
-                                                    initialDetail: EmpDetail(
-                                                        "",
-                                                        "",
-                                                        "",
-                                                        "",
-                                                        "",
-                                                        '',
-                                                        '',
-                                                        2),
-                                                    isType: false,
-                                                    educationHistory:
-                                                        eduHistory[index],
-                                                    isEdit: true,
-                                                  )));
+                                    onPressed: () async {
+                                      final EducationHistory =
+                                          await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Employeement_History_Page(
+                                                        initialDetail:
+                                                            EmpDetail(
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                "",
+                                                                '',
+                                                                '',
+                                                                2),
+                                                        isType: false,
+                                                        educationHistory:
+                                                            eduHistory[index],
+                                                        isEdit: true,
+                                                      )));
 
                                       if (EducationHistory != null) {
                                         setState(() {
-                                          eduHistory[index] = educationDetail;
+                                          eduHistory[index] = EducationHistory;
                                         });
                                       }
                                     },
