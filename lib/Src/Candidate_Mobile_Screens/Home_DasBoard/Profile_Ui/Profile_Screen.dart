@@ -570,7 +570,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
               var detail = data?.employment?[index];
               return Padding(
                 padding: const EdgeInsets.only(
-                  bottom: 10,
+                  bottom: 0,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
@@ -605,7 +605,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                         detail?.noticePeriod == ""
                             ? Container()
                             : Padding(
-                                padding: const EdgeInsets.only(top: 15),
+                                padding: const EdgeInsets.only(top: 0),
                                 child: Text(
                                   'Notice Period',
                                   style: empHistoryT,
@@ -614,26 +614,17 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                         detail?.noticePeriod == ""
                             ? Container()
                             : Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
+                                padding: const EdgeInsets.only(bottom: 0),
                                 child: Text(
                                   detail?.noticePeriod ?? "",
                                   style: companyT,
                                 ),
                               ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: Text(
-                            'About Job Profile',
-                            style: empHistoryT,
-                          ),
-                        ),
-                        Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: Text(
-                            detail?.description ?? "",
-                            style: companyT,
-                          ),
-                        ),
+                            detail?.description ?? "",)),
+
                       ],
                     ),
                   ),

@@ -80,7 +80,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
+      lastDate: DateTime(2050),
     );
     if (picked != null && picked != selectedDate)
       setState(() {
@@ -1427,12 +1427,12 @@ Widget RescheduleConfirmationPop(BuildContext context,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.7,
+                  width: MediaQuery.of(context).size.width / 3.8,
                   child: PopButton(context, "Cancel", () {
                     Navigator.pop(context);
                   })),
               Container(
-                  width: MediaQuery.of(context).size.width / 3.7,
+                  width: MediaQuery.of(context).size.width / 3.6,
                   child: PopButton(context, "Confirm", onPress)),
             ],
           ),

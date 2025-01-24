@@ -467,88 +467,83 @@ class _Employeement_History_PageState
                                                           Controller: _EndDate,
                                                           onChanged: null,
                                                           validating: (value) {
-                                                            if (value!
-                                                                .isEmpty) {
+                                                            if (value!.isEmpty) {
                                                               return 'Please select End Date';
-                                                            } else if (_StartDate
-                                                                .text.isEmpty) {
+                                                            } else if (_StartDate.text.isEmpty) {
                                                               return 'Please select Start Date first';
                                                             } else {
-                                                              DateTime
-                                                                  startDate =
-                                                                  DateFormat(
-                                                                          "dd/MM/yyyy")
-                                                                      .parse(_StartDate
-                                                                          .text);
+                                                              DateTime startDate =
+                                                              DateFormat("dd/MM/yyyy")
+                                                                  .parse(_StartDate.text);
                                                               DateTime endDate =
-                                                                  DateFormat(
-                                                                          "dd/MM/yyyy")
-                                                                      .parse(
-                                                                          value);
-                                                              if (endDate.isBefore(
+                                                              DateFormat("dd/MM/yyyy")
+                                                                  .parse(value);
+
+                                                              // Check if End Date is before Start Date
+                                                              if (endDate.isBefore(startDate)) {
+                                                                return 'End date cannot be before Start Date';
+                                                              }
+
+                                                              // Check if End Date is the same as Start Date
+                                                              if (endDate.isAtSameMomentAs(
                                                                   startDate)) {
-                                                                return 'End date cannot be before start date';
-                                                              } else if (endDate
-                                                                  .isAtSameMomentAs(
-                                                                      startDate)) {
-                                                                return 'End date cannot be the same as start date';
+                                                                return 'End Date cannot be the same as Start Date';
+                                                              }
+
+                                                              // Calculate the difference in months
+                                                              int monthsDifference =
+                                                                  (endDate.year -
+                                                                      startDate.year) *
+                                                                      12 +
+                                                                      (endDate.month -
+                                                                          startDate.month);
+
+                                                              if (monthsDifference < 1) {
+                                                                return 'End Date must be at least 1 month after Start Date';
+                                                              }
+
+                                                              if (monthsDifference > 60) {
+                                                                return 'End Date cannot be more than 5 years after Start Date';
                                                               }
                                                             }
                                                             return null;
                                                           },
                                                           onTap: () async {
-                                                            FocusScope.of(
-                                                                    context)
-                                                                .unfocus();
-                                                            if (_StartD.text ==
-                                                                "") {
+                                                            FocusScope.of(context).unfocus();
+
+                                                            if (_StartDate.text == "") {
                                                               return;
                                                             }
-                                                            DateTime
-                                                                _startDate =
-                                                                DateFormat(
-                                                                        "dd/MM/yyyy")
-                                                                    .parse(_StartD
-                                                                        .text);
-                                                            DateTime
-                                                                maxEndDate =
-                                                                DateTime(
+                                                            DateTime _startDate =
+                                                            DateFormat("dd/MM/yyyy")
+                                                                .parse(_StartDate.text);
+                                                            DateTime maxEndDate = DateTime(
                                                               _startDate!.year,
-                                                              _startDate!
-                                                                      .month +
+                                                              _startDate!.month +
                                                                   1, // Limit to 1 month from the start date
                                                               _startDate!.day,
                                                             );
 
                                                             DateTime? pickdate =
-                                                                await showDatePicker(
+                                                            await showDatePicker(
                                                               context: context,
-                                                              initialDate:
-                                                                  _startDate.add(
-                                                                      const Duration(
-                                                                          days:
-                                                                              31)),
+                                                              initialDate: _startDate.add(
+                                                                  const Duration(days: 31)),
                                                               firstDate: _startDate.add(
                                                                   const Duration(
                                                                       days:
-                                                                          31)), // End date cannot be before the start date
+                                                                      31)), // End date cannot be before the start date
                                                               lastDate: DateTime(
                                                                   2050), // End date must be within 1 month
                                                             );
-                                                            if (pickdate !=
-                                                                null) {
-                                                              String
-                                                                  formatdate =
-                                                                  DateFormat(
-                                                                          "dd/MM/yyyy")
-                                                                      .format(
-                                                                          pickdate!);
+                                                            if (pickdate != null) {
+                                                              String formatdate =
+                                                              DateFormat("dd/MM/yyyy")
+                                                                  .format(pickdate);
                                                               if (mounted) {
                                                                 setState(() {
-                                                                  _EndDate.text =
-                                                                      formatdate;
-                                                                  print(_EndDate
-                                                                      .text);
+                                                                  _EndDate.text = formatdate;
+                                                                  print(_EndDate.text);
                                                                 });
                                                               }
                                                             }

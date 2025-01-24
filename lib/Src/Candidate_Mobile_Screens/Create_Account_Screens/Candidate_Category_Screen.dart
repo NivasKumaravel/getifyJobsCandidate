@@ -736,15 +736,9 @@ class _Candidate_Categoery_ScreenState
                           keyboardtype: TextInputType.number,
                           inputFormatters: null,
                           Controller: _EndYear,
-                          validating: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Enter Valid End Year";
-                            }
-                            if (value == null) {
-                              return "Enter Valid End Year";
-                            }
-                            return null;
-                          },
+                          validating: _endYearValidator,
+
+
                           onChanged: null,
                         ),
                       )
@@ -1122,7 +1116,24 @@ class _Candidate_Categoery_ScreenState
       print("ERROR");
     }
   }
+
+  String? _endYearValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter an end year';
+    }
+    int? startYear = int.tryParse(_StartYear.text);
+    int? endYear = int.tryParse(value);
+
+    if (startYear != null && endYear != null) {
+      if (endYear < startYear) {
+        return 'End year must be greater than or equal to start year';
+      }
+    }
+    return null;
+  }
 }
+
+
 
 class _SalaryInputFormatter extends TextInputFormatter {
   @override
