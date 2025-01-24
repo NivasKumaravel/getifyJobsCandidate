@@ -493,158 +493,162 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
                   )
                 : Container(
                     child: ListView.builder(
+                      padding: EdgeInsets.zero,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: experienceDetails.length,
                       itemBuilder: (context, index) {
                         var detail = experienceDetails[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 10,
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: white1,
                           ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: white1,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          detail.JobRole,
-                                          style: empHistoryT,
-                                        ),
-                                        Spacer(),
-                                        IconButton(
-                                            onPressed: () async {
-                                              final editedDetail =
-                                                  await Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Employeement_History_Page(
-                                                    initialDetail: detail,
-                                                    isType: true,
-                                                    educationHistory:
-                                                        EducationDetail(
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            [],
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            '',
-                                                            ''),
-                                                    isEdit: true,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      detail.JobRole,
+                                      style: empHistoryT,
+                                    ),
+                                    Spacer(),
+                                    IconButton(
+                                        onPressed: () async {
+                                          final editedDetail =
+                                              await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Employeement_History_Page(
+                                                initialDetail: detail,
+                                                isType: true,
+                                                educationHistory:
+                                                    EducationDetail(
+                                                        '',
+                                                        '',
+                                                        '',
+                                                        '',
+                                                        [],
+                                                        '',
+                                                        '',
+                                                        '',
+                                                        '',
+                                                        ''),
+                                                isEdit: true,
+                                              ),
+                                            ),
+                                          );
+                                          if (editedDetail != true) {
+                                            setState(() {
+                                              experienceDetails[index] =
+                                                  editedDetail;
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.edit,
+                                          size: 24,
+                                          color: Colors.red,
+                                        )),
+                                    IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                backgroundColor: white1,
+                                                title: Text(
+                                                    'Delete this employeement detail?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text('Cancel'),
                                                   ),
-                                                ),
-                                              );
-
-                                              if (editedDetail != null) {
-                                                setState(() {
-                                                  experienceDetails[index] =
-                                                      editedDetail;
-                                                });
-                                              }
-                                            },
-                                            icon: Icon(
-                                              Icons.edit,
-                                              size: 24,
-                                              color: Colors.red,
-                                            )),
-                                        IconButton(
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    backgroundColor: white1,
-                                                    title: Text(
-                                                        'Delete this employeement detail?'),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: Text('Cancel'),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            experienceDetails
-                                                                .removeAt(
-                                                                    index);
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          });
-                                                        },
-                                                        child: Text('Delete'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        experienceDetails
+                                                            .removeAt(index);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      });
+                                                    },
+                                                    child: Text('Delete'),
+                                                  ),
+                                                ],
                                               );
                                             },
-                                            icon: Icon(
-                                              Icons.delete_outline,
-                                              size: 24,
-                                              color: Colors.red,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    detail.CompanyName,
-                                    style: companyT,
-                                  ),
-                                  Text(
-                                    detail.EmployementType,
-                                    style: typeT,
-                                  ),
-                                  Text(
-                                    "${detail.StartDate} ${detail.EndDate == "" ? "" : "-"} ${detail.EndDate == "" ? "" : detail.EndDate}",
-                                    style: typeT,
-                                  ),
-                                  detail.NoticePeriod == ""
-                                      ? Container()
-                                      : Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 15),
-                                          child: Text(
-                                            'Notice Period',
-                                            style: empHistoryT,
-                                          ),
-                                        ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 15),
-                                    child: Text(
-                                      detail.NoticePeriod,
-                                      style: companyT,
-                                    ),
-                                  ),
-                                ],
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.delete_outline,
+                                          size: 24,
+                                          color: Colors.red,
+                                        )),
+                                  ],
+                                ),
                               ),
-                            ),
+                              Text(
+                                detail.CompanyName,
+                                style: companyT,
+                              ),
+                              Text(
+                                detail.EmployementType,
+                                style: typeT,
+                              ),
+                              Text(
+                                "${detail.StartDate} ${detail.EndDate == "" ? "" : "-"} ${detail.EndDate == "" ? "" : detail.EndDate}",
+                                style: typeT,
+                              ),
+                              detail.NoticePeriod == ""
+                                  ? Container()
+                                  : Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: Text(
+                                        'Notice Period',
+                                        style: empHistoryT,
+                                      ),
+                                    ),
+                              detail.NoticePeriod == ""
+                                  ? Container()
+                                  : Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 15),
+                                      child: Text(
+                                        detail.NoticePeriod,
+                                        style: companyT,
+                                      ),
+                                    ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Text(
+                                  'About Job Profile',
+                                  style: empHistoryT,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  detail.Description,
+                                  style: companyT,
+                                ),
+                              ),
+                              Divider()
+                            ],
                           ),
                         );
                       },
                     ),
                   ),
-            SizedBox(
-              height: 30,
-            ),
           ],
         ),
       ),
@@ -674,6 +678,7 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
                   )
                 : Container(
                     child: ListView.builder(
+                      padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
@@ -811,15 +816,13 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
                                 "${educationDetail.startYear} - ${educationDetail.endYear}",
                                 style: typeT,
                               ),
-                            )
+                            ),
+                            Divider()
                           ],
                         );
                       },
                     ),
                   ),
-            SizedBox(
-              height: 30,
-            ),
           ],
         ),
       ),

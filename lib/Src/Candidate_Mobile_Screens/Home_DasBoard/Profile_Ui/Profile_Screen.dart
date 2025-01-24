@@ -31,219 +31,220 @@ class Profile_Screen extends ConsumerStatefulWidget {
 class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
   canidateProfileData? CandidateProfileResponseData;
   List<Employment>? employment = [];
-  List<Education>? education= [];
-  double? finalpercentage ;
-
+  List<Education>? education = [];
+  double? finalpercentage;
 
   void _onShare(BuildContext context, referral) async {
-    Share.share('Hey!. If you’re looking for a new job, You should give it a shot :\nhttps://play.google.com/store/apps/details?id=com.getifyjobs.candidate\nI’ve had great success with it. Here’s my referral id : $referral'
-    );
+    Share.share(
+        'Hey!. If you’re looking for a new job, You should give it a shot :\nhttps://play.google.com/store/apps/details?id=com.getifyjobs.candidate\nI’ve had great success with it. Here’s my referral id : $referral');
     // if (result.status == ShareResultStatus.success) {
     //   print('Thank you for sharing my website!');
     // }
   }
 
-
   void copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     final profileResponseData = ref.watch(profileApiProvider);
     return Scaffold(
-      backgroundColor: white2,
-      appBar:   Custom_AppBar(
-        isUsed: false,
-        actions: [
-          PopupMenuButton(
-              surfaceTintColor: white1,
-              icon: Icon(Icons.more_vert_outlined),
-              itemBuilder: (BuildContext context) => [
-                PopupMenuItem(
-                    onTap: () {
-                      Navigator.push(
+        backgroundColor: white2,
+        appBar: Custom_AppBar(
+          isUsed: false,
+          actions: [
+            PopupMenuButton(
+                surfaceTintColor: white1,
+                icon: Icon(Icons.more_vert_outlined),
+                itemBuilder: (BuildContext context) => [
+                      PopupMenuItem(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Candidate_Create_Account(
+                                          candidateProfileResponseData:
+                                              CandidateProfileResponseData,
+                                          isEdit: true,
+                                        ))).then((value) {
+                              if (value == "true") {
+                                ref.refresh(profileApiProvider);
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Edit Info',
+                            style: refferalCountT,
+                          )),
+                      PopupMenuItem(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Candidate_Categoery_Screen(
+                                          isEdit: true,
+                                          candidateProfileResponseData:
+                                              CandidateProfileResponseData,
+                                        ))).then((value) {
+                              if (value == "true") {
+                                ref.refresh(profileApiProvider);
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Edit Career',
+                            style: refferalCountT,
+                          )),
+                      // PopupMenuItem(
+                      //     onTap: () {
+                      //       Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile_Detail_Screen
+                      //         (CandidateProfileResponseData: CandidateProfileResponseData))).then((value) {
+                      //         if (value == "true")
+                      //         {
+                      //           ref.refresh(profileApiProvider);
+                      //         }
+                      //
+                      //       });
+                      //     },
+                      //     child: Text(
+                      //       'Edit Profile Detail',
+                      //       style: refferalCountT,
+                      //     )),
+                      PopupMenuItem(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Forget_Password_Screen(
+                                          candidateId:
+                                              CandidateProfileResponseData
+                                                      ?.candidateId ??
+                                                  "",
+                                          isReset: false,
+                                        ))).then((value) {
+                              if (value == "true") {
+                                ref.refresh(profileApiProvider);
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Reset Password',
+                            style: refferalCountT,
+                          )),
+                      PopupMenuItem(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Forget_Mobile_Screen(
+                                          isChangeMobileNo: true,
+                                        ))).then((value) {
+                              if (value == "true") {
+                                ref.refresh(profileApiProvider);
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Change Number',
+                            style: refferalCountT,
+                          )),
+                    ]),
+          ],
+          isLogoUsed: false,
+          isTitleUsed: true,
+          title: "",
+        ),
+        body: profileResponseData?.when(data: (data) {
+          CandidateProfileResponseData = data?.data;
+          PercentageFinalVal(data?.data?.profilePercentage ?? 0);
+          return Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  profileImg1(ProfileImg: data?.data?.profilePic ?? ""),
+                  Center(
+                      child: Text(
+                    data?.data?.name ?? "",
+                    style: TitleT,
+                  )),
+
+                  data?.data?.resume == ""
+                      ? SizedBox(
+                          height: 20,
+                        )
+                      : Container(
+                          height: 100,
+                          child: _pdfContain(
+                              data?.data?.name ?? "", data?.data?.resume ?? ""),
+                        ),
+
+                  contactDetails(
+                      ContactLogo: 'phone.svg',
+                      Details: '+91 ${data?.data?.phone ?? ""}'),
+                  contactDetails(
+                      ContactLogo: 'email.svg',
+                      Details: data?.data?.email ?? ""),
+                  contactDetails(
+                      ContactLogo: 'mapblue.svg',
+                      Details: data?.data?.preferredLocation ?? ""),
+                  contactDetails(
+                      ContactLogo: 'briefcaseactive.svg',
+                      Details: data?.data?.careerStatus ?? ""),
+
+                  // if (finalpercentage != null)
+                  ProfileScreen(
+                    PercentageVal: finalpercentage!,
+                  ),
+                  _detailInfo(data?.data),
+                  data?.data?.nationality == null
+                      ? Container()
+                      : _PassportDetails(data?.data),
+                  data?.data?.education == []
+                      ? Container()
+                      : _Education_List(data?.data),
+                  data?.data?.employment == []
+                      ? Container()
+                      : _EmployeementHistory(data?.data),
+                  _addMore(data?.data),
+                  //REFERAL CARD
+                  ReferalCard(context,
+                      isRefferal: false,
+                      RefferEarn: 'Refer & Earn 12 Coins',
+                      refferalCode: data?.data?.refferalCode ?? "",
+                      refferalOnTap: () {
+                    _onShare(context, data?.data?.refferalCode ?? "");
+                  }),
+                  referralCount(context,
+                      totalReferal: "${data?.data?.totalReferral ?? ""}",
+                      pending: '2'),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 50),
+                    child: Center(
+                        child: LogOutButton(context, onTap: () {
+                      CandidateId("");
+                      CandidateType("");
+                      Routes("false");
+                      Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Candidate_Create_Account(
-                                    candidateProfileResponseData:
-                                    CandidateProfileResponseData,
-                                    isEdit: true,
-                                  ))).then((value) {
-                                    if (value == "true")
-                                      {
-                                        ref.refresh(profileApiProvider);
-                                      }
-                                  });
-                    },
-                    child: Text(
-                      'Edit Info',
-                      style: refferalCountT,
-                    )),
-                PopupMenuItem(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Candidate_Categoery_Screen(
-                                    isEdit: true,
-                                    candidateProfileResponseData:
-                                    CandidateProfileResponseData,
-                                  ))).then((value) {
-                        if (value == "true")
-                        {
-                          ref.refresh(profileApiProvider);
-                        }
-
-                      });
-                    },
-                    child: Text(
-                      'Edit Career',
-                      style: refferalCountT,
-                    )),
-                // PopupMenuItem(
-                //     onTap: () {
-                //       Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile_Detail_Screen
-                //         (CandidateProfileResponseData: CandidateProfileResponseData))).then((value) {
-                //         if (value == "true")
-                //         {
-                //           ref.refresh(profileApiProvider);
-                //         }
-                //
-                //       });
-                //     },
-                //     child: Text(
-                //       'Edit Profile Detail',
-                //       style: refferalCountT,
-                //     )),
-                PopupMenuItem(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Forget_Password_Screen(
-                                candidateId:
-                                CandidateProfileResponseData
-                                    ?.candidateId ??
-                                    "",
-                                isReset: false,
-                              ))).then((value) {
-                        if (value == "true")
-                        {
-                          ref.refresh(profileApiProvider);
-                        }
-
-                      });
-                    },
-                    child: Text(
-                      'Reset Password',
-                      style: refferalCountT,
-                    )),
-                PopupMenuItem(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Forget_Mobile_Screen(isChangeMobileNo: true,))).then((value) {
-                        if (value == "true")
-                        {
-                          ref.refresh(profileApiProvider);
-                        }
-
-                      });
-                    },
-                    child: Text(
-                      'Change Number',
-                      style: refferalCountT,
-                    )),
-              ]),
-        ],
-        isLogoUsed: false,
-        isTitleUsed: true,
-        title: "",
-      ),
-
-      body:
-      profileResponseData?.when(data: (data){
-        CandidateProfileResponseData = data?.data;
-        PercentageFinalVal(data?.data?.profilePercentage ?? 0);
-        return     Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                profileImg1(
-                    ProfileImg: data?.data?.profilePic ?? ""),
-                Center(
-                    child: Text(
-                      data?.data?.name ?? "",
-                      style: TitleT,
-                    )),
-
-                data?.data?.resume == ""
-                    ?SizedBox(
-                  height: 20,
-                ):
-                Container(
-                  height: 100,
-                  child: _pdfContain(data?.data?.name ?? "",
-                      data?.data?.resume ?? ""),
-                ),
-
-                contactDetails(
-                    ContactLogo: 'phone.svg',
-                    Details: '+91 ${data?.data?.phone ?? ""}'),
-                contactDetails(
-                    ContactLogo: 'email.svg',
-                    Details: data?.data?.email ?? ""),
-                contactDetails(
-                    ContactLogo: 'mapblue.svg',
-                    Details: data?.data?.preferredLocation ?? ""),
-                contactDetails(
-                    ContactLogo: 'briefcaseactive.svg',
-                    Details: data?.data?.careerStatus ?? ""),
-
-                // if (finalpercentage != null)
-                  ProfileScreen(PercentageVal:   finalpercentage !,),
-                _detailInfo(data?.data),
-                data?.data?.nationality == null?Container():_PassportDetails(data?.data),
-                data?.data?.education == []?Container(): _Education_List(data?.data),
-                data?.data?.employment == []?Container(): _EmployeementHistory(data?.data),
-                _addMore(data?.data),
-                //REFERAL CARD
-                ReferalCard(context,
-                    isRefferal: false,
-                    RefferEarn: 'Refer & Earn 12 Coins',
-                    refferalCode: data?.data?.refferalCode ?? "", refferalOnTap: () {
-                      _onShare(context,data?.data?.refferalCode ?? "");
-                    }),
-                referralCount(context, totalReferal: "${data?.data?.totalReferral ?? ""}", pending: '2'),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: Center(child: LogOutButton(context, onTap: () {
-                    CandidateId("");
-                    CandidateType("");
-                    Routes("false");
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Login_Page()), (route) => false);
-                  })),
-                ),
-              ],
+                          MaterialPageRoute(builder: (context) => Login_Page()),
+                          (route) => false);
+                    })),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }, error: (Object error, StackTrace stackTrace){
-        return Text("ERROR");
-      }, loading: (){
-
-
-
-          return  Stack(
+          );
+        }, error: (Object error, StackTrace stackTrace) {
+          return Text("ERROR");
+        }, loading: () {
+          return Stack(
             children: [
               Positioned.fill(
                 child: Container(
@@ -260,19 +261,18 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                 ),
               ),
             ],
-          )         ;
-      })
-
-    );
+          );
+        }));
   }
 
   //PDF CONTAINER
   Widget _pdfContain(String username, String pdfURL) {
-    return
-      PdfPickerExample(
-        optionalTXT: "${username}.pdf",
-        pdfUrl: pdfURL, isProfile: true, isCancelNeed: false,
-      );
+    return PdfPickerExample(
+      optionalTXT: "${username}.pdf",
+      pdfUrl: pdfURL,
+      isProfile: true,
+      isCancelNeed: false,
+    );
   }
 
   //DETAIL INFO CONTAINER
@@ -289,25 +289,18 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
           SizedBox(
             height: 15,
           ),
+          _profileInformation(title: 'Date of Birth', data: data?.dob ?? ""),
+          _profileInformation(title: 'Gender', data: data?.gender ?? ""),
           _profileInformation(
-              title: 'Date of Birth',
-              data:  data?.dob ?? ""),
-          _profileInformation(
-              title: 'Gender',
-              data: data?.gender ?? ""),
-          _profileInformation(
-              title: 'Martial Status',
-              data: data?.maritalStatus ?? ""),
+              title: 'Martial Status', data: data?.maritalStatus ?? ""),
           data?.designation == null
               ? Container()
               : _profileInformation(
-                  title: 'Designation',
-                  data: data?.designation ?? ""),
+                  title: 'Designation', data: data?.designation ?? ""),
           data?.experience == null
               ? Container()
               : _profileInformation(
-                  title: 'Experience',
-                  data: data?.experience ?? ""),
+                  title: 'Experience', data: data?.experience ?? ""),
           data?.startYear == null
               ? Container()
               : _profileInformation(
@@ -316,22 +309,26 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
           data?.collegeName == null
               ? Container()
               : _profileInformation(
-              title: 'College Name',
-              data: data?.collegeName ?? ""),
+                  title: 'College Name', data: data?.collegeName ?? ""),
           _profileInformation(
-              title: 'Qualification',
-              data: data?.qualification ?? ""),
+              title: 'Qualification', data: data?.qualification ?? ""),
           _profileInformation(
-              title: 'Specialization',
-              data: data?.specialization ?? ""),
+              title: 'Specialization', data: data?.specialization ?? ""),
 
           Padding(
-            padding: const EdgeInsets.only(left: 15,right: 15),
-            child: Text("Skill Sets",style: infoT,),
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Text(
+              "Skill Sets",
+              style: infoT,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
-            child: Text(data?.skill ?? "",style: stxt,textAlign: TextAlign.justify,),
+            padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
+            child: Text(
+              data?.skill ?? "",
+              style: stxt,
+              textAlign: TextAlign.justify,
+            ),
           ),
 
           // _profileInformation(
@@ -341,8 +338,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
           data?.currentArrears == null
               ? Container()
               : _profileInformation(
-                  title: 'Current Arrears',
-                  data: data?.currentArrears ?? ""),
+                  title: 'Current Arrears', data: data?.currentArrears ?? ""),
           //HISTORY ARREARS
           data?.historyOfArrears == null
               ? Container()
@@ -355,13 +351,10 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
               : _profileInformation(
                   title: 'Current Percentage',
                   data: data?.currentPercentage ?? ""),
-          _profileInformation(
-              title: 'Address',
-              data: data?.address ?? ""),
+          _profileInformation(title: 'Address', data: data?.address ?? ""),
 
           _profileInformation(
-              title: 'Preferred Location',
-              data: data?.preferredLocation ?? ""),
+              title: 'Preferred Location', data: data?.preferredLocation ?? ""),
 
           data?.currentSalary == null
               ? Container()
@@ -392,31 +385,30 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
           SizedBox(
             height: 15,
           ),
-
-          data?.nationality == '' ? Container() :
-          _profileInformation(
-              title: 'Nationality',
-              data: data?.nationality ?? ""),
-          data?.languageKnown == '' ? Container() :
-          _profileInformation(
-              title: 'Language Known',
-              data: data?.languageKnown?? ""),
-          data?.differentlyAbled == '' ? Container() :
-          _profileInformation(
-              title: 'Differently Abled',
-              data: data?.differentlyAbled ?? ""),
-          data?.passport == '' ? Container() :
-          _profileInformation(
-              title: 'Passport',
-              data: data?.passport ?? ""),
-          data?.careerBreak == '' ? Container() :
-          _profileInformation(
-              title: 'Career Break',
-              data: data?.careerBreak ?? ""),
+          data?.nationality == ''
+              ? Container()
+              : _profileInformation(
+                  title: 'Nationality', data: data?.nationality ?? ""),
+          data?.languageKnown == ''
+              ? Container()
+              : _profileInformation(
+                  title: 'Language Known', data: data?.languageKnown ?? ""),
+          data?.differentlyAbled == ''
+              ? Container()
+              : _profileInformation(
+                  title: 'Differently Abled',
+                  data: data?.differentlyAbled ?? ""),
+          data?.passport == ''
+              ? Container()
+              : _profileInformation(
+                  title: 'Passport', data: data?.passport ?? ""),
+          data?.careerBreak == ''
+              ? Container()
+              : _profileInformation(
+                  title: 'Career Break', data: data?.careerBreak ?? ""),
           SizedBox(
             height: 15,
           ),
-
         ],
       ),
     );
@@ -436,7 +428,7 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                 style: infoT,
               )),
           Container(
-            width: MediaQuery.sizeOf(context).width/1.2,
+              width: MediaQuery.sizeOf(context).width / 1.2,
               margin: EdgeInsets.only(bottom: 15),
               alignment: Alignment.topLeft,
               child: Text(
@@ -470,7 +462,6 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                 if (value == "true") {
                   ref.refresh(profileApiProvider);
                 }
-
               });
             },
             child: Text(
@@ -482,14 +473,14 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
   }
 
   //EDUCATION
-  Widget _Education_List(canidateProfileData? data){
-    return  Container(
+  Widget _Education_List(canidateProfileData? data) {
+    return Container(
       margin: EdgeInsets.only(bottom: 0, top: 15),
       width: MediaQuery.of(context).size.width,
       decoration:
-      BoxDecoration(borderRadius: BorderRadius.circular(5), color: white1),
+          BoxDecoration(borderRadius: BorderRadius.circular(5), color: white1),
       child: Padding(
-        padding: const EdgeInsets.only(left: 20,right: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
@@ -511,7 +502,6 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                           educationDetail?.institute ?? "",
                           style: empHistoryT,
                         )),
-
                   ],
                 ),
 
@@ -531,8 +521,11 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
 
                 // //EDUCATION TYPE
                 Container(
-                    width:MediaQuery.of(context).size.width/1.5,
-                    child: Text(educationDetail?.educationType ?? "",style: companyT,)),
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: Text(
+                      educationDetail?.educationType ?? "",
+                      style: companyT,
+                    )),
 
                 //PERCENTAGE/CGPA
                 Container(
@@ -559,18 +552,16 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
   }
 
   //EMPLOYEEMENT HISTORY
-  Widget _EmployeementHistory(canidateProfileData? data){
-    return  Container(
+  Widget _EmployeementHistory(canidateProfileData? data) {
+    return Container(
       margin: EdgeInsets.only(bottom: 0, top: 15),
       width: MediaQuery.of(context).size.width,
       decoration:
-      BoxDecoration(borderRadius: BorderRadius.circular(5), color: white1),
+          BoxDecoration(borderRadius: BorderRadius.circular(5), color: white1),
       child: Padding(
-        padding: const EdgeInsets.only(left: 20,right: 20),
-        child:
-        Container(
-          child:
-          ListView.builder(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Container(
+          child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -578,7 +569,9 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
             itemBuilder: (context, index) {
               var detail = data?.employment?[index];
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10,),
+                padding: const EdgeInsets.only(
+                  bottom: 10,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -606,20 +599,38 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
                           style: typeT,
                         ),
                         Text(
-                          "${detail?.startDate ?? ""} ${detail?.endDate == ""?"":"-"} ${detail?.endDate == ""?"":detail?.endDate ?? ""}",
+                          "${detail?.startDate ?? ""} ${detail?.endDate == "" ? "" : "-"} ${detail?.endDate == "" ? "" : detail?.endDate ?? ""}",
                           style: typeT,
                         ),
-                        detail?.noticePeriod == ""?Container(): Padding(
+                        detail?.noticePeriod == ""
+                            ? Container()
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Text(
+                                  'Notice Period',
+                                  style: empHistoryT,
+                                ),
+                              ),
+                        detail?.noticePeriod == ""
+                            ? Container()
+                            : Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  detail?.noticePeriod ?? "",
+                                  style: companyT,
+                                ),
+                              ),
+                        Padding(
                           padding: const EdgeInsets.only(top: 15),
                           child: Text(
-                            'Notice Period',
+                            'About Job Profile',
                             style: empHistoryT,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: Text(
-                            detail?.noticePeriod ?? "",
+                            detail?.description ?? "",
                             style: companyT,
                           ),
                         ),
@@ -635,10 +646,6 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
     );
   }
 
-
-
-
-
   void PercentageFinalVal(int currentPercentage) {
     if (currentPercentage != null) {
       try {
@@ -646,7 +653,8 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
         setState(() {
           finalpercentage = percentage / 100;
         });
-        print("FINAL PERCENTAGE ${finalpercentage}"); // Divide by 10 as per your requirement // Update the state to reflect the new value
+        print(
+            "FINAL PERCENTAGE ${finalpercentage}"); // Divide by 10 as per your requirement // Update the state to reflect the new value
       } catch (e) {
         print('Error parsing percentage: $e');
       }
@@ -659,14 +667,14 @@ class _Profile_ScreenState extends ConsumerState<Profile_Screen> {
 
 class ProfileScreen extends StatefulWidget {
   double PercentageVal;
-  ProfileScreen({super.key,required this.PercentageVal});
+  ProfileScreen({super.key, required this.PercentageVal});
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-  double? profileCompletion; // Set the profile completion percentage here (e.g., 0.75 for 75%)
+  double?
+      profileCompletion; // Set the profile completion percentage here (e.g., 0.75 for 75%)
 
   Color getColorForProgress(double progress) {
     if (progress <= 0.2) {
@@ -679,6 +687,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return green1;
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -688,8 +697,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double progressValue = profileCompletion!.clamp(
-        0.0, 1.0); // Ensure progress is within the range [0, 1]
+    double progressValue = profileCompletion!
+        .clamp(0.0, 1.0); // Ensure progress is within the range [0, 1]
     Color progressColor = getColorForProgress(progressValue);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

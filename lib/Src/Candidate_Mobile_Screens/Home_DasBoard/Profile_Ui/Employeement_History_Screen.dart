@@ -500,19 +500,41 @@ class _Employeement_History_PageState
                                                             FocusScope.of(
                                                                     context)
                                                                 .unfocus();
+                                                            if (_StartD.text ==
+                                                                "") {
+                                                              return;
+                                                            }
+                                                            DateTime
+                                                                _startDate =
+                                                                DateFormat(
+                                                                        "dd/MM/yyyy")
+                                                                    .parse(_StartD
+                                                                        .text);
+                                                            DateTime
+                                                                maxEndDate =
+                                                                DateTime(
+                                                              _startDate!.year,
+                                                              _startDate!
+                                                                      .month +
+                                                                  1, // Limit to 1 month from the start date
+                                                              _startDate!.day,
+                                                            );
+
                                                             DateTime? pickdate =
                                                                 await showDatePicker(
-                                                                    context:
-                                                                        context,
-                                                                    initialDate:
-                                                                        DateTime
-                                                                            .now(),
-                                                                    firstDate:
-                                                                        DateTime(
-                                                                            1950),
-                                                                    lastDate:
-                                                                        DateTime
-                                                                            .now());
+                                                              context: context,
+                                                              initialDate:
+                                                                  _startDate.add(
+                                                                      const Duration(
+                                                                          days:
+                                                                              31)),
+                                                              firstDate: _startDate.add(
+                                                                  const Duration(
+                                                                      days:
+                                                                          31)), // End date cannot be before the start date
+                                                              lastDate: DateTime(
+                                                                  2050), // End date must be within 1 month
+                                                            );
                                                             if (pickdate !=
                                                                 null) {
                                                               String
@@ -890,12 +912,31 @@ class _Employeement_History_PageState
                                           },
                                           onTap: () async {
                                             FocusScope.of(context).unfocus();
+
+                                            if (_StartD.text == "") {
+                                              return;
+                                            }
+                                            DateTime _startDate =
+                                                DateFormat("dd/MM/yyyy")
+                                                    .parse(_StartD.text);
+                                            DateTime maxEndDate = DateTime(
+                                              _startDate!.year,
+                                              _startDate!.month +
+                                                  1, // Limit to 1 month from the start date
+                                              _startDate!.day,
+                                            );
+
                                             DateTime? pickdate =
                                                 await showDatePicker(
                                               context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1950),
-                                              lastDate: DateTime(2050),
+                                              initialDate: _startDate.add(
+                                                  const Duration(days: 31)),
+                                              firstDate: _startDate.add(
+                                                  const Duration(
+                                                      days:
+                                                          31)), // End date cannot be before the start date
+                                              lastDate: DateTime(
+                                                  2050), // End date must be within 1 month
                                             );
                                             if (pickdate != null) {
                                               String formatdate =
