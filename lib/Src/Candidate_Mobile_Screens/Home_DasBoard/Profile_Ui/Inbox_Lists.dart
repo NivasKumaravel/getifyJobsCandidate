@@ -20,7 +20,7 @@ class Inbox_lists extends ConsumerStatefulWidget {
 
 class _Inbox_listsState extends ConsumerState<Inbox_lists> {
   late String titleText;
-  InboxData? scheduleResponseData;
+  List<Items>? scheduleResponseData = [];
 
   ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
@@ -33,7 +33,6 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
     super.initState();
     titleText = widget.title;
     _scrollController.addListener(_scrollListener);
-
     inboxListResponse();
   }
 
@@ -42,7 +41,7 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
         _scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange &&
-        totalCount != scheduleResponseData?.items?.length) {
+        totalCount != scheduleResponseData?.length) {
       SingleTon().isLoading = false;
       _currentPage += 1;
 
@@ -76,11 +75,13 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
   }
 
   Widget _ScheduedInboxList(context) {
+    print("SUCESS 23");
+
     return ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: scheduleResponseData?.items?.length ?? 0,
+        itemCount: scheduleResponseData?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
@@ -91,25 +92,25 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
                     MaterialPageRoute(
                         builder: (context) => Job_Details(
                               jobId:
-                                  scheduleResponseData?.items?[index].jobId ??
+                                  scheduleResponseData?[index].jobId ??
                                       "",
                               recruiterId: '',
                               isApplied: true,
                               isInbox: true,
                               TagActive: scheduleResponseData
-                                      ?.items?[index].jobStatus ??
+                                      ?[index].jobStatus ??
                                   "",
                               isSavedNeeded: false,
                             )));
               },
               child: Inbox_List(
                 context,
-                CompanyLogo: scheduleResponseData?.items?[index].logo ?? "",
+                CompanyLogo: scheduleResponseData?[index].logo ?? "",
                 CompanyName:
-                    scheduleResponseData?.items?[index].companyName ?? "",
-                jobTitle: scheduleResponseData?.items?[index].jobTitle ?? "",
-                Location: scheduleResponseData?.items?[index].location ?? "",
-                status: scheduleResponseData?.items?[index].jobStatus ?? "",
+                    scheduleResponseData?[index].companyName ?? "",
+                jobTitle: scheduleResponseData?[index].jobTitle ?? "",
+                Location: scheduleResponseData?[index].location ?? "",
+                status: scheduleResponseData?[index].jobStatus ?? "",
               ),
             ),
           );
@@ -132,8 +133,11 @@ class _Inbox_listsState extends ConsumerState<Inbox_lists> {
       print("SUCESS");
       setState(() {
         totalCount = inboxResponseList.data?.count?.selected ?? 0;
-        scheduleResponseData?.items
-            ?.addAll(inboxResponseList.data?.items ?? []);
+        scheduleResponseData
+            ?.addAll(inboxResponseList.data?.items ?? [] );
+        print("object ${inboxResponseList.data?.items?.length}");
+        print("object ${scheduleResponseData?.length}");
+
       });
     } else {
       print("ERROR");

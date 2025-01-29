@@ -756,7 +756,7 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                     height: 15,
                                   ),
                                   Text(
-                                      TagActive == "Candidate Reschedule"
+                                      TagActive == "Candidate Rescheduled"
                                           ? "Reschedule Pending for Approval"
                                           : "Recruiter not okay with",
                                       style: TagActive == "Candidate Reschedule"
@@ -770,50 +770,52 @@ class _Job_DetailsState extends ConsumerState<Job_Details> {
                                           TagActive == "Candidate Rescheduled"
                                               ? TBlack
                                               : Homewhite),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10, bottom: 15),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                            height: 50,
-                                            width: 105,
-                                            child: CommonElevatedButton2(context, "Yes", () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) =>
-                                                    RescheduleConfirmationPop(context,
-                                                        typeT: 'accept', onPress: () {
-                                                          ScheduleAcceptedResponse();
-                                                        },
-                                                        scheduleT: 'Rescheduled'),
-                                              );
-                                            })),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                            height: 50,
-                                            width: 105,
-                                            child: CommonElevatedButton2(context, "No", () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) =>
-                                                    RescheduleConfirmationPop(context,
-                                                        typeT: 'reject', onPress: () {
-                                                          ScheduleRejectedResponse();
-                                                        },
-                                                        scheduleT: 'Rescheduled'),
-                                              );
-                                            })),
-                                      ],
-                                    ),
-                                  ),
+
+
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(top: 10, bottom: 15),
+                                  //   child: Row(
+                                  //     mainAxisAlignment: MainAxisAlignment.center,
+                                  //     children: [
+                                  //       Container(
+                                  //           height: 50,
+                                  //           width: 105,
+                                  //           child: CommonElevatedButton2(context, "Yes", () {
+                                  //             showDialog(
+                                  //               context: context,
+                                  //               builder: (BuildContext context) =>
+                                  //                   RescheduleConfirmationPop(context,
+                                  //                       typeT: 'accept', onPress: () {
+                                  //                         ScheduleAcceptedResponse();
+                                  //                       },
+                                  //                       scheduleT: 'Rescheduled'),
+                                  //             );
+                                  //           })),
+                                  //       SizedBox(
+                                  //         width: 20,
+                                  //       ),
+                                  //       Container(
+                                  //           height: 50,
+                                  //           width: 105,
+                                  //           child: CommonElevatedButton2(context, "No", () {
+                                  //             showDialog(
+                                  //               context: context,
+                                  //               builder: (BuildContext context) =>
+                                  //                   RescheduleConfirmationPop(context,
+                                  //                       typeT: 'reject', onPress: () {
+                                  //                         ScheduleRejectedResponse();
+                                  //                       },
+                                  //                       scheduleT: 'Rescheduled'),
+                                  //             );
+                                  //           })),
+                                  //     ],
+                                  //   ),
+                                  // ),
 
                                 ],
                               )
                             : Container(),
-                    TagActive == "Recruiter Reschedule"
+                    TagActive == "Recruiter Rescheduled"
                         ? _Recruiter_Reschedule_Buttons("Recruiter Rescheduled")
                         : TagActive == "Interview Rescheduled"
                             ? _Recruiter_Reschedule_Buttons(
