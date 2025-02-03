@@ -949,7 +949,8 @@ Widget dropDownSearchField(
   required FocusNode? focus,
   required List<DropDownData> listValue,
   required String? Function(String?)? validator,
-  required void Function(String?)? searchText,
+  required List<SearchFieldListItem<DropDownData>>? Function(String)?
+      searchText,
   required void Function(SearchFieldListItem<DropDownData> x)? onChanged,
   required String hintT,
   TextEditingController? controller,
@@ -990,6 +991,7 @@ Widget dropDownSearchField(
     itemHeight: 40,
     onSuggestionTap: onChanged,
     onSubmit: searchText,
+    onSearchTextChanged: searchText,
   );
 }
 
@@ -1043,7 +1045,8 @@ Widget dropDownSearchFieldCollege(context,
     {required FocusNode? focus,
     required List<DropDownData> listValue,
     required String? Function(String?)? validator,
-    required void Function(String?)? searchText,
+    required List<SearchFieldListItem<DropDownData>>? Function(String)?
+        searchText,
     required void Function(SearchFieldListItem<DropDownData> x)? onChanged,
     required TextEditingController? controller,
     required String hintT}) {
@@ -1083,7 +1086,7 @@ Widget dropDownSearchFieldCollege(context,
     maxSuggestionsInViewPort: 5,
     itemHeight: 40,
     onSuggestionTap: onChanged,
-    onSubmit: searchText,
+    onSearchTextChanged: searchText,
   );
 }
 
