@@ -164,7 +164,7 @@ class _Candidate_MyApplies_ScreenState
                 ? SizedBox(
                     height: MediaQuery.sizeOf(context).height / 1.5,
                     child: Center(
-                        child: NoDataWidget(content: "No Data Available")))
+                        child: NoDataWidget(content: "Unlock New Possibilities")))
                 : _campusList(DirectMyAppliesResponseData),
             SizedBox(height: 50),
           ]),

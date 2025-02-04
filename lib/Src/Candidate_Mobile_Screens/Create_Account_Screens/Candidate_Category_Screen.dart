@@ -383,6 +383,7 @@ class _Candidate_Categoery_ScreenState
                           child: CommonElevatedButton(context,
                               widget.isEdit == true ? "Submit" : "Register",
                               () async {
+                            print("COLLEGE OPTION ${collegeOption}");
                             focus.unfocus();
                             focus1.unfocus();
                             focus2.unfocus();

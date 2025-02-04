@@ -283,7 +283,7 @@ class _Student_MyApplies_ScreenState
                     DirectMyAppliesResponseData?.length == 0
                         ? Center(
                             child:
-                                NoDataWidget(content: "Your Data is Loading"))
+                                NoDataWidget(content: "Unlock New Possibilities"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -297,7 +297,7 @@ class _Student_MyApplies_ScreenState
                     CampusMyAppliesResponseData?.length == 0
                         ? Center(
                             child:
-                                NoDataWidget(content: "Your Data is Loading"))
+                                NoDataWidget(content: "Unlock New Possibilities"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(

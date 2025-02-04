@@ -253,7 +253,7 @@ class _Candidate_Home_ScreenState extends ConsumerState<Candidate_Home_Screen> {
                 ? SizedBox(
                     height: MediaQuery.sizeOf(context).height / 1.5,
                     child: Center(
-                        child: NoDataWidget(content: "No Data Available")))
+                        child: NoDataWidget(content: "Unlock New Possibilities")))
                 : ListView.builder(
                     controller: _scrollController,
                     shrinkWrap: true,

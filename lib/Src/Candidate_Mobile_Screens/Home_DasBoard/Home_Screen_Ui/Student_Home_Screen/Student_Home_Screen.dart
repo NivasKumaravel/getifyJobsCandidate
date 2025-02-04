@@ -307,7 +307,7 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                     directResponseData?.length == 0
                         ? Center(
                             child:
-                                NoDataWidget(content: "Your Data is Loading"))
+                                NoDataWidget(content: "Unlock New Possibilities"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
@@ -336,7 +336,7 @@ class _Student_Home_ScreenState extends ConsumerState<Student_Home_Screen>
                     campusResponseData?.length == 0
                         ? Center(
                             child:
-                                NoDataWidget(content: "Your Data is Loading"))
+                                NoDataWidget(content: "Unlock New Possibilities"))
                         : Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Consumer(
