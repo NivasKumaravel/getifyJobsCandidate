@@ -338,8 +338,11 @@ class _Profile_Detail_ScreenState extends ConsumerState<Profile_Detail_Screen> {
     print('PROFILE DETAIL ${formData}');
 
     for (int i = 0; i < eduHistory.length; i++) {
-      formData.fields.add(
-          MapEntry('education[$i][institute]', eduHistory[i].university_id));
+      formData.fields.add(MapEntry(
+          'education[$i][institute]',
+          eduHistory[i].university_id == ""
+              ? eduHistory[i].university
+              : eduHistory[i].university_id));
       formData.fields.add(MapEntry(
           'education[$i][qualification]', eduHistory[i].qualification_id));
       formData.fields.add(MapEntry(
