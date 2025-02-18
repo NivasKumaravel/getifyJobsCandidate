@@ -9,61 +9,61 @@ import 'Src/Common_Widgets/Bottom_Navigation_Bar.dart';
 import 'Src/utilits/Generic.dart';
 import 'Src/utilits/Landing.dart';
 
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // If you're going to use other Firebase services in the background, such as Firestore,
-//   // make sure you call `initializeApp` before using other Firebase services.
-//   await Firebase.initializeApp();
-//
-//   print("Handling a background message: ${message.messageId}");
-// }
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 Future<void> main() async {
   // Ensure Flutter binding is initialized
-  // WidgetsFlutterBinding.ensureInitialized();
-  //
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  // // Initialize Firebase
-  // await Firebase.initializeApp();
-  //
-  // requestNotificationPermission();
-  // await FirebaseMessaging.instance.setAutoInitEnabled(true);
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  //
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   print('Got a message whilst in the foreground!');
-  //   print('Message data: ${message.data}');
-  //
-  //   if (message.notification != null) {
-  //     print('Message also contained a notification: ${message.notification}');
-  //   }
-  // });
-  //
-  // final fcmToken = await FirebaseMessaging.instance.getToken();
-  // print('Message also contained a notification: ${fcmToken}');
-  //
-  // StoreFCMToken(fcmToken);
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // Initialize Firebase
+  await Firebase.initializeApp();
+
+  requestNotificationPermission();
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
+
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print('Message also contained a notification: ${fcmToken}');
+
+  StoreFCMToken(fcmToken);
 
   runApp(ProviderScope(child: const MyApp()));
 }
 
-// Future<void> requestNotificationPermission() async {
-//   FirebaseMessaging messaging = FirebaseMessaging.instance;
-//
-//   NotificationSettings settings = await messaging.requestPermission(
-//     alert: true,
-//     announcement: false,
-//     badge: true,
-//     carPlay: false,
-//     criticalAlert: false,
-//     provisional: false,
-//     sound: true,
-//   );
-//
-//   print('User granted permission: ${settings.authorizationStatus}');
-// }
+Future<void> requestNotificationPermission() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  print('User granted permission: ${settings.authorizationStatus}');
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
